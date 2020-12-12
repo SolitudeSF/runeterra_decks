@@ -3,18 +3,24 @@ from sequtils import toSeq
 from parseutils import parseUint
 import algorithm
 import base32
+import hashes
 
 type
   Faction* = enum
-    Demacia, Freljord, Ionia, Noxus, PiltoverAndZaun, ShadowIsles, Bilgewater, MountTargon = 9
+    fDemacia, fFreljord, fIonia, fNoxus, fPiltoverZaun = "Piltover & Zaun",
+    fShadowIsles = "Shadow Isles", fBilgewater, fTargon = 9
+
+  Set* = enum
+    Set1 = (1, "Foundations"), Set2 = "Rising Tides", Set3 = "Call of the Mountain"
 
   Card* = object
-    `set`*, number*: uint
+    number*, subnumber*: uint8
+    `set`*: Set
     faction*: Faction
 
   Cards* = object
     card*: Card
-    count*: uint
+    count*: uint8
 
   Deck* = seq[Cards]
 
@@ -56,6 +62,9 @@ func addVarint[T](result: var seq[byte], val: T) =
 
       result.add byteVal.byte
 
+func hash*(c: Card): Hash =
+  result = !$(c.`set`.hash !& c.faction.hash !& c.number.hash !& c.subnumber.hash)
+
 func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
   let bytes = try:
     decode s
@@ -70,17 +79,17 @@ func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
 
   var queue = Queue[uint64](data: toSeq varints toOpenArrayByte(bytes, 1, bytes.high))
 
-  for i in countdown(3'u, 1'u):
+  for i in countdown(3'u8, 1'u8):
     let numGroupOfs = queue.next
 
     for _ in 1..numGroupOfs:
       let
         numOfsInThisGroup = queue.next
-        `set` = queue.next.uint
+        `set` = queue.next.Set
         faction = queue.next.Faction
 
       for _ in 1..numOfsInThisGroup:
-        let number = queue.next.uint
+        let number = queue.next.uint8
 
         result.deck.add Cards(
           card: Card(
@@ -93,10 +102,10 @@ func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
 
   while queue.current < queue.data.len:
     let
-      count = queue.next.uint
-      `set` = queue.next.uint
+      count = queue.next.uint8
+      `set` = queue.next.Set
       faction = queue.next.Faction
-      number = queue.next.uint
+      number = queue.next.uint8
 
     result.deck.add Cards(
       card: Card(
@@ -109,40 +118,56 @@ func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
 
 func identifier*(f: Faction): string =
   case f
-  of Demacia: "DE"
-  of Freljord: "FR"
-  of Ionia: "IO"
-  of Noxus: "NX"
-  of PiltoverAndZaun: "PZ"
-  of ShadowIsles: "SI"
-  of Bilgewater: "BW"
-  of MountTargon: "MT"
+  of fDemacia: "DE"
+  of fFreljord: "FR"
+  of fIonia: "IO"
+  of fNoxus: "NX"
+  of fPiltoverZaun: "PZ"
+  of fShadowIsles: "SI"
+  of fBilgewater: "BW"
+  of fTargon: "MT"
 
 func code*(c: Card): string =
-  c.`set`.`$`.align(2, '0') & c.faction.identifier & c.number.`$`.align(3, '0')
+  result.add c.`set`.int.`$`.align(2, '0')
+  result.add c.faction.identifier
+  result.add c.number.`$`.align(3, '0')
+  if c.subnumber > 0:
+    result.add $c.subnumber
 
 func code*(c: Cards): string =
   $c.count & ":" & c.card.code
 
 func parseFactionIdentifier*(s: openArray[char]): Faction =
-  if   s[0] == 'D' and s[1] == 'E': Demacia
-  elif s[0] == 'F' and s[1] == 'R': Freljord
-  elif s[0] == 'I' and s[1] == 'O': Ionia
-  elif s[0] == 'N' and s[1] == 'X': Noxus
-  elif s[0] == 'P' and s[1] == 'Z': PiltoverAndZaun
-  elif s[0] == 'S' and s[1] == 'I': ShadowIsles
-  elif s[0] == 'B' and s[1] == 'W': Bilgewater
-  elif s[0] == 'M' and s[1] == 'T': MountTargon
+  if   s[0] == 'D' and s[1] == 'E': fDemacia
+  elif s[0] == 'F' and s[1] == 'R': fFreljord
+  elif s[0] == 'I' and s[1] == 'O': fIonia
+  elif s[0] == 'N' and s[1] == 'X': fNoxus
+  elif s[0] == 'P' and s[1] == 'Z': fPiltoverZaun
+  elif s[0] == 'S' and s[1] == 'I': fShadowIsles
+  elif s[0] == 'B' and s[1] == 'W': fBilgewater
+  elif s[0] == 'M' and s[1] == 'T': fTargon
   else: raise newException(ValueError, "Unknown faction identifier")
 
 func parseCardCode*(s: string): Card =
-  assert s.len == 7, "Invalid code length"
-  discard s.parseUint result.set
-  discard s.parseUint(result.number, 4)
-  result.faction = parseFactionIdentifier(s.toOpenArray(2,3))
+  assert s.len == 7 or s[7] == 'T' and s.len >= 9, "Invalid code length: " & s
+  var set, number: uint
+  discard s.parseUInt set
+  discard s.parseUInt(number, 4)
+  result.number = number.uint8
+  result.set = set.Set
+  if s.len == 9:
+    var subnumber: uint
+    discard s.parseUInt(subnumber, 8)
+    result.subnumber = subnumber.uint8
+  when nimvm:
+    result.faction = parseFactionIdentifier(s[2..3]) # VM can't handle openArray
+  else:
+    result.faction = parseFactionIdentifier(s.toOpenArray(2, 3))
 
 func parseCardsCode*(s: string): Cards =
-  let len = s.parseUint result.count
+  var count: uint
+  let len = s.parseUInt count
+  result.count = count.uint8
   result.card = parseCardCode s[len + 1..^1]
 
 func group(deck: var Deck): seq[Deck] =
