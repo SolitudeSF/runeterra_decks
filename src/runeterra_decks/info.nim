@@ -263,7 +263,7 @@ when runeterraBasePath.len > 0:
         newEnumDef("CardSupertype", supertypeDefs),
         newEnumDef("CardSubtype", subtypeDefs)
       )
-      libraryIdent = ident "runeterraLibrary"
+      libraryIdent = ident "runeterraLibraryInternal"
       tableConstructor = nnkTableConstr.newTree tablePairs
       cardInfoIdent = ident "CardInfo"
       typeIdent = nnkAccQuoted.newTree ident "type"
@@ -304,11 +304,16 @@ const
 template description*(t: Term): string = termDescriptions[t]
 template description*(k: Keyword): string = keywordDescriptions[k]
 
+template runeterraLibrary*: Table[Card, CardInfo] =
+  ## Card library getter.
+  ## Library itself is hidden to keep docs readable.
+  runeterraLibraryInternal
+
 func getInfo*(card: Card): CardInfo =
-  result = runeterraLibrary[card]
+  result = runeterraLibraryInternal[card]
 
 func getInfo*(cards: Cards): CardInfo =
-  result = runeterraLibrary[cards.card]
+  result = runeterraLibraryInternal[cards.card]
 
 func getGameArtLink*(card: Card): string =
   runeterraCdn & "/set" & $card.set.ord & "/" &

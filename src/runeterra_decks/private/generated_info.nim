@@ -112,7 +112,7 @@ type
     associatedCards*: seq[Card]
 
 const
-  runeterraLibrary = {Card(`set`: Set1, faction: fIonia, number: 12'u8): CardInfo(
+  runeterraLibraryInternal = {Card(`set`: Set1, faction: fIonia, number: 12'u8): CardInfo(
       name: "Twin Disciplines", `type`: ctSpell,
       description: "Give an ally +3|+0 or +0|+3 this round.", flavorText: "\"Never fear change. It will question you, test your limits. It is our greatest teacher.\" - Karma",
       cost: 3, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
