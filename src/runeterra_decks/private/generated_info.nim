@@ -1,5 +1,3 @@
-  Executing task regenerate in /home/solitude/kode/nim/runeterra_decks/runeterra_decks.nimble
-
 type
   Term* = enum
     Allegiance = "Allegiance", Reforge = "Reforge", Support = "Support",
