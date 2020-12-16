@@ -1,10 +1,13 @@
+  Executing task regenerate in /home/solitude/kode/nim/runeterra_decks/runeterra_decks.nimble
+
 type
   Term* = enum
-    Allegiance = "Allegiance", Support = "Support", Strongest = "Strongest",
-    Toss = "Toss", Behold = "Behold", RoundEnd = "Round End", Attack = "Attack",
-    Buffed = "Buffed", Strike = "Strike", NexusStrike = "Nexus Strike",
-    RoundStart = "Round Start", Play = "Play", Everywhere = "Everywhere",
-    Rally = "Rally", Silence = "Silence", Plunder = "Plunder"
+    Allegiance = "Allegiance", Reforge = "Reforge", Support = "Support",
+    Strongest = "Strongest", Toss = "Toss", Behold = "Behold",
+    RoundEnd = "Round End", Attack = "Attack", Buffed = "Buffed",
+    Strike = "Strike", NexusStrike = "Nexus Strike", RoundStart = "Round Start",
+    Play = "Play", Everywhere = "Everywhere", Rally = "Rally",
+    Silence = "Silence", Plunder = "Plunder"
   Keyword* = enum
     Obliterate = "Obliterate", MtTargon = "Targon", Skill = "Skill",
     DoubleStrike = "Double Attack", Daybreak = "Daybreak", Weakest = "Weakest",
@@ -20,19 +23,19 @@ type
     Recall = "Recall", Ionia = "Ionia", Regeneration = "Regeneration",
     Silenced = "Silenced", SpellShield = "SpellShield", Lifesteal = "Lifesteal",
     Nightfall = "Nightfall", Enlightened = "Enlightened", LevelUp = "Level Up",
-    Slow = "Slow", Noxus = "Noxus", Invoke = "Invoke", Scout = "Scout",
-    Ephemeral = "Ephemeral", Freljord = "Freljord", LastBreath = "Last Breath",
-    Bilgewater = "Bilgewater", Nab = "Nab", Challenger = "Challenger",
-    Imbue = "Imbue", Fearsome = "Fearsome", CantBlock = "Can\'t Block",
-    Deep = "Deep"
+    Slow = "Slow", Noxus = "Noxus", Invoke = "Invoke", Augment = "Augment",
+    Scout = "Scout", Ephemeral = "Ephemeral", Freljord = "Freljord",
+    LastBreath = "Last Breath", Bilgewater = "Bilgewater", Nab = "Nab",
+    Challenger = "Challenger", Imbue = "Imbue", Fearsome = "Fearsome",
+    CantBlock = "Can\'t Block", Deep = "Deep"
   SpellSpeed* = enum
     ssSlow = "Slow", ssBurst = "Burst", ssFast = "Fast"
   CardRarity* = enum
     crCommon = "Common", crRare = "Rare", crEpic = "Epic",
     crChampion = "Champion", crNone = "None"
 const
-  runeterraVersion* = "1_15_0"
-  termDescriptions*: array[Term, string] = ["When you summon this, it gets its allegiance bonus if the top card of your deck matches its region.",
+  runeterraVersion* = "1_16_0"
+  termDescriptions*: array[Term, string] = ["When you summon this, it gets its allegiance bonus if the top card of your deck matches its region.", "Create a random Blade Fragment still needed to restore the blade. Once you’ve cast all 3, create the Blade of the Exile.",
     "Attacking with a support unit will buff the unit to its right.",
     "Highest Power, with ties broken by highest Health then highest Cost.",
     "Obliterate X non-champion cards from the bottom of your deck.",
@@ -71,6 +74,7 @@ const
     "You\'re Enlightened when you have 10 max mana.",
     "A champion levels up once this condition is met, even in hand or deck.", "Slow spells can be cast outside of combat and other casting. The enemy can respond.",
     " ", "Pick a Celestial card from among 3 to create in hand.",
+    "When you play a created card, grant me +1|+0.",
     "The first time only Scout units attack each round, ready your attack.",
     "This unit dies when it strikes or when the round ends.", " ",
     "These abilities take effect when the unit dies.", " ",
@@ -177,7 +181,7 @@ const
       Card(`set`: Set1, faction: fIonia, number: 41'u8),
       Card(`set`: Set1, faction: fIonia, number: 41'u8, subnumber: 2'u8)]), Card(
       `set`: Set1, faction: fIonia, number: 41'u8, subnumber: 2'u8): CardInfo(
-      name: "Karma\'s Insight of Ages", `type`: ctSpell, description: "Create in hand another spell from your regions.\c\nEnlightened: Create 2 instead.\c\nShuffle a Karma into your deck.", flavorText: "“When your hope wavers, know that you are never alone. The past is always by our side. It has known myriad tomorrows and all the hope that they bring.” - Karma",
+      name: "Karma\'s Insight of Ages", `type`: ctSpell, description: "Create in hand another spell from your regions.\c\nEnlightened: Create 2 instead.\c\nCreate a Karma in your deck.", flavorText: "“When your hope wavers, know that you are never alone. The past is always by our side. It has known myriad tomorrows and all the hope that they bring.” - Karma",
       cost: 2, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set1, faction: fIonia, number: 41'u8),
@@ -201,7 +205,7 @@ const
       Card(`set`: Set1, faction: fIonia, number: 9'u8, subnumber: 3'u8),
       Card(`set`: Set1, faction: fIonia, number: 9'u8, subnumber: 1'u8)]), Card(
       `set`: Set1, faction: fIonia, number: 9'u8, subnumber: 3'u8): CardInfo(
-      name: "Zed\'s Shadowshift", `type`: ctSpell, description: "Recall an ally to summon a Living Shadow in its place.\c\nShuffle a Zed into your deck.", flavorText: "Do you face the enemy that you believe you see? Or is it a trick of the shadows?",
+      name: "Zed\'s Shadowshift", `type`: ctSpell, description: "Recall an ally to summon a Living Shadow in its place.\c\nCreate a Zed in your deck.", flavorText: "Do you face the enemy that you believe you see? Or is it a trick of the shadows?",
       cost: 3, rarity: crNone, spellSpeed: some(ssFast),
       supertype: csupChampion, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set1, faction: fIonia, number: 9'u8, subnumber: 1'u8),
@@ -272,7 +276,7 @@ const
       Card(`set`: Set1, faction: fIonia, number: 32'u8),
       Card(`set`: Set1, faction: fIonia, number: 32'u8, subnumber: 2'u8)]), Card(
       `set`: Set1, faction: fIonia, number: 32'u8, subnumber: 2'u8): CardInfo(
-      name: "Shen\'s Stand United", `type`: ctSpell, description: "Swap 2 allies. Give them Barrier this round.\c\nShuffle a Shen into your deck.",
+      name: "Shen\'s Stand United", `type`: ctSpell, description: "Swap 2 allies. Give them Barrier this round.\c\nCreate a Shen in your deck.",
       flavorText: "\"With balanced steps, I go.\" - Shen\n", cost: 6,
       rarity: crNone, spellSpeed: some(ssBurst), supertype: csupChampion,
       keywords: {Burst}, associatedCards: @[
@@ -433,7 +437,7 @@ const
       Card(`set`: Set1, faction: fNoxus, number: 20'u8),
       Card(`set`: Set1, faction: fNoxus, number: 20'u8, subnumber: 1'u8)]), Card(
       `set`: Set1, faction: fNoxus, number: 20'u8, subnumber: 2'u8): CardInfo(
-      name: "Draven\'s Whirling Death", `type`: ctSpell, description: "A battling ally strikes a battling enemy.\c\nShuffle a Draven into your deck.",
+      name: "Draven\'s Whirling Death", `type`: ctSpell, description: "A battling ally strikes a battling enemy.\c\nCreate a Draven in your deck.",
       flavorText: "\"I have the best job.\" - Draven", cost: 3, rarity: crNone,
       spellSpeed: some(ssFast), supertype: csupChampion, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set1, faction: fNoxus, number: 20'u8, subnumber: 3'u8),
@@ -469,7 +473,7 @@ const
       Card(`set`: Set1, faction: fNoxus, number: 6'u8, subnumber: 4'u8),
       Card(`set`: Set1, faction: fNoxus, number: 6'u8)]), Card(`set`: Set1,
       faction: fNoxus, number: 6'u8, subnumber: 3'u8): CardInfo(
-      name: "Vladimir\'s Transfusion", `type`: ctSpell, description: "Deal 1 to an ally and give another ally +2|+2 this round.\c\nShuffle a Vladimir into your deck.", flavorText: "\"It\'s give and take, my dear. You give, and I take.\" - Vladimir",
+      name: "Vladimir\'s Transfusion", `type`: ctSpell, description: "Deal 1 to an ally and give another ally +2|+2 this round.\c\nCreate a Vladimir in your deck.", flavorText: "\"It\'s give and take, my dear. You give, and I take.\" - Vladimir",
       cost: 2, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set1, faction: fNoxus, number: 6'u8, subnumber: 1'u8),
@@ -525,7 +529,7 @@ const
       Card(`set`: Set1, faction: fNoxus, number: 38'u8, subnumber: 1'u8),
       Card(`set`: Set1, faction: fNoxus, number: 38'u8)]), Card(`set`: Set1,
       faction: fNoxus, number: 38'u8, subnumber: 1'u8): CardInfo(
-      name: "Darius\'s Decimate", `type`: ctSpell, description: "Deal 4 to the enemy Nexus.\c\nShuffle a Darius into your deck.", flavorText: "\"Sometimes, it takes tactical genius to break a fortress. Sometimes, you just have to hit it harder.\" - Darius",
+      name: "Darius\'s Decimate", `type`: ctSpell, description: "Deal 4 to the enemy Nexus.\c\nCreate a Darius in your deck.", flavorText: "\"Sometimes, it takes tactical genius to break a fortress. Sometimes, you just have to hit it harder.\" - Darius",
       cost: 5, rarity: crNone, spellSpeed: some(ssSlow),
       supertype: csupChampion, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set1, faction: fNoxus, number: 38'u8, subnumber: 2'u8),
@@ -544,7 +548,7 @@ const
       cost: 2, rarity: crRare, attack: 2, health: 3), Card(`set`: Set1,
       faction: fNoxus, number: 7'u8): CardInfo(name: "Arena Battlecaster",
       `type`: ctUnit,
-      description: "Attack: Give other battling allies +1|+0 this round.", flavorText: "He roared with glee. For a moment, the heart of the arena pulsed in time with his and the excitement of the assembled masses was clutched in his triumphant hand.",
+      description: "Attack: Give other attacking allies +1|+0 this round.", flavorText: "He roared with glee. For a moment, the heart of the arena pulsed in time with his and the excitement of the assembled masses was clutched in his triumphant hand.",
       cost: 2, rarity: crRare, attack: 2, health: 2), Card(`set`: Set1,
       faction: fNoxus, number: 21'u8): CardInfo(name: "Legion Marauder",
       `type`: ctUnit,
@@ -593,7 +597,7 @@ const
       Card(`set`: Set1, faction: fNoxus, number: 42'u8),
       Card(`set`: Set1, faction: fNoxus, number: 42'u8, subnumber: 1'u8)]), Card(
       `set`: Set1, faction: fNoxus, number: 42'u8, subnumber: 1'u8): CardInfo(
-      name: "Katarina\'s Death Lotus", `type`: ctSpell, description: "Deal 1 to ALL battling units.\c\nShuffle a Katarina into your deck.",
+      name: "Katarina\'s Death Lotus", `type`: ctSpell, description: "Deal 1 to ALL battling units.\c\nCreate a Katarina in your deck.",
       flavorText: "\"Dance with me!\" - Katarina", cost: 2, rarity: crNone,
       spellSpeed: some(ssFast), supertype: csupChampion, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set1, faction: fNoxus, number: 42'u8),
@@ -735,7 +739,7 @@ const
       Card(`set`: Set1, faction: fDemacia, number: 42'u8, subnumber: 1'u8),
       Card(`set`: Set1, faction: fDemacia, number: 42'u8, subnumber: 3'u8)]), Card(
       `set`: Set1, faction: fDemacia, number: 42'u8, subnumber: 1'u8): CardInfo(
-      name: "Lux\'s Prismatic Barrier", `type`: ctSpell, description: "Give an ally Barrier this round.\c\nShuffle a Lux into your deck.", flavorText: "\"The world can turn its back on you when you\'re different. People say your differences make you weak--but they make us strong, compassionate. Even in the darkest times, I\'ll protect you!\" - Lux",
+      name: "Lux\'s Prismatic Barrier", `type`: ctSpell, description: "Give an ally Barrier this round.\c\nCreate a Lux in your deck.", flavorText: "\"The world can turn its back on you when you\'re different. People say your differences make you weak--but they make us strong, compassionate. Even in the darkest times, I\'ll protect you!\" - Lux",
       cost: 3, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set1, faction: fDemacia, number: 42'u8),
@@ -782,7 +786,7 @@ const
       Card(`set`: Set1, faction: fDemacia, number: 12'u8),
       Card(`set`: Set1, faction: fDemacia, number: 12'u8, subnumber: 2'u8)]), Card(
       `set`: Set1, faction: fDemacia, number: 12'u8, subnumber: 2'u8): CardInfo(
-      name: "Garen\'s Judgment", `type`: ctSpell, description: "A battling ally strikes all battling enemies.\c\nShuffle a Garen into your deck.",
+      name: "Garen\'s Judgment", `type`: ctSpell, description: "A battling ally strikes all battling enemies.\c\nCreate a Garen in your deck.",
       flavorText: "Justice always comes full circle.", cost: 8, rarity: crNone,
       spellSpeed: some(ssFast), supertype: csupChampion, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set1, faction: fDemacia, number: 12'u8),
@@ -807,7 +811,7 @@ const
       cost: 3, rarity: crCommon, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
       `set`: Set1, faction: fDemacia, number: 22'u8, subnumber: 2'u8): CardInfo(
       name: "Lucian\'s Relentless Pursuit", `type`: ctSpell,
-      description: "Rally.\c\nShuffle a Lucian into your deck.", flavorText: " \"Everyone\'s gotta face their fears. Lucky you, here I am.\" - Lucian",
+      description: "Rally.\c\nCreate a Lucian in your deck.", flavorText: " \"Everyone\'s gotta face their fears. Lucky you, here I am.\" - Lucian",
       cost: 3, rarity: crNone, spellSpeed: some(ssSlow),
       supertype: csupChampion, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set1, faction: fDemacia, number: 22'u8, subnumber: 1'u8),
@@ -858,7 +862,7 @@ const
       Card(`set`: Set1, faction: fDemacia, number: 45'u8, subnumber: 2'u8),
       Card(`set`: Set1, faction: fDemacia, number: 45'u8)]), Card(`set`: Set1,
       faction: fDemacia, number: 45'u8, subnumber: 2'u8): CardInfo(
-      name: "Fiora\'s Riposte", `type`: ctSpell, description: "Give an ally +3|+0 and Barrier this round.\c\nShuffle a Fiora into your deck.",
+      name: "Fiora\'s Riposte", `type`: ctSpell, description: "Give an ally +3|+0 and Barrier this round.\c\nCreate a Fiora in your deck.",
       flavorText: "\"How appropriate--you fight like a poro!\" - Fiora",
       cost: 4, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
@@ -974,7 +978,7 @@ const
       cost: 3, rarity: crCommon, attack: 3, health: 3,
       associatedCards: @[Card(`set`: Set1, faction: fDemacia, number: 25'u8)]), Card(
       `set`: Set1, faction: fDemacia, number: 51'u8): CardInfo(
-      name: "Cithria the Bold", `type`: ctUnit, description: "Attack: Give other battling allies +1|+1 and Fearsome this round.", flavorText: "\"Legends, tales--they were never just fiction to me. They were adventure calling my name. I left Cloudfield to discover my own adventure, only to find I would have many. And they’re just beginning.”\n",
+      name: "Cithria the Bold", `type`: ctUnit, description: "Attack: Give other attacking allies +1|+1 and Fearsome this round.", flavorText: "\"Legends, tales--they were never just fiction to me. They were adventure calling my name. I left Cloudfield to discover my own adventure, only to find I would have many. And they’re just beginning.”\n",
       cost: 6, rarity: crEpic, attack: 6, health: 6, subtypes: {csubElite}), Card(
       `set`: Set1, faction: fDemacia, number: 54'u8): CardInfo(
       name: "Vanguard Redeemer", `type`: ctUnit, description: "When I\'m summoned, draw a unit if an ally died this round.", flavorText: "\"Our fallen shall be remembered in every battle cry, in every swing of our swords, and every crash of our shields! Today, we shall be victorious!\"",
@@ -992,7 +996,7 @@ const
       faction: fPiltoverZaun, number: 40'u8, subnumber: 1'u8),
       Card(`set`: Set1, faction: fPiltoverZaun, number: 40'u8, subnumber: 3'u8)]), Card(
       `set`: Set1, faction: fPiltoverZaun, number: 40'u8, subnumber: 3'u8): CardInfo(
-      name: "Jinx\'s Get Excited!", `type`: ctSpell, description: "To play, discard 1. Deal 3 to anything.\c\nShuffle a Jinx into your deck.",
+      name: "Jinx\'s Get Excited!", `type`: ctSpell, description: "To play, discard 1. Deal 3 to anything.\c\nCreate a Jinx in your deck.",
       flavorText: "\"FIRE IN THE CABOODLE!\" - Jinx", cost: 3, rarity: crNone,
       spellSpeed: some(ssFast), supertype: csupChampion, keywords: {Fast}, associatedCards: @[Card(
       `set`: Set1, faction: fPiltoverZaun, number: 40'u8, subnumber: 1'u8),
@@ -1027,7 +1031,7 @@ const
       Card(`set`: Set1, faction: fPiltoverZaun, number: 22'u8),
       Card(`set`: Set1, faction: fPiltoverZaun, number: 8'u8, subnumber: 1'u8)]), Card(
       `set`: Set1, faction: fPiltoverZaun, number: 8'u8, subnumber: 1'u8): CardInfo(
-      name: "Teemo\'s Mushroom Cloud", `type`: ctSpell, description: "Plant 5 Poison Puffcaps on random cards in the enemy deck.\c\nShuffle a Teemo into your deck.", flavorText: "First, the soft thump as the puffcap pops. Next, searing, debilitating pain. Finally, the distant sound of giggles...",
+      name: "Teemo\'s Mushroom Cloud", `type`: ctSpell, description: "Plant 5 Poison Puffcaps on random cards in the enemy deck.\c\nCreate a Teemo in your deck.", flavorText: "First, the soft thump as the puffcap pops. Next, searing, debilitating pain. Finally, the distant sound of giggles...",
       cost: 1, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set1, faction: fPiltoverZaun, number: 8'u8),
@@ -1055,7 +1059,7 @@ const
       cost: 6, rarity: crEpic, attack: 3, health: 3, associatedCards: @[
       Card(`set`: Set1, faction: fPiltoverZaun, number: 13'u8, subnumber: 1'u8)]), Card(
       `set`: Set1, faction: fPiltoverZaun, number: 7'u8): CardInfo(
-      name: "Parade Electrorig", `type`: ctUnit, description: "Support: Shuffle 4 copies of the supported ally into your deck.", flavorText: "The boom of the cannons drew crowds toward the plaza, eager to see the show. It would take them weeks to wash the last of the confetti from their hair.",
+      name: "Parade Electrorig", `type`: ctUnit, description: "Support: Create 4 copies of the supported ally in your deck.", flavorText: "The boom of the cannons drew crowds toward the plaza, eager to see the show. It would take them weeks to wash the last of the confetti from their hair.",
       cost: 3, rarity: crCommon, attack: 2, health: 4), Card(`set`: Set1,
       faction: fPiltoverZaun, number: 56'u8): CardInfo(name: "Heimerdinger",
       `type`: ctUnit, description: "When you cast a spell, create a Fleeting Turret in hand with equal cost. Grant it +1|+1 and it costs 0 this round.",
@@ -1081,7 +1085,7 @@ const
       cost: 4, rarity: crNone, attack: 4, health: 1, subtypes: {csubTech},
       keywords: {Overwhelm}), Card(`set`: Set1, faction: fPiltoverZaun,
                                    number: 56'u8, subnumber: 3'u8): CardInfo(
-      name: "Heimerdinger\'s Progress Day!", `type`: ctSpell, description: "Draw 3, then reduce those cards\' costs by 1.\c\nShuffle a Heimerdinger into your deck.", flavorText: "PROGRESS DAY!\nCelebrate at the PLAZA OF THE SUN GATES!\nSee HEXTECH WONDERS!\nGasp at the DARING PORO!\nHear the MAN OF TOMORROW speak on the STATE OF TODAY!\nFREE entry! \nPiltovan children welcome!",
+      name: "Heimerdinger\'s Progress Day!", `type`: ctSpell, description: "Draw 3, then reduce those cards\' costs by 1.\c\nCreate a Heimerdinger in your deck.", flavorText: "PROGRESS DAY!\nCelebrate at the PLAZA OF THE SUN GATES!\nSee HEXTECH WONDERS!\nGasp at the DARING PORO!\nHear the MAN OF TOMORROW speak on the STATE OF TODAY!\nFREE entry! \nPiltovan children welcome!",
       cost: 8, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set1, faction: fPiltoverZaun, number: 56'u8),
@@ -1197,7 +1201,7 @@ const
       Card(`set`: Set1, faction: fPiltoverZaun, number: 36'u8, subnumber: 2'u8)]), Card(
       `set`: Set1, faction: fPiltoverZaun, number: 36'u8, subnumber: 2'u8): CardInfo(
       name: "Ezreal\'s Mystic Shot", `type`: ctSpell,
-      description: "Deal 2 to anything.\c\nShuffle an Ezreal into your deck.", flavorText: "\"I. Never. Miss. But I have been known to fire a warning shot or two...\" - Ezreal",
+      description: "Deal 2 to anything.\c\nCreate an Ezreal in your deck.", flavorText: "\"I. Never. Miss. But I have been known to fire a warning shot or two...\" - Ezreal",
       cost: 2, rarity: crNone, spellSpeed: some(ssFast),
       supertype: csupChampion, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set1, faction: fPiltoverZaun, number: 36'u8),
@@ -1229,7 +1233,7 @@ const
       cost: 1, rarity: crCommon, attack: 1, health: 1, subtypes: {csubPoro},
       keywords: {Elusive}), Card(`set`: Set1, faction: fPiltoverZaun,
                                  number: 46'u8): CardInfo(
-      name: "Counterfeit Copies", `type`: ctSpell, description: "Pick a card in hand. Shuffle 4 exact copies of it into your deck.",
+      name: "Counterfeit Copies", `type`: ctSpell, description: "Pick a card in hand. Create 4 exact copies of it in your deck.",
       flavorText: "Imitation is the sincerest form of thievery.", cost: 1,
       rarity: crRare, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
       `set`: Set1, faction: fPiltoverZaun, number: 52'u8): CardInfo(
@@ -1386,7 +1390,7 @@ const
       Card(`set`: Set1, faction: fFreljord, number: 24'u8, subnumber: 3'u8)]), Card(
       `set`: Set1, faction: fFreljord, number: 24'u8, subnumber: 1'u8): CardInfo(
       name: "Anivia\'s Harsh Winds", `type`: ctSpell,
-      description: "Frostbite 2 enemies.\c\nShuffle an Anivia into your deck.", flavorText: "\"You\'d challenge me on my own lands? You\'re ill-prepared, little one.\" - Anivia",
+      description: "Frostbite 2 enemies.\c\nCreate an Anivia in your deck.", flavorText: "\"You\'d challenge me on my own lands? You\'re ill-prepared, little one.\" - Anivia",
       cost: 6, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set1, faction: fFreljord, number: 24'u8, subnumber: 4'u8),
@@ -1422,7 +1426,8 @@ const
       Card(`set`: Set1, faction: fFreljord, number: 39'u8, subnumber: 2'u8),
       Card(`set`: Set1, faction: fFreljord, number: 39'u8, subnumber: 1'u8)]), Card(
       `set`: Set1, faction: fFreljord, number: 39'u8, subnumber: 1'u8): CardInfo(
-      name: "Tryndamere\'s Battle Fury", `type`: ctSpell, description: "Grant an ally +8|+4.\c\nShuffle a Tryndamere into your deck.",
+      name: "Tryndamere\'s Battle Fury", `type`: ctSpell,
+      description: "Grant an ally +8|+4.\c\nCreate a Tryndamere in your deck.",
       flavorText: "“I\'ve been told I have a... temper.” - Tryndamere",
       cost: 8, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
@@ -1495,7 +1500,7 @@ const
       Card(`set`: Set1, faction: fFreljord, number: 38'u8)]), Card(`set`: Set1,
       faction: fFreljord, number: 38'u8, subnumber: 1'u8): CardInfo(
       name: "Ashe\'s Flash Freeze", `type`: ctSpell,
-      description: "Frostbite an enemy.\c\nShuffle an Ashe into your deck.", flavorText: "The cold strikes without warning, rendering even the strongest warrior helpless.",
+      description: "Frostbite an enemy.\c\nCreate an Ashe in your deck.", flavorText: "The cold strikes without warning, rendering even the strongest warrior helpless.",
       cost: 3, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set1, faction: fFreljord, number: 38'u8, subnumber: 2'u8),
@@ -1516,7 +1521,7 @@ const
       cost: 4, rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
       `set`: Set1, faction: fFreljord, number: 14'u8): CardInfo(
       name: "Yeti Yearling", `type`: ctUnit,
-      description: "Last Breath: Shuffle 2 Enraged Yetis into your deck.", flavorText: "\"It was so tiny and peaceful! Hard to believe it would grow up to be... well... a yeti.\" - Avarosan Trapper",
+      description: "Last Breath: Create 2 Enraged Yetis in your deck.", flavorText: "\"It was so tiny and peaceful! Hard to believe it would grow up to be... well... a yeti.\" - Avarosan Trapper",
       cost: 1, rarity: crCommon, attack: 1, health: 2, subtypes: {csubYeti},
       keywords: {LastBreath},
       associatedCards: @[Card(`set`: Set1, faction: fFreljord, number: 28'u8)]), Card(
@@ -1537,7 +1542,7 @@ const
       Card(`set`: Set1, faction: fFreljord, number: 9'u8),
       Card(`set`: Set1, faction: fFreljord, number: 53'u8)]), Card(`set`: Set1,
       faction: fFreljord, number: 9'u8, subnumber: 2'u8): CardInfo(
-      name: "Braum\'s Take Heart", `type`: ctSpell, description: "Grant a damaged ally +3|+3.\c\nShuffle a Braum into your deck.", flavorText: "\"... Though his wounds were great, Braum threw back his head and laughed. For he knew that dire times are when heroes are made!\"\n- The Tale of Braum",
+      name: "Braum\'s Take Heart", `type`: ctSpell, description: "Grant a damaged ally +3|+3.\c\nCreate a Braum in your deck.", flavorText: "\"... Though his wounds were great, Braum threw back his head and laughed. For he knew that dire times are when heroes are made!\"\n- The Tale of Braum",
       cost: 3, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set1, faction: fFreljord, number: 9'u8),
@@ -1632,7 +1637,7 @@ const
       description: "Give an ally +0|+2 this round.", flavorText: "\"Rough out there, eh? Not to worry, the \'Owl serves up a special brew so strong it\'ll pull the chill outta y\'bones \'n grow hair on the chest of a newborn!\" - Kindly Tavernkeeper",
       cost: 1, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
       `set`: Set1, faction: fFreljord, number: 48'u8): CardInfo(
-      name: "Avarosan Trapper", `type`: ctUnit, description: "When I\'m summoned, shuffle an Enraged Yeti into the top 3 cards of your deck.", flavorText: "\"Caught nothing all week! Either those beasts are onto me, or something\'s scaring \'em off...\"",
+      name: "Avarosan Trapper", `type`: ctUnit, description: "When I\'m summoned, create an Enraged Yeti in the top 3 cards of your deck.", flavorText: "\"Caught nothing all week! Either those beasts are onto me, or something\'s scaring \'em off...\"",
       cost: 3, rarity: crCommon, attack: 3, health: 3,
       associatedCards: @[Card(`set`: Set1, faction: fFreljord, number: 28'u8)]), Card(
       `set`: Set1, faction: fFreljord, number: 17'u8): CardInfo(
@@ -1708,7 +1713,7 @@ const
       Card(`set`: Set1, faction: fShadowIsles, number: 53'u8, subnumber: 1'u8),
       Card(`set`: Set1, faction: fShadowIsles, number: 2'u8)]), Card(
       `set`: Set1, faction: fShadowIsles, number: 53'u8, subnumber: 1'u8): CardInfo(
-      name: "Elise\'s Crawling Sensation", `type`: ctSpell, description: "If an ally died this round, summon 2 Spiderlings.\c\nShuffle a Elise into your deck.", flavorText: "That creeping feeling on your skin isn\'t nearly as unsettling as the one underneath it.",
+      name: "Elise\'s Crawling Sensation", `type`: ctSpell, description: "If an ally died this round, summon 2 Spiderlings.\c\nCreate an Elise in your deck.", flavorText: "That creeping feeling on your skin isn\'t nearly as unsettling as the one underneath it.",
       cost: 1, rarity: crNone, spellSpeed: some(ssSlow),
       supertype: csupChampion, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set1, faction: fShadowIsles, number: 2'u8),
@@ -1754,7 +1759,7 @@ const
       Card(`set`: Set1, faction: fShadowIsles, number: 42'u8, subnumber: 2'u8),
       Card(`set`: Set1, faction: fShadowIsles, number: 24'u8)]), Card(
       `set`: Set1, faction: fShadowIsles, number: 42'u8, subnumber: 2'u8): CardInfo(
-      name: "Hecarim\'s Onslaught of Shadows", `type`: ctSpell, description: "Summon 2 Spectral Riders.\c\nShuffle a Hecarim into your deck.",
+      name: "Hecarim\'s Onslaught of Shadows", `type`: ctSpell, description: "Summon 2 Spectral Riders.\c\nCreate a Hecarim in your deck.",
       flavorText: "They live now as they died then: loyal \'til the very end.",
       cost: 2, rarity: crNone, spellSpeed: some(ssSlow),
       supertype: csupChampion, keywords: {Slow}, associatedCards: @[
@@ -1795,7 +1800,7 @@ const
       Card(`set`: Set1, faction: fShadowIsles, number: 30'u8),
       Card(`set`: Set1, faction: fShadowIsles, number: 30'u8, subnumber: 1'u8)]), Card(
       `set`: Set1, faction: fShadowIsles, number: 30'u8, subnumber: 1'u8): CardInfo(
-      name: "Kalista\'s Black Spear", `type`: ctSpell, description: "If an ally died this round, deal 4 to a unit.\c\nShuffle a Kalista into your deck.",
+      name: "Kalista\'s Black Spear", `type`: ctSpell, description: "If an ally died this round, deal 4 to a unit.\c\nCreate a Kalista in your deck.",
       flavorText: "\"Our spear sings for the fallen.\" - Kalista", cost: 3,
       rarity: crNone, spellSpeed: some(ssFast), supertype: csupChampion,
       keywords: {Fast}, associatedCards: @[
@@ -1865,7 +1870,7 @@ const
       flavorText: "Oh, the poor lad...", cost: 1, rarity: crCommon, attack: 2,
       health: 1), Card(`set`: Set1, faction: fShadowIsles, number: 52'u8,
                        subnumber: 2'u8): CardInfo(name: "Thresh\'s The Box",
-      `type`: ctSpell, description: "Deal 3 to each enemy that was summoned this round.\c\nShuffle a Thresh into your deck.",
+      `type`: ctSpell, description: "Deal 3 to each enemy that was summoned this round.\c\nCreate a Thresh in your deck.",
       flavorText: "\"Nobody escapes.\" - Thresh", cost: 4, rarity: crNone,
       spellSpeed: some(ssFast), supertype: csupChampion, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set1, faction: fShadowIsles, number: 52'u8),
@@ -1914,11 +1919,8 @@ const
       description: "Deal 3 to each enemy that was summoned this round.",
       flavorText: "\"Nobody escapes.\" - Thresh", cost: 4, rarity: crRare,
       spellSpeed: some(ssFast), keywords: {Fast}), Card(`set`: Set1,
-      faction: fShadowIsles, number: 11'u8): CardInfo(name: "Ravenous Butcher",
-      `type`: ctUnit, description: "To play me, kill an ally.",
-      flavorText: "You are what you eat.", cost: 0, rarity: crCommon, attack: 3,
-      health: 2), Card(`set`: Set1, faction: fShadowIsles, number: 14'u8): CardInfo(
-      name: "Mistwraith", `type`: ctUnit, description: "When I\'m summoned, grant other allied Mistwraiths everywhere +1|+0.", flavorText: "These specters of the Isles shed their identities long ago to become amalgamations of pure, unappeasable hunger.",
+      faction: fShadowIsles, number: 14'u8): CardInfo(name: "Mistwraith",
+      `type`: ctUnit, description: "When I\'m summoned, grant other allied Mistwraiths everywhere +1|+0.", flavorText: "These specters of the Isles shed their identities long ago to become amalgamations of pure, unappeasable hunger.",
       cost: 2, rarity: crCommon, attack: 2, health: 2, keywords: {Fearsome}), Card(
       `set`: Set1, faction: fShadowIsles, number: 22'u8): CardInfo(
       name: "Mark of the Isles", `type`: ctSpell,
@@ -1926,7 +1928,7 @@ const
       flavorText: "Power, but at what cost?", cost: 1, rarity: crCommon,
       spellSpeed: some(ssBurst), keywords: {Burst}), Card(`set`: Set1,
       faction: fShadowIsles, number: 6'u8): CardInfo(name: "Possession",
-      `type`: ctSpell, description: "Steal an enemy follower this round. (Can\'t play if you have 6 allies already.)", flavorText: "He woke to find his hands glistening red and the camp unusually quiet. ",
+      `type`: ctSpell, description: "Steal an enemy follower this round. (Can\'t play if you have 6 allies or landmarks already.)", flavorText: "He woke to find his hands glistening red and the camp unusually quiet. ",
       cost: 5, rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
       `set`: Set1, faction: fShadowIsles, number: 33'u8, subnumber: 1'u8): CardInfo(
       name: "Blade of Ledros", `type`: ctAbility, description: "Deal damage to the enemy Nexus equal to half its Health, rounded up.", flavorText: "Half a blade for half a man. A weapon broken as its wielder\'s vow, broken as the king it was sworn to protect, broken as the kingdom of shadow that once was blessed.",
@@ -1940,7 +1942,11 @@ const
       name: "Atrocity", `type`: ctSpell, description: "Kill an ally to deal damage equal to its Power to anything.",
       flavorText: "Killing means nothing to those who cannot know death.",
       cost: 6, rarity: crRare, spellSpeed: some(ssFast), keywords: {Fast}), Card(
-      `set`: Set1, faction: fShadowIsles, number: 46'u8): CardInfo(
+      `set`: Set1, faction: fShadowIsles, number: 11'u8): CardInfo(
+      name: "Ravenous Butcher", `type`: ctUnit,
+      description: "To play me, kill an ally.",
+      flavorText: "You are what you eat.", cost: 0, rarity: crCommon, attack: 3,
+      health: 2), Card(`set`: Set1, faction: fShadowIsles, number: 46'u8): CardInfo(
       name: "Mist\'s Call", `type`: ctSpell,
       description: "Revive a random ally that died this round.", flavorText: "\"The Mist severs spirit from flesh, leaving behind a foul parody of life. I have seen it corrupt my lands, so I go now to those cursed isles, to end this.\" - Arie Wrence, Dauntless vindicator",
       cost: 3, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
@@ -2048,7 +2054,7 @@ const
       Card(`set`: Set2, faction: fPiltoverZaun, number: 8'u8),
       Card(`set`: Set2, faction: fPiltoverZaun, number: 8'u8, subnumber: 1'u8)]), Card(
       `set`: Set2, faction: fPiltoverZaun, number: 8'u8, subnumber: 1'u8): CardInfo(
-      name: "Vi\'s Vault Breaker", `type`: ctSpell, description: "Give an ally +2|+0 this round.\c\nCreate a Fleeting Vault Breaker in hand.\c\nShuffle a Vi into your deck.",
+      name: "Vi\'s Vault Breaker", `type`: ctSpell, description: "Give an ally +2|+0 this round.\c\nCreate a Fleeting Vault Breaker in hand.\c\nCreate a Vi in your deck.",
       flavorText: "\"I let my hands do the talking.\" - Vi", cost: 3,
       rarity: crNone, spellSpeed: some(ssBurst), supertype: csupChampion,
       keywords: {Burst}, associatedCards: @[
@@ -2103,7 +2109,7 @@ const
       cost: 4, rarity: crRare, attack: 3, health: 3, associatedCards: @[
       Card(`set`: Set2, faction: fBilgewater, number: 20'u8)]), Card(
       `set`: Set2, faction: fBilgewater, number: 30'u8): CardInfo(
-      name: "Shipwreck Hoarder", `type`: ctUnit, description: "When I\'m summoned, Toss 2 and shuffle 2 Treasures into your deck.\c\n", flavorText: "\"These days, there\'s more treasure \'neath the waves than above \'em, I wager. Would be easy enough pickins, if \'tweren\'t for her.\" - Jagged Butcher",
+      name: "Shipwreck Hoarder", `type`: ctUnit, description: "When I\'m summoned, Toss 2 and create 2 Treasures in your deck.\c\n", flavorText: "\"These days, there\'s more treasure \'neath the waves than above \'em, I wager. Would be easy enough pickins, if \'tweren\'t for her.\" - Jagged Butcher",
       cost: 7, rarity: crEpic, attack: 7, health: 5, subtypes: {csubSeaMonster},
       keywords: {Deep}, associatedCards: @[
       Card(`set`: Set2, faction: fBilgewater, number: 30'u8, subnumber: 2'u8),
@@ -2249,7 +2255,7 @@ const
       Card(`set`: Set2, faction: fBilgewater, number: 32'u8, subnumber: 1'u8),
       Card(`set`: Set2, faction: fBilgewater, number: 32'u8, subnumber: 4'u8)]), Card(
       `set`: Set2, faction: fBilgewater, number: 32'u8, subnumber: 2'u8): CardInfo(
-      name: "Gangplank\'s Parrrley", `type`: ctSpell, description: "Deal 1 to anything.\c\nIf this kills it, deal 1 to the enemy Nexus.\c\nShuffle a Gangplank into your deck.", flavorText: "Gangplank\'s version of mediation is often brief, and always bloody.",
+      name: "Gangplank\'s Parrrley", `type`: ctSpell, description: "Deal 1 to anything.\c\nIf this kills it, deal 1 to the enemy Nexus.\c\nCreate a Gangplank in your deck.", flavorText: "Gangplank\'s version of mediation is often brief, and always bloody.",
       cost: 1, rarity: crNone, spellSpeed: some(ssSlow),
       supertype: csupChampion, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set2, faction: fBilgewater, number: 32'u8),
@@ -2283,7 +2289,7 @@ const
       Card(`set`: Set2, faction: fBilgewater, number: 22'u8, subnumber: 2'u8),
       Card(`set`: Set2, faction: fBilgewater, number: 22'u8, subnumber: 1'u8)]), Card(
       `set`: Set2, faction: fBilgewater, number: 22'u8, subnumber: 3'u8): CardInfo(
-      name: "Miss Fortune\'s Make it Rain", `type`: ctSpell, description: "Deal 1 three times among different randomly targeted enemies and the enemy Nexus.\c\nShuffle a Miss Fortune into your deck.",
+      name: "Miss Fortune\'s Make it Rain", `type`: ctSpell, description: "Deal 1 three times among different randomly targeted enemies and the enemy Nexus.\c\nCreate a Miss Fortune in your deck.",
       flavorText: "\"Guns blazin\'!\" - Miss Fortune", cost: 3, rarity: crNone,
       spellSpeed: some(ssFast), supertype: csupChampion, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set2, faction: fBilgewater, number: 22'u8),
@@ -2324,7 +2330,7 @@ const
       name: "Longtooth", `type`: ctUnit, description: "", flavorText: "Though there may be ambiguity surrounding Fizz\'s temperament and intentions, there\'s absolutely none when it comes to Longtooth.",
       cost: 4, rarity: crNone, attack: 5, health: 2, keywords: {Overwhelm}), Card(
       `set`: Set2, faction: fBilgewater, number: 46'u8, subnumber: 1'u8): CardInfo(
-      name: "Fizz\'s Playful Trickster", `type`: ctSpell, description: "Remove an attacking ally from combat to Rally.\c\nShuffle a Fizz into your deck.",
+      name: "Fizz\'s Playful Trickster", `type`: ctSpell, description: "Remove an attacking ally from combat to Rally.\c\nCreate a Fizz in your deck.",
       flavorText: "\"One jump ahead of you!\" - Fizz", cost: 4, rarity: crNone,
       spellSpeed: some(ssFast), supertype: csupChampion, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set2, faction: fBilgewater, number: 46'u8),
@@ -2356,7 +2362,7 @@ const
       Card(`set`: Set2, faction: fBilgewater, number: 26'u8, subnumber: 4'u8),
       Card(`set`: Set2, faction: fBilgewater, number: 26'u8, subnumber: 2'u8)]), Card(
       `set`: Set2, faction: fBilgewater, number: 26'u8, subnumber: 1'u8): CardInfo(
-      name: "Twisted Fate\'s Pick a Card", `type`: ctSpell, description: "Shuffle a card from hand into your deck to draw 3 at the next Round Start. Give them Fleeting.\c\nShuffle a Twisted Fate into your deck.",
+      name: "Twisted Fate\'s Pick a Card", `type`: ctSpell, description: "Place a card from hand into your deck to draw 3 at the next Round Start. Give them Fleeting.\c\nCreate a Twisted Fate in your deck.",
       flavorText: "\"I make my own luck.\" - Twisted Fate", cost: 3,
       rarity: crNone, spellSpeed: some(ssBurst), supertype: csupChampion,
       keywords: {Burst}, associatedCards: @[
@@ -2380,7 +2386,7 @@ const
       Card(`set`: Set2, faction: fBilgewater, number: 53'u8, subnumber: 1'u8),
       Card(`set`: Set2, faction: fBilgewater, number: 53'u8, subnumber: 2'u8)]), Card(
       `set`: Set2, faction: fBilgewater, number: 53'u8, subnumber: 2'u8): CardInfo(
-      name: "Nautilus\'s Riptide", `type`: ctSpell, description: "Stun an enemy.\c\nShuffle that unit into the enemy deck if you have a Nautilus.\c\nShuffle a Nautilus into your deck.",
+      name: "Nautilus\'s Riptide", `type`: ctSpell, description: "Stun an enemy.\c\nPlace that unit into the enemy deck if you have a Nautilus.\c\nCreate a Nautilus into your deck.",
       flavorText: "\"Drag them down...\" - Nautilus", cost: 4, rarity: crNone,
       spellSpeed: some(ssFast), supertype: csupChampion, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set2, faction: fBilgewater, number: 53'u8),
@@ -2425,7 +2431,7 @@ const
       description: "Summon a random 1 cost follower.", flavorText: "\"Whatcha think, Baz? He don\'t look so tough.\"\n\"Ya sure, Gav? He broke out of prison...\"\n\"Means he\'s wily, not tough. Come on!\" - Baz and Gav, aspiring bounty hunters",
       cost: 1, rarity: crCommon, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
       `set`: Set2, faction: fBilgewater, number: 43'u8): CardInfo(
-      name: "Pick a Card", `type`: ctSpell, description: "Shuffle a card from hand into your deck to draw 3 at the next Round Start. Give them Fleeting.",
+      name: "Pick a Card", `type`: ctSpell, description: "Place a card from hand into your deck to draw 3 at the next Round Start. Give them Fleeting.",
       flavorText: "\"I make my own luck.\" - Twisted Fate", cost: 3,
       rarity: crRare, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
       `set`: Set2, faction: fBilgewater, number: 51'u8): CardInfo(
@@ -2434,7 +2440,7 @@ const
       flavorText: "\"One jump ahead of you!\" - Fizz", cost: 4, rarity: crRare,
       spellSpeed: some(ssFast), keywords: {Fast}), Card(`set`: Set2,
       faction: fBilgewater, number: 54'u8): CardInfo(name: "Riptide",
-      `type`: ctSpell, description: "Stun an enemy.\c\nShuffle that unit into the enemy deck if you have a Nautilus.",
+      `type`: ctSpell, description: "Stun an enemy.\c\nPlace that unit into the enemy deck if you have a Nautilus.",
       flavorText: "\"Drag them down...\" - Nautilus", cost: 4, rarity: crRare,
       spellSpeed: some(ssFast), keywords: {Fast}, associatedCards: @[
       Card(`set`: Set2, faction: fBilgewater, number: 53'u8)]), Card(
@@ -2521,7 +2527,7 @@ const
       Card(`set`: Set2, faction: fFreljord, number: 2'u8),
       Card(`set`: Set2, faction: fFreljord, number: 2'u8, subnumber: 3'u8)]), Card(
       `set`: Set2, faction: fFreljord, number: 2'u8, subnumber: 1'u8): CardInfo(
-      name: "Sejuani\'s Fury of the North", `type`: ctSpell, description: "Give an ally +3|+4 this round.\c\nShuffle a Sejuani into your deck.",
+      name: "Sejuani\'s Fury of the North", `type`: ctSpell, description: "Give an ally +3|+4 this round.\c\nCreate a Sejuani in your deck.",
       flavorText: "\"Embrace the beast within!\" - Sejuani", cost: 4,
       rarity: crNone, spellSpeed: some(ssBurst), supertype: csupChampion,
       keywords: {Burst}, associatedCards: @[
@@ -2564,7 +2570,7 @@ const
       Card(`set`: Set2, faction: fNoxus, number: 7'u8),
       Card(`set`: Set2, faction: fNoxus, number: 7'u8, subnumber: 1'u8)]), Card(
       `set`: Set2, faction: fNoxus, number: 7'u8, subnumber: 1'u8): CardInfo(
-      name: "Swain\'s Ravenous Flock", `type`: ctSpell, description: "Deal 4 to a unit if it\'s damaged or Stunned.\c\nShuffle a Swain into your deck.", flavorText: "Listen. Can you hear them? The thunder of a thousand beating wings.",
+      name: "Swain\'s Ravenous Flock", `type`: ctSpell, description: "Deal 4 to a unit if it\'s damaged or Stunned.\c\nCreate a Swain in your deck.", flavorText: "Listen. Can you hear them? The thunder of a thousand beating wings.",
       cost: 1, rarity: crNone, spellSpeed: some(ssFast),
       supertype: csupChampion, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set2, faction: fNoxus, number: 7'u8),
@@ -2627,7 +2633,7 @@ const
       Card(`set`: Set2, faction: fDemacia, number: 6'u8, subnumber: 3'u8)]), Card(
       `set`: Set2, faction: fDemacia, number: 6'u8, subnumber: 3'u8): CardInfo(
       name: "Quinn\'s Blinding Assault", `type`: ctSpell,
-      description: "Summon Valor.\c\nShuffle a Quinn into your deck.",
+      description: "Summon Valor.\c\nCreate a Quinn in your deck.",
       flavorText: "\"He\'s in my hair! HE\'S IN MY HAIR!\" - Legion Marauder",
       cost: 2, rarity: crNone, spellSpeed: some(ssSlow),
       supertype: csupChampion, keywords: {Slow}, associatedCards: @[
@@ -2695,7 +2701,7 @@ const
       cost: 1, rarity: crNone, attack: 2, health: 1,
       keywords: {Ephemeral, Challenger}), Card(`set`: Set2,
       faction: fShadowIsles, number: 8'u8, subnumber: 1'u8): CardInfo(
-      name: "Maokai\'s Sap Magic", `type`: ctSpell, description: "Toss 3.\c\nHeal all allies 3.\c\nShuffle a Maokai into your deck.",
+      name: "Maokai\'s Sap Magic", `type`: ctSpell, description: "Toss 3.\c\nHeal all allies 3.\c\nCreate a Maokai in your deck.",
       flavorText: "\"These Isles will be cleansed.\" - Maokai", cost: 3,
       rarity: crNone, spellSpeed: some(ssBurst), supertype: csupChampion,
       keywords: {Burst}, associatedCards: @[
@@ -2782,7 +2788,7 @@ const
       Card(`set`: Set2, faction: fIonia, number: 6'u8, subnumber: 3'u8),
       Card(`set`: Set2, faction: fIonia, number: 6'u8, subnumber: 1'u8)]), Card(
       `set`: Set2, faction: fIonia, number: 11'u8): CardInfo(
-      name: "Lee Sin\'s Sonic Wave", `type`: ctSpell, description: "Give an ally Challenger this round.\c\nCreate a Fleeting Resonating Strike in hand.\c\nShuffle a Lee Sin into your deck.",
+      name: "Lee Sin\'s Sonic Wave", `type`: ctSpell, description: "Give an ally Challenger this round.\c\nCreate a Fleeting Resonating Strike in hand.\c\nCreate a Lee Sin in your deck.",
       flavorText: "\"Master yourself...\" - Lee Sin", cost: 2, rarity: crCommon,
       spellSpeed: some(ssBurst), supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set2, faction: fIonia, number: 6'u8, subnumber: 1'u8),
@@ -2834,6 +2840,116 @@ const
       number: 9'u8): CardInfo(name: "Deep Meditation", `type`: ctSpell, description: "Costs 2 less if you cast 2+ spells last round.\c\nDraw 2 other spells.\c\n", flavorText: "Meditation is a journey with no destination--a path that can only be followed by getting lost along the way.",
                               cost: 5, rarity: crRare,
                               spellSpeed: some(ssBurst), keywords: {Burst}), Card(
+      `set`: Set3, faction: fNoxus, number: 19'u8): CardInfo(
+      name: "Hunt the Weak", `type`: ctSpell,
+      description: "Your opponent discards the Weakest follower from hand.", flavorText: "\"The frail have no place in this world. Each day brings them new torment, another turn of the vise. I do not deal in death, I deal in mercy.\" - Arrel the Tracker",
+      cost: 2, rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
+      `set`: Set3, faction: fNoxus, number: 7'u8): CardInfo(name: "Riven",
+      `type`: ctUnit, description: "When you gain the attack token, Reforge.", flavorText: "\"I will not run from what I was. I made a promise to mend what I have broken...\"",
+      cost: 3, rarity: crChampion, attack: 3, health: 4,
+      levelupDescription: "I see Blade of the Exile in your hand.",
+      supertype: csupChampion, associatedCards: @[
+      Card(`set`: Set3, faction: fNoxus, number: 7'u8, subnumber: 1'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 12'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 7'u8, subnumber: 3'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 8'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 10'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 11'u8)]), Card(`set`: Set3,
+      faction: fNoxus, number: 8'u8): CardInfo(name: "Heavy Blade Fragment",
+      `type`: ctSpell, description: "Give an ally Overwhelm this round.\c\nCan\'t be cast in combat or in response to a spell.\c\n", flavorText: "\"A warrior must know the weight of their weapon, burdened heavy with guilt.\" - Riven",
+      cost: 1, rarity: crNone, spellSpeed: some(ssBurst), keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set3, faction: fNoxus, number: 10'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 11'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 12'u8)]), Card(`set`: Set3,
+      faction: fNoxus, number: 7'u8, subnumber: 3'u8): CardInfo(
+      name: "Riven\'s Weapon Hilt", `type`: ctSpell, description: "Give an ally +2|+0 this round. Reforge.\c\nCreate a Riven in your deck.", flavorText: "\"To know your enemy, first know their weapon. It will tell you how they move, how they think, when they\'ll strike. It is the purest expression of its wielder.\" - Arrel the Tracker",
+      cost: 2, rarity: crCommon, spellSpeed: some(ssBurst),
+      supertype: csupChampion, keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set3, faction: fNoxus, number: 7'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 7'u8, subnumber: 1'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 12'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 8'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 10'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 11'u8)]), Card(`set`: Set3,
+      faction: fNoxus, number: 11'u8): CardInfo(name: "Blade of the Exile",
+      `type`: ctSpell,
+      description: "Grant an ally +2|+0, Overwhelm, and Quick Attack.", flavorText: "\"But a warrior is more than their weapon alone. They must know power, but also consequence, forgiveness, and redemption.\" -  Riven",
+      cost: 3, rarity: crNone, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
+      `set`: Set3, faction: fNoxus, number: 10'u8): CardInfo(
+      name: "Keen Blade Fragment", `type`: ctSpell, description: "Give an ally Quick Attack this round.\c\nCan\'t be cast in combat or in response to a spell.\c\n", flavorText: "\"A warrior must know the sharpness of their blade, an edge that cuts both friends and foes.\" - Riven",
+      cost: 1, rarity: crNone, spellSpeed: some(ssBurst), keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set3, faction: fNoxus, number: 11'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 12'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 8'u8)]), Card(`set`: Set3,
+      faction: fNoxus, number: 7'u8, subnumber: 1'u8): CardInfo(name: "Riven",
+      `type`: ctUnit, description: "When you gain the attack token, Reforge.\c\nWhen my Power is increased for the first time each round, increase it by twice as much.",
+      flavorText: "\"...and I will not run from those who would break me.\"",
+      cost: 3, rarity: crNone, attack: 4, health: 5, supertype: csupChampion, associatedCards: @[
+      Card(`set`: Set3, faction: fNoxus, number: 7'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 7'u8, subnumber: 3'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 12'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 8'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 10'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 11'u8)]), Card(`set`: Set3,
+      faction: fNoxus, number: 12'u8): CardInfo(name: "Glinting Blade Fragment",
+      `type`: ctSpell, description: "Give an ally +2|+0 this round.\c\nCan\'t be cast in combat or in response to a spell.\c\n", flavorText: "\"A warrior must know their weapon\'s history... every bloody piece.\" - Riven",
+      cost: 1, rarity: crNone, spellSpeed: some(ssBurst), keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set3, faction: fNoxus, number: 10'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 11'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 8'u8)]), Card(`set`: Set3,
+      faction: fNoxus, number: 6'u8): CardInfo(name: "Weapon Hilt",
+      `type`: ctSpell, description: "Give an ally +2|+0 this round. Reforge.", flavorText: "\"To know your enemy, first know their weapon. It will tell you how they move, how they think, when they\'ll strike. It is the purest expression of its wielder.\" - Arrel the Tracker",
+      cost: 2, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set3, faction: fNoxus, number: 12'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 8'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 10'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 11'u8)]), Card(`set`: Set3,
+      faction: fNoxus, number: 2'u8): CardInfo(name: "Arrel the Tracker",
+      `type`: ctUnit, description: "Round End: If you cast a spell on me this round, I strike the Weakest enemy.", flavorText: "\"Hide, we will find you. \nBreathe, we will hear you.\nRun, we will kill you.\"",
+      cost: 6, rarity: crEpic, attack: 2, health: 5), Card(`set`: Set3,
+      faction: fNoxus, number: 18'u8): CardInfo(name: "Apprehend",
+      `type`: ctSpell,
+      description: "Stun an enemy.\c\nIf you have a Darius, Rally.",
+      flavorText: "\"I\'ll handle this myself.\" - Darius", cost: 2,
+      rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow},
+      associatedCards: @[Card(`set`: Set1, faction: fNoxus, number: 38'u8)]), Card(
+      `set`: Set3, faction: fNoxus, number: 9'u8): CardInfo(
+      name: "Wrathful Rider", `type`: ctUnit, description: "", flavorText: "\"There is nothing like hunting another soldier. To track them, you must think and feel as they do. To catch them, you must fear them as they fear you. It is a bond that few will know, but one I savor above all others.\"",
+      cost: 5, rarity: crCommon, attack: 7, health: 3, keywords: {Challenger}), Card(
+      `set`: Set3, faction: fNoxus, number: 17'u8): CardInfo(
+      name: "Basilisk Bloodseeker", `type`: ctUnit,
+      description: "Play: Deal 1 to an ally and an enemy 4 times.", flavorText: "The basilisk trainers withhold live food from the beasts in the days leading up to battle. By the time the creatures are unleashed, they do not distinguish friend from foe, and are utterly indomitable.",
+      cost: 7, rarity: crEpic, attack: 7, health: 4, keywords: {Overwhelm},
+      associatedCards: @[Card(`set`: Set3, faction: fNoxus, number: 16'u8)]), Card(
+      `set`: Set3, faction: fNoxus, number: 16'u8): CardInfo(name: "Gouge",
+      `type`: ctAbility, description: "Deal 1 to an ally and an enemy 4 times.", flavorText: "\"It\'s not the sharpness of the claws you\'ve got to look out for, it\'s the appetite of the beast that\'s grown \'em.\" - Basilisk trainer",
+      cost: 0, rarity: crNone, keywords: {Skill}), Card(`set`: Set3,
+      faction: fNoxus, number: 15'u8): CardInfo(name: "Survival Skills",
+      `type`: ctSpell, description: "Allies can\'t drop below 1 health this round.\c\nWhen discarded, your Strongest ally can\'t drop below 1 health this round.", flavorText: "\"The drakehounds have the scent. They will find her, and we will finish this. There is no other way.\" - Arrel the Tracker",
+      cost: 5, rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
+      `set`: Set3, faction: fNoxus, number: 14'u8): CardInfo(
+      name: "Sharpened Resolve", `type`: ctSpell,
+      description: "Give an ally +3|+2 this round.", flavorText: "\"Yeah, I\'ll mend your weapons, and tend to the mounts, and cook your bloody food. What else am I good for, eh?\" - Erath, Blade Squire",
+      cost: 3, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
+      `set`: Set3, faction: fNoxus, number: 3'u8): CardInfo(
+      name: "Blade Squire", `type`: ctUnit,
+      description: "Last Breath: Reforge.", flavorText: "\"Like the huntresses said--a hundred days and nights. A hundred blisters on these feet, a hundred bugs in my breakfast, a hundred \'blade\'-this and \'vengeance\' that. And well more than a hundred brow-beatings from those three, I\'ll tell you...\" ",
+      cost: 1, rarity: crCommon, attack: 1, health: 2, keywords: {LastBreath}, associatedCards: @[
+      Card(`set`: Set3, faction: fNoxus, number: 12'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 8'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 10'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 11'u8)]), Card(`set`: Set3,
+      faction: fNoxus, number: 1'u8): CardInfo(name: "Runeweaver",
+      `type`: ctUnit, description: "When I\'m summoned, Reforge.", flavorText: "\"Most weapons are crude tools, no better than than the hands that wield them. But a weapon infused with runic magic is so much more than mere steel.\"",
+      cost: 2, rarity: crCommon, attack: 3, health: 1, associatedCards: @[
+      Card(`set`: Set3, faction: fNoxus, number: 12'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 8'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 10'u8),
+      Card(`set`: Set3, faction: fNoxus, number: 11'u8)]), Card(`set`: Set3,
+      faction: fNoxus, number: 5'u8): CardInfo(name: "Brutal Hunter",
+      `type`: ctUnit,
+      description: "When I\'m summoned, give me Quick Attack this round.", flavorText: "\"There you are. We KNEW you wouldn\'t come without a fight! Or so we hoped.\"",
+      cost: 4, rarity: crRare, attack: 3, health: 3, keywords: {Challenger}), Card(
       `set`: Set3, faction: fBilgewater, number: 6'u8): CardInfo(
       name: "Jack, the Winner", `type`: ctUnit,
       description: "Round Start: Create a Sleep with the Fishes in hand.", flavorText: "Years in the boxing ring taught Jack valuable lessons. He learned that if his opponent can bleed, they can fear. He learned the power of a silent stare. He learned the power of uncontrolled violence.",
@@ -2844,7 +2960,7 @@ const
       cost: 3, rarity: crCommon, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
       `set`: Set3, faction: fBilgewater, number: 5'u8): CardInfo(
       name: "Sunk Cost", `type`: ctSpell,
-      description: "Shuffle a unit or landmark into its deck.", flavorText: "\"Now, I delivered to you exactly what you wanted, friend. I never said it would last forever.\" - Tahm Kench",
+      description: "Place a unit or landmark into its deck.", flavorText: "\"Now, I delivered to you exactly what you wanted, friend. I never said it would last forever.\" - Tahm Kench",
       cost: 8, rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
       `set`: Set3, faction: fBilgewater, number: 4'u8): CardInfo(
       name: "Tahm Kench", `type`: ctUnit,
@@ -2867,7 +2983,7 @@ const
       Card(`set`: Set3, faction: fBilgewater, number: 4'u8),
       Card(`set`: Set3, faction: fBilgewater, number: 4'u8, subnumber: 2'u8)]), Card(
       `set`: Set3, faction: fBilgewater, number: 4'u8, subnumber: 4'u8): CardInfo(
-      name: "Tahm Kench\'s Bayou Brunch", `type`: ctSpell, description: "An ally Captures another ally and gains the captured ally\'s stats.\c\nShuffle a Tahm Kench into your deck.", flavorText: "\"Step inside, friend, and all that you desire shall be yours in perpetuity.\" - Tahm Kench",
+      name: "Tahm Kench\'s Bayou Brunch", `type`: ctSpell, description: "An ally Captures another ally and gains the captured ally\'s stats.\c\nCreate a Tahm Kench in your deck.", flavorText: "\"Step inside, friend, and all that you desire shall be yours in perpetuity.\" - Tahm Kench",
       cost: 3, rarity: crNone, spellSpeed: some(ssSlow),
       supertype: csupChampion, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set3, faction: fBilgewater, number: 4'u8),
@@ -2888,7 +3004,11 @@ const
       description: "Deal 2 to an ally to deal 2 to the enemy Nexus.", flavorText: "\"Daub \'em with your blood, and set the sharks loose.\" - Jack, the Winner",
       cost: 0, rarity: crNone, spellSpeed: some(ssSlow),
       keywords: {Slow, Fleeting}), Card(`set`: Set3, faction: fBilgewater,
-                                        number: 1'u8): CardInfo(
+                                        number: 16'u8): CardInfo(
+      name: "Boomship", `type`: ctSpell, description: "Deal 1 to a unit.\c\nThen summon Powder Kegs equal to the amount of damage dealt.", flavorText: "\"Young Gerent raised the alarm right afore the first one blew. Our hull rocked, the jib caught flame, but the Jilldaw held. Thought that was that, but as I followed Gerent\'s gaze out to sea, I saw me four more rowboats comin\' our way, all loaded with powder.\" - Jilldaw survivor",
+      cost: 3, rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow}, associatedCards: @[
+      Card(`set`: Set2, faction: fBilgewater, number: 32'u8, subnumber: 1'u8)]), Card(
+      `set`: Set3, faction: fBilgewater, number: 1'u8): CardInfo(
       name: "The Slaughter Docks", `type`: ctLandmark, description: "Round Start: Toss 1. If you are Deep, destroy me to summon a random Sea Monster. ", flavorText: "Every day, locals wander through the Slaughter Docks to see the horrors Bilgewater\'s hunters have hauled up from the depths. The beasts are usually dead. Usually.",
       cost: 3, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
       `set`: Set3, faction: fBilgewater, number: 15'u8): CardInfo(
@@ -2898,93 +3018,101 @@ const
       `type`: ctUnit, description: "Play: Deal 1 to all other allies and grant me +1|+0 for each of them.", flavorText: "The rise to power is often a violent business... but it\'s not normally this freakin\' sloppy.",
       cost: 6, rarity: crRare, attack: 3, health: 8,
       keywords: {Overwhelm, Vulnerable}), Card(`set`: Set3,
-      faction: fBilgewater, number: 8'u8): CardInfo(name: "Fortune Croaker",
-      `type`: ctUnit, description: "Play: Deal 1 to me and an ally to draw 1.", flavorText: "\"Ol\' Babs has had a few mishaps. Killed a few locals in her time, but I s\'pose it helps lend her an air of authenticity.\" - Lounging Lizard",
+      faction: fBilgewater, number: 17'u8): CardInfo(name: "Wiggly Burblefish",
+      `type`: ctUnit, description: "Reduce my cost by 1 for each spell you\'ve cast this game.\c\nWhen I\'m summoned, create a 1 cost spell from your regions in hand.", flavorText: "\"Stand stwait, noobie! Your mishun is to infiltrate behind emenee lines, plant as many bubbels as you can, an\' tell us evewythin\' you SEE! E-VE-WEE-THIN\'. DO YOU UNNASTAN\'?!\" - Admiwal Shelly, Shellshocker",
+      cost: 6, rarity: crEpic, attack: 3, health: 1, keywords: {Elusive}), Card(
+      `set`: Set3, faction: fBilgewater, number: 8'u8): CardInfo(
+      name: "Fortune Croaker", `type`: ctUnit,
+      description: "Play: Deal 1 to me and an ally to draw 1.", flavorText: "\"Ol\' Babs has had a few mishaps. Killed a few locals in her time, but I s\'pose it helps lend her an air of authenticity.\" - Lounging Lizard",
       cost: 2, rarity: crCommon, attack: 2, health: 3), Card(`set`: Set3,
       faction: fBilgewater, number: 9'u8): CardInfo(name: "Shakedown",
       `type`: ctSpell,
       description: "Deal 2 to an ally to grant 2 enemies Vulnerable.", flavorText: "\"You gonna tell me where you got those \'extra kegs\', Slim? Huh? Otherwise, we could play a lil\' tug-of-war between your tongue and Jimbo\'s arm. And buddy... I ain\'t bettin\' on you.\" - Wise Fry",
       cost: 1, rarity: crRare, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
-      `set`: Set3, faction: fPiltoverZaun, number: 19'u8): CardInfo(
-      name: "Patched Porobot", `type`: ctUnit, description: "While in hand, I have a random keyword that changes each round. When I\'m summoned, grant me this keyword.", flavorText: "It\'s not quite as cuddly as the real thing, but it IS just as cute.",
-      cost: 2, rarity: crRare, attack: 2, health: 3, subtypes: {csubPoro}), Card(
-      `set`: Set3, faction: fPiltoverZaun, number: 22'u8): CardInfo(
-      name: "Give It All", `type`: ctSpell, description: "Raise all allies\' Power and Health to the highest Power or Health among allies.\c\nGrant all allies allied keywords.", flavorText: "\"I know I know\nYou want some more\nIf you ready let’s go\nGiving it all\"\n- Seraphine, \'MORE\'",
-      cost: 8, rarity: crEpic, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
-      `set`: Set3, faction: fPiltoverZaun, number: 17'u8): CardInfo(
-      name: "Tri-beam Improbulator", `type`: ctSpell, description: "Deal 1 to a unit. Summon a random 1 cost follower. While I\'m in hand, increase both by 1 when you play a 3 cost card.", flavorText: "\"...and in one, two, and THREE!!! Oh. Oh, my word... Yet another unforeseen outcome?!\" - Heimerdinger",
-      cost: 4, rarity: crEpic, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
-      `set`: Set3, faction: fPiltoverZaun, number: 18'u8): CardInfo(
-      name: "Poro Cannon", `type`: ctSpell,
-      description: "To play, discard 1.\c\nCreate 2 Daring Poros in hand.", flavorText: "Two downy shapes arced gracefully over the adoring crowd, leaving a cloud of fluff and the faint scent of baked goods in their wake.",
-      cost: 0, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}, associatedCards: @[
-      Card(`set`: Set1, faction: fPiltoverZaun, number: 20'u8)]), Card(
-      `set`: Set3, faction: fShadowIsles, number: 4'u8): CardInfo(
-      name: "Stalking Shadows", `type`: ctSpell, description: "Pick a follower from the top 4 cards in your deck.\c\nDraw it, shuffle the rest into deck, then create an exact Ephemeral copy in hand.",
-      flavorText: "\"Go... surround them...\" - Nocturne", cost: 2,
-      rarity: crRare, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
-      `set`: Set3, faction: fShadowIsles, number: 12'u8): CardInfo(
-      name: "Passage Unearned", `type`: ctSpell, description: "Obliterate all units that were summoned, but not played, this round.", flavorText: "\"Of course, death is present in Demacia. We see it take our loved ones and know that, someday, it will come for us. But on these isles... I can almost taste death. I feel it in my lungs as I breathe, I hear it whisper in my ear. It is not some abstract notion. It sits with me here. Now. And it will have us all.\"\n- Notes of Jens Tommen, historian",
-      cost: 3, rarity: crRare, spellSpeed: some(ssFast), keywords: {Fast}), Card(
-      `set`: Set3, faction: fShadowIsles, number: 14'u8): CardInfo(
-      name: "Encroaching Shadows", `type`: ctSpell,
-      description: "Grant ALL allies in deck and hand +2|+2 and Ephemeral.", flavorText: "\"Mind or body, I fear that the nightmares of the Shadow Isles will break us all eventually, and insanity will reign forever.\"\n- Notes of Jens Tommen, historian",
-      cost: 4, rarity: crEpic, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
-      `set`: Set3, faction: fShadowIsles, number: 16'u8): CardInfo(
-      name: "Go Hard", `type`: ctSpell, description: "Drain 1 from a unit and shuffle 2 copies of me into your deck. Once you\'ve cast me 3 times, transform all copies of me everywhere into Pack Your Bags. ", flavorText: "\"We go hard, \'til we get it, get it\nWe go hard, we so in it, in it\nWe Pop Stars (Pop Stars), only winning, winning now\nAin\'t nobody bringing us down, down, down, down\"\n- Evelynn, \'POP/STARS\'",
-      cost: 1, rarity: crEpic, spellSpeed: some(ssSlow), keywords: {Slow}, associatedCards: @[
-      Card(`set`: Set3, faction: fShadowIsles, number: 16'u8, subnumber: 1'u8)]), Card(
-      `set`: Set3, faction: fShadowIsles, number: 16'u8, subnumber: 1'u8): CardInfo(
-      name: "Pack Your Bags", `type`: ctSpell, description: "Deal 5 to all enemies and the enemy Nexus. Transform all copies of me everywhere back to Go Hard.", flavorText: "\"Sorry for the bad news sorry I’m so bad\nOnly took a minute for me to get all you had\nSorry for the bad news know it makes you sad\nI’ll be here for a minute baby you should pack your bags\"\n- Evelynn, \'THE BADDEST\'",
-      cost: 1, rarity: crNone, spellSpeed: some(ssSlow), keywords: {Slow}, associatedCards: @[
-      Card(`set`: Set3, faction: fShadowIsles, number: 16'u8)]), Card(
-      `set`: Set3, faction: fShadowIsles, number: 7'u8): CardInfo(
-      name: "Shroud of Darkness", `type`: ctSpell, description: "The next time you summon an ally this round, give it +1|+0 and SpellShield this round.", flavorText: "\"Soon as you step outside the Tooth, you\'ll feel \'em. Fingertips on your nape, light as rain. Them creatures don\'t budge when you come at \'em, neither. Ain\'t afraid of my blade or my torch. Nothin\'. Awful things.\" - Whale\'s Tooth looter",
-      cost: 1, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
-      `set`: Set3, faction: fShadowIsles, number: 13'u8): CardInfo(
-      name: "Risen Mists", `type`: ctSpell, description: "Summon a Mistwraith.", flavorText: "The mistwraiths move through planes unseen by mortal eyes, appear without warning, and inflict misery on all they encounter.",
-      cost: 4, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}, associatedCards: @[
-      Card(`set`: Set1, faction: fShadowIsles, number: 14'u8)]), Card(
-      `set`: Set3, faction: fShadowIsles, number: 5'u8): CardInfo(
-      name: "Nocturne", `type`: ctUnit, description: "Nightfall: Grant an enemy Vulnerable and give enemies -1|-0 this round.", flavorText: "\"It appears that, once enough souls have been shaken, it breaches our world. Only hope can send the monstrosity back to its realm... but hope died here long ago, on a queen\'s final breath, and with a king\'s eternal scream.\"\n- Notes of Jens Tommen, historian",
-      cost: 4, rarity: crChampion, attack: 5, health: 3,
-      levelupDescription: "You\'ve attacked with 5+ Nightfall allies.",
-      supertype: csupChampion, keywords: {Fearsome}, associatedCards: @[
-      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 3'u8),
-      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 1'u8)]), Card(
-      `set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 3'u8): CardInfo(
-      name: "Nocturne\'s Unspeakable Horror", `type`: ctSpell, description: "Drain 1 from anything. Shuffle a Nocturne into your deck.\c\nNightfall: Create a random non-champion Nightfall card in hand.", flavorText: "\"Every passing day saps my spirit, pulls from me the vigor that compelled me to find this place. The Whale\'s Tooth is full of haggard folk, seemingly lost to all endeavor, and I fear the longer I stay, the more like them I become.\"\n- Notes of Jens Tommen, historian",
-      cost: 2, rarity: crNone, spellSpeed: some(ssFast),
-      supertype: csupChampion, keywords: {Fast}, associatedCards: @[
-      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8),
-      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 1'u8)]), Card(
-      `set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 1'u8): CardInfo(
-      name: "Nocturne", `type`: ctUnit, description: "Other allies have Fearsome.\c\nWhen you play a unit, give enemies -1|-0 this round.", flavorText: "\"My dreams grow more vivid with each passing night. I see a creature of pure evil, writhing in the dark, twisting its way toward me. Though I was to be stationed here for another week, I have just paid for transport to Fossbarrow this evening. Plainly, I cannot stand this place.\"\n- Notes of Jens Tommen, historian",
-      cost: 4, rarity: crNone, attack: 6, health: 4, supertype: csupChampion,
-      keywords: {Fearsome}, associatedCards: @[
-      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 3'u8),
-      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8)]), Card(
-      `set`: Set3, faction: fShadowIsles, number: 6'u8): CardInfo(
-      name: "Doombeast", `type`: ctUnit,
-      description: "Nightfall: Drain 2 from the enemy Nexus.", flavorText: "With each passing night, the travelers grew more weary. Their slumber was restless, and their dreams vivid. Sleep no longer gave respite, and instead pulled the life from their bones.",
-      cost: 3, rarity: crCommon, attack: 3, health: 2, associatedCards: @[
-      Card(`set`: Set3, faction: fShadowIsles, number: 6'u8, subnumber: 1'u8)]), Card(
-      `set`: Set3, faction: fShadowIsles, number: 6'u8, subnumber: 1'u8): CardInfo(
-      name: "Torment", `type`: ctAbility,
-      description: "Drain 2 from the enemy Nexus.", flavorText: "What knows you better than your own mind? What can torment you more exquisitely than your own dreams?",
-      cost: 0, rarity: crNone, keywords: {Skill}), Card(`set`: Set3,
-      faction: fShadowIsles, number: 3'u8): CardInfo(name: "Stygian Onlooker",
-      `type`: ctUnit,
-      description: "Nightfall: Give me +2|+0 and Fearsome this round.", flavorText: "As the sun melts into pitch, the terrors of this place wake, watch, and wait.",
-      cost: 1, rarity: crCommon, attack: 2, health: 1), Card(`set`: Set3,
-      faction: fShadowIsles, number: 2'u8): CardInfo(name: "Unspeakable Horror",
-      `type`: ctSpell, description: "Drain 1 from anything.\c\nNightfall: Create a random non-champion Nightfall card in hand.", flavorText: "\"Every passing day saps my spirit, pulls from me the vigor that compelled me to find this place. The Whale\'s Tooth is full of haggard folk, seemingly lost to all endeavor, and I fear the longer I stay, the more like them I become.\"\n- Notes of Jens Tommen, historian",
-      cost: 2, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
-      `set`: Set3, faction: fShadowIsles, number: 10'u8): CardInfo(
-      name: "Duskrider", `type`: ctUnit, description: "Nightfall: Grant me +1|+0 for each time we\'ve activated Nightfall this game. ", flavorText: "With every setting sun, the night unfurls its dark wings, and blots out the day\'s last remnants of hope.",
-      cost: 5, rarity: crRare, attack: 2, health: 5, keywords: {Fearsome}), Card(
-      `set`: Set3, faction: fTargon, number: 15'u8): CardInfo(
-      name: "Behold the Infinite ", `type`: ctSpell, description: "Invoke.", flavorText: "The heavens hang over you, a tapestry of black lit with twinkling stars. You are small and dim against its vastness. Where will you turn your gaze first?",
+      `set`: Set3, faction: fDemacia, number: 10'u8): CardInfo(
+      name: "The Grand Plaza", `type`: ctLandmark, description: "When an ally is summoned, give it +1|+1 and Challenger this round.", flavorText: "Tianna looked out over the assembly, assessing the gathered ranks. The only sound in the square was her banner snapping in the breeze. She gave a curt nod of approval, then lifted the banner with a shout. \"Who among you is ready to fight for Demacia?\" The resounding cry from all those assembled shook the very mountains. ",
+      cost: 3, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
+      `set`: Set3, faction: fTargon, number: 5'u8): CardInfo(
+      name: "Divergent Paths", `type`: ctSpell,
+      description: "Draw a landmark or destroy a landmark.", flavorText: "Targon is a capricious place, where the unbreakable is broken, and the broken made whole.",
+      cost: 3, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
+      `set`: Set3, faction: fFreljord, number: 9'u8): CardInfo(
+      name: "The Howling Abyss", `type`: ctLandmark, description: "Round Start: Create in hand a random level 2 champion that\'s not in your hand, deck, or play.", flavorText: "Heroes come to the bridge, called to it by something from the unknown. They brave its bitter cold and crumbling deck to see what lies beyond--victory, or death.",
+      cost: 7, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
+      `set`: Set3, faction: fShadowIsles, number: 9'u8): CardInfo(
+      name: "Vaults of Helia", `type`: ctLandmark, description: "Round Start: If you can, kill your most expensive ally to summon an ally from your deck that costs 1 more.", flavorText: "What could better lure a soul to this wretched place than the promise of eternal life, and endless riches?",
+      cost: 5, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
+      `set`: Set3, faction: fTargon, number: 52'u8): CardInfo(
+      name: "Star Spring", `type`: ctLandmark, description: "Round End: Heal damaged allies 1. Then, once I\'ve seen you heal 22+ damage from allies, win the game. ", flavorText: "\"Up to the sacred falling flow,\nDeep into pools, the healing springs\nShining light, water all aglow,\nListen to how the river sings,\nHigh on the crystal mountain.\"\n- Ottrani verse",
+      cost: 2, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
+      `set`: Set3, faction: fIonia, number: 6'u8): CardInfo(
+      name: "Monastery of Hirana", `type`: ctLandmark,
+      description: "Round Start: Create a Sanctuary in hand.", flavorText: "The Ionian mountains hide a handful of sanctuaries for those looking to center themselves and gather their spirits.",
+      cost: 3, rarity: crEpic, keywords: {LandmarkVisualOnly},
+      associatedCards: @[Card(`set`: Set3, faction: fIonia, number: 16'u8)]), Card(
+      `set`: Set3, faction: fIonia, number: 16'u8): CardInfo(name: "Sanctuary",
+      `type`: ctSpell, description: "Recall an ally.\c\nCan\'t be cast in combat or in response to a spell.", flavorText: "\"The monastery welcomes all who seek refuge.\" - Elder Souma",
+      cost: 1, rarity: crCommon, spellSpeed: some(ssBurst),
+      keywords: {Burst, Fleeting}), Card(`set`: Set3, faction: fNoxus,
+      number: 13'u8): CardInfo(name: "Scorched Earth", `type`: ctSpell, description: "Kill a damaged unit or destroy a landmark.", flavorText: "\"The drakehounds have the scent. They will find her, and we will finish this. There is no other way.\" - Arrel the Tracker",
+                               cost: 3, rarity: crCommon,
+                               spellSpeed: some(ssFast), keywords: {Fast}), Card(
+      `set`: Set3, faction: fNoxus, number: 4'u8): CardInfo(
+      name: "Noxkraya Arena", `type`: ctLandmark, description: "Round End: Your Strongest ally and the Weakest enemy strike each other.", flavorText: "\"Hey there, rrrrreckoner fans, are you ready for a night of scorchin\' hot THRILLS in the RING OF FIRE?! Wuh-oh, looks like Tiny Trik drew the SHORT straw today. He\'s up against the mighty, fight-y, GRANAAAAK the Great! Get those medics ringside, it\'s gonna be a quick one!\" - Arena Battlecaster",
+      cost: 5, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
+      `set`: Set3, faction: fTargon, number: 5'u8, subnumber: 2'u8): CardInfo(
+      name: "Path of Destruction", `type`: ctSpell,
+      description: "Destroy a landmark.", flavorText: "Each summit gave way before them, emboldening their climb and filling their hearts with determination. They would scale Targon.",
+      cost: 3, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
+      `set`: Set3, faction: fTargon, number: 5'u8, subnumber: 1'u8): CardInfo(
+      name: "Path of Discovery", `type`: ctSpell,
+      description: "Draw a landmark.", flavorText: "Beyond each summit loomed yet another, but their spirits pushed them onward. They would surmount the peaks of Targon.",
+      cost: 3, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
+      `set`: Set3, faction: fDemacia, number: 4'u8): CardInfo(
+      name: "Captain Arrika", `type`: ctUnit,
+      description: "Play: Capture a unit or landmark.", flavorText: "As a child, Arrika saw firsthand the devastation Noxus could inflict as it laid waste to her home. When she enlisted in the military, she vowed never to let the Noxian flag fly over Demacian land, or leave another child orphaned.",
+      cost: 8, rarity: crRare, attack: 6, health: 6, subtypes: {csubElite},
+      keywords: {SpellShield}, associatedCards: @[
+      Card(`set`: Set3, faction: fDemacia, number: 4'u8, subnumber: 1'u8)]), Card(
+      `set`: Set3, faction: fDemacia, number: 4'u8, subnumber: 1'u8): CardInfo(
+      name: "Claim", `type`: ctAbility,
+      description: "Capture a unit or landmark.",
+      flavorText: "\"Take back what is ours!\" - Captain Arrika", cost: 0,
+      rarity: crNone, keywords: {Skill}), Card(`set`: Set3, faction: fIonia,
+      number: 5'u8): CardInfo(name: "Homecoming", `type`: ctSpell, description: "Recall an ally unit or landmark to recall an enemy unit or landmark.", flavorText: "\"Trevvvvorrrrrr, come baaaack...\" - Trevor\'s house",
+                              cost: 5, rarity: crCommon,
+                              spellSpeed: some(ssFast), keywords: {Fast}), Card(
+      `set`: Set3, faction: fShadowIsles, number: 8'u8): CardInfo(
+      name: "Crumble", `type`: ctSpell,
+      description: "Kill an ally to kill a unit or destroy a landmark.",
+      flavorText: "Nothing lasts on these haunted isles. All will end.",
+      cost: 5, rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
+      `set`: Set3, faction: fTargon, number: 64'u8): CardInfo(
+      name: "Targon\'s Peak", `type`: ctLandmark, description: "Round Start: Reduce the cost of a random card in each player\'s hand to 0 this round.", flavorText: "Standing watch at the gate to the Celestial Realm is Targon\'s crystalline guardian. Things fall away in it\'s presence - hope, doubt, fear. Its trials strip all mortal concerns, and lays bare the essence of the climber\'s soul. It is on this that they are judged, for the guardian is the great arbiter. ",
+      cost: 5, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 1'u8): CardInfo(
+      name: "The University of Piltover", `type`: ctLandmark, description: "Round Start: Discard your hand. Create 3 random cards in hand and grant them Fleeting.", flavorText: "The inventions of Professor Cecil B. Heimerdinger made him famous, but it was his animated lectures and notoriously unpredictable classroom demonstrations that earned him a lasting impression on Piltover\'s brightest minds.",
+      cost: 5, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
+      `set`: Set3, faction: fFreljord, number: 3'u8): CardInfo(
+      name: "It That Stares", `type`: ctUnit, description: "Play: Obliterate ALL landmarks or deal 2 to ALL other units.", flavorText: "\"There was no time to gather our things or warn the others. We could only run for the forest and watch as it leveled our homes.\" - Avarosan Hearthguard",
+      cost: 8, rarity: crRare, attack: 8, health: 8, associatedCards: @[
+      Card(`set`: Set3, faction: fFreljord, number: 3'u8, subnumber: 3'u8),
+      Card(`set`: Set3, faction: fFreljord, number: 3'u8, subnumber: 1'u8)]), Card(
+      `set`: Set3, faction: fFreljord, number: 3'u8, subnumber: 3'u8): CardInfo(
+      name: "Extinguishing Ray", `type`: ctAbility,
+      description: "Deal 2 to ALL other units.",
+      flavorText: "The people shall perish.", cost: 0, rarity: crNone,
+      keywords: {Skill}), Card(`set`: Set3, faction: fFreljord, number: 3'u8,
+                               subnumber: 1'u8): CardInfo(
+      name: "Destructive Ray", `type`: ctAbility,
+      description: "Obliterate ALL landmarks.",
+      flavorText: "The earth shall break.", cost: 0, rarity: crNone,
+      keywords: {Skill}), Card(`set`: Set3, faction: fTargon, number: 79'u8): CardInfo(
+      name: "Starry Scamp", `type`: ctUnit,
+      description: "I cost 2 less if you Behold a Celestial.", flavorText: "\"Adults are LAME. The only cool kids around here are Zoe and her buddies. I learn a lot from them, y\'know? Not like that stupid high radiance priestess lady. I mean UGHHHH.\"",
+      cost: 2, rarity: crCommon, attack: 2, health: 2), Card(`set`: Set3,
+      faction: fTargon, number: 15'u8): CardInfo(name: "Behold the Infinite ",
+      `type`: ctSpell, description: "Invoke.", flavorText: "The heavens hang over you, a tapestry of black lit with twinkling stars. You are small and dim against its vastness. Where will you turn your gaze first?",
       cost: 2, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
       `set`: Set3, faction: fTargon, number: 18'u8): CardInfo(
       name: "The Messenger", `type`: ctUnit,
@@ -3120,7 +3248,7 @@ const
       Card(`set`: Set3, faction: fTargon, number: 56'u8, subnumber: 2'u8),
       Card(`set`: Set3, faction: fTargon, number: 56'u8)]), Card(`set`: Set3,
       faction: fTargon, number: 56'u8, subnumber: 2'u8): CardInfo(
-      name: "Diana\'s Pale Cascade", `type`: ctSpell, description: "Give an ally +2|+1 this round.\c\nNightfall: Draw 1.\c\nShuffle a Diana into your deck.", flavorText: "\"Under cover of night, watched over by a pale moon.\" - Diana",
+      name: "Diana\'s Pale Cascade", `type`: ctSpell, description: "Give an ally +2|+1 this round.\c\nNightfall: Draw 1.\c\nCreate a Diana in your deck.", flavorText: "\"Under cover of night, watched over by a pale moon.\" - Diana",
       cost: 2, rarity: crNone, spellSpeed: some(ssBurst),
       supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set3, faction: fTargon, number: 56'u8),
@@ -3146,7 +3274,7 @@ const
       Card(`set`: Set3, faction: fTargon, number: 55'u8, subnumber: 2'u8),
       Card(`set`: Set3, faction: fTargon, number: 55'u8)]), Card(`set`: Set3,
       faction: fTargon, number: 55'u8, subnumber: 2'u8): CardInfo(
-      name: "Soraka\'s Wish", `type`: ctSpell, description: "Fully heal damaged allies.\c\nShuffle a Soraka into your deck.",
+      name: "Soraka\'s Wish", `type`: ctSpell, description: "Fully heal damaged allies.\c\nCreate a Soraka in your deck.",
       flavorText: "\"For life!\" - Soraka", cost: 3, rarity: crNone,
       spellSpeed: some(ssSlow), supertype: csupChampion, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set3, faction: fTargon, number: 55'u8),
@@ -3172,7 +3300,7 @@ const
       Card(`set`: Set3, faction: fTargon, number: 54'u8, subnumber: 2'u8),
       Card(`set`: Set3, faction: fTargon, number: 54'u8, subnumber: 1'u8)]), Card(
       `set`: Set3, faction: fTargon, number: 54'u8, subnumber: 2'u8): CardInfo(
-      name: "Leona\'s Morning Light", `type`: ctSpell, description: "Give allies +2|+2 this round. Shuffle a Leona into your deck.\c\nDaybreak: Activate all ally Daybreak effects at once.", flavorText: "\"She is our unflinching leader in the heavens, the blinding flash of our weapons at noon, and the unquenchable fire that burns in our hearts.\" \n- Solari Priestess",
+      name: "Leona\'s Morning Light", `type`: ctSpell, description: "Give allies +2|+2 this round. Create a Leona in your deck.\c\nDaybreak: Activate all ally Daybreak effects at once.", flavorText: "\"She is our unflinching leader in the heavens, the blinding flash of our weapons at noon, and the unquenchable fire that burns in our hearts.\" \n- Solari Priestess",
       cost: 5, rarity: crNone, spellSpeed: some(ssSlow),
       supertype: csupChampion, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set3, faction: fTargon, number: 54'u8),
@@ -3200,10 +3328,14 @@ const
       name: "Sunblessed Vigor", `type`: ctSpell,
       description: "Grant an ally +0|+2.", flavorText: "\"Our shield is our conviction, our resolve, our trust in the light!\" - Solari Shieldbearer",
       cost: 2, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
-      `set`: Set3, faction: fTargon, number: 85'u8): CardInfo(name: "Hush",
-      `type`: ctSpell, description: "Silence a unit this round.",
-      flavorText: "\"They will know serenity.\" - Soraka", cost: 2,
-      rarity: crRare, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
+      `set`: Set3, faction: fTargon, number: 40'u8): CardInfo(
+      name: "Sparklefly", `type`: ctUnit, description: "", flavorText: "\"Hope is a delicate thing that flies ever higher, and should never be caught.\" - Lunari Priestess",
+      cost: 2, rarity: crCommon, attack: 1, health: 2,
+      keywords: {Elusive, Lifesteal}), Card(`set`: Set3, faction: fTargon,
+      number: 85'u8): CardInfo(name: "Hush", `type`: ctSpell,
+                               description: "Silence a unit this round.", flavorText: "\"They will know serenity.\" - Soraka",
+                               cost: 2, rarity: crRare,
+                               spellSpeed: some(ssBurst), keywords: {Burst}), Card(
       `set`: Set3, faction: fTargon, number: 1'u8, subnumber: 1'u8): CardInfo(
       name: "Mischief", `type`: ctAbility,
       description: "Stun enemies with 2 or less Power.", flavorText: "\"Hahahaha, lookit \'em GO!  They\'re just. So. Fast! Is your head spinning too?!\" - Zoe",
@@ -3220,6 +3352,33 @@ const
       faction: fTargon, number: 2'u8): CardInfo(name: "The Skies Descend",
       `type`: ctSpell, description: "Deal 15 to all enemies.\c\nCosts 2 less for each Dragon or Celestial ally you have.", flavorText: "\"When the time comes, I think I\'ll make an example of Runeterra. Perhaps I\'ll drag its smoldering husk around with me for all eternity. Like a toy. A dead, worthless toy. I don\'t know. I\'ve not really thought about it much.\" - Aurelion Sol",
       cost: 15, rarity: crEpic, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
+      `set`: Set3, faction: fTargon, number: 9'u8): CardInfo(name: "Zoe",
+      `type`: ctUnit, description: "Nexus Strike: Create a Supercool Starchart in hand or, if you have one, reduce its cost by 1.", flavorText: "\"Hey hiiiiiii! Whatcha doin\'? Is that a CARD GAME? Can I play too? What?! I\'M in YOUR game? Ha! What a silly dimension...\"",
+      cost: 1, rarity: crChampion, attack: 1, health: 1,
+      levelupDescription: "I\'ve seen you play 10 cards with different names.",
+      supertype: csupChampion, keywords: {Elusive}, associatedCards: @[
+      Card(`set`: Set3, faction: fTargon, number: 9'u8, subnumber: 1'u8),
+      Card(`set`: Set3, faction: fTargon, number: 9'u8, subnumber: 2'u8),
+      Card(`set`: Set3, faction: fTargon, number: 93'u8),
+      Card(`set`: Set3, faction: fTargon, number: 91'u8),
+      Card(`set`: Set3, faction: fTargon, number: 15'u8)]), Card(`set`: Set3,
+      faction: fTargon, number: 9'u8, subnumber: 2'u8): CardInfo(
+      name: "Zoe\'s Sleepy Trouble Bubble", `type`: ctSpell, description: "Stun an enemy. Create a Fleeting Paddle Star in hand.\c\nCreate a Zoe in your deck.", flavorText: "\"Naptime for you! One sparklefly, twoooo sparklefly, thre-- Hey, what\'sthatoverthere?!\" - Zoe",
+      cost: 2, rarity: crNone, spellSpeed: some(ssSlow),
+      supertype: csupChampion, keywords: {Slow}, associatedCards: @[
+      Card(`set`: Set3, faction: fTargon, number: 93'u8),
+      Card(`set`: Set3, faction: fTargon, number: 9'u8),
+      Card(`set`: Set3, faction: fTargon, number: 9'u8, subnumber: 1'u8),
+      Card(`set`: Set3, faction: fTargon, number: 91'u8),
+      Card(`set`: Set3, faction: fTargon, number: 15'u8)]), Card(`set`: Set3,
+      faction: fTargon, number: 9'u8, subnumber: 1'u8): CardInfo(name: "Zoe",
+      `type`: ctUnit, description: "For the rest of the game, when you summon an ally, grant its keywords to all allies.\c\nNexus Strike: Create a Behold the Infinite  that costs 0 in hand.", flavorText: "\"Ah, the vastness of space and a myriad realities stretched, squished, and squeezed out before us! Maaaaaybe we\'ll even see my favorite space doggy!\"",
+      cost: 1, rarity: crNone, attack: 2, health: 2, supertype: csupChampion,
+      keywords: {Elusive}, associatedCards: @[
+      Card(`set`: Set3, faction: fTargon, number: 15'u8),
+      Card(`set`: Set3, faction: fTargon, number: 93'u8),
+      Card(`set`: Set3, faction: fTargon, number: 9'u8),
+      Card(`set`: Set3, faction: fTargon, number: 9'u8, subnumber: 2'u8)]), Card(
       `set`: Set3, faction: fTargon, number: 86'u8): CardInfo(
       name: "Spacey Sketcher", `type`: ctUnit, description: "Play: Discard a card to Invoke a Celestial card that costs 3 or less.", flavorText: "\"This one\'s my favorite! I call it \'Metaphysical Identity of the Conscious Psyche\'. Unless you tilt your head like this... then it kinda looks like two spoons.\"",
       cost: 1, rarity: crRare, attack: 1, health: 1), Card(`set`: Set3,
@@ -3238,7 +3397,7 @@ const
       Card(`set`: Set3, faction: fTargon, number: 87'u8, subnumber: 2'u8),
       Card(`set`: Set3, faction: fTargon, number: 87'u8)]), Card(`set`: Set3,
       faction: fTargon, number: 87'u8, subnumber: 2'u8): CardInfo(
-      name: "Aurelion Sol\'s The Skies Descend", `type`: ctSpell, description: "Deal 15 to all enemies.\c\nCosts 2 less for each Dragon or Celestial ally you have.\c\nShuffle a Aurelion Sol into your deck.", flavorText: "\"When the time comes, I think I\'ll make an example of Runeterra. Perhaps I\'ll drag its smoldering husk around with me for all eternity. Like a toy. A dead, worthless toy. I don\'t know. I\'ve not really thought about it much.\" - Aurelion Sol",
+      name: "Aurelion Sol\'s The Skies Descend", `type`: ctSpell, description: "Deal 15 to all enemies.\c\nCosts 2 less for each Dragon or Celestial ally you have.\c\nCreate an Aurelion Sol in your deck.", flavorText: "\"When the time comes, I think I\'ll make an example of Runeterra. Perhaps I\'ll drag its smoldering husk around with me for all eternity. Like a toy. A dead, worthless toy. I don\'t know. I\'ve not really thought about it much.\" - Aurelion Sol",
       cost: 15, rarity: crNone, spellSpeed: some(ssSlow),
       supertype: csupChampion, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set3, faction: fTargon, number: 87'u8),
@@ -3247,8 +3406,11 @@ const
       `type`: ctSpell, description: "Grant an ally +1|+1 and SpellShield.",
       flavorText: "\"Honor the mountain.\" - Taric", cost: 4, rarity: crCommon,
       spellSpeed: some(ssBurst), keywords: {Burst}), Card(`set`: Set3,
-      faction: fTargon, number: 8'u8): CardInfo(name: "Wish", `type`: ctSpell,
-      description: "Fully heal damaged allies.",
+      faction: fTargon, number: 13'u8): CardInfo(name: "Moonlight Affliction",
+      `type`: ctSpell, description: "Silence 2 enemy units this round.\c\nNightfall: They can\'t block this round.", flavorText: "\"Those unaccustomed to the moonlight must learn to see by it, or they will see nothing at all.\" - Diana",
+      cost: 5, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
+      `set`: Set3, faction: fTargon, number: 8'u8): CardInfo(name: "Wish",
+      `type`: ctSpell, description: "Fully heal damaged allies.",
       flavorText: "\"For life!\" - Soraka", cost: 3, rarity: crRare,
       spellSpeed: some(ssSlow), keywords: {Slow}), Card(`set`: Set3,
       faction: fTargon, number: 23'u8): CardInfo(name: "Sunburst",
@@ -3269,6 +3431,17 @@ const
       `set`: Set3, faction: fTargon, number: 80'u8, subnumber: 1'u8): CardInfo(
       name: "Spring Gifts", `type`: ctSpell, description: "Fully heal an ally.", flavorText: "\"Let the springs soothe that which ails you.\" - Spring Guardian",
       cost: 1, rarity: crNone, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
+      `set`: Set3, faction: fTargon, number: 42'u8): CardInfo(
+      name: "Spell Thief", `type`: ctSpell, description: "Pick 1 of 3 enemy spells played this game and create a copy in hand.", flavorText: "\"Oh, that was uh-MAZING! But how much better would it be if I did it instead? \'Kaythanksbyeeee!\" - Zoe",
+      cost: 1, rarity: crRare, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
+      `set`: Set3, faction: fTargon, number: 57'u8): CardInfo(
+      name: "Solari Sunforger", `type`: ctUnit,
+      description: "Daybreak: Give me Lifesteal this round.", flavorText: "The Sunforger held up his focus as light streamed into the room. The Solari artifact harnessed the sun\'s brilliant rays into a powerful enchantment for his weapon.",
+      cost: 4, rarity: crCommon, attack: 5, health: 4), Card(`set`: Set3,
+      faction: fTargon, number: 91'u8): CardInfo(name: "Supercool Starchart",
+      `type`: ctSpell,
+      description: "Invoke a Celestial card that costs 3 or less.", flavorText: "\"And these three EXTRA sparkly stars I call... \'The Celestial Jump Rope\'! Or is it more of an upside down happy face?\" - Zoe",
+      cost: 2, rarity: crRare, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
       `set`: Set3, faction: fTargon, number: 44'u8): CardInfo(
       name: "Sun Guardian", `type`: ctUnit,
       description: "Daybreak: Give me +4|+4 this round.", flavorText: "\"Shining guardian, your wrath burns like the noonday sun. Come forth and punish those who would trespass on this sacred place.\" - Sun Guardian\'s inscription",
@@ -3292,7 +3465,7 @@ const
       Card(`set`: Set3, faction: fTargon, number: 92'u8, subnumber: 1'u8)]), Card(
       `set`: Set3, faction: fTargon, number: 17'u8): CardInfo(
       name: "Messenger\'s Sigil", `type`: ctSpell,
-      description: "Shuffle 5 The Messengers into your deck.", flavorText: "\"Time passes, skies turn--the Serpent moves aside and the Messenger takes its place overhead. A season of abundance awaits...\" - Lunari Priestess",
+      description: "Create 5 The Messengers in your deck.", flavorText: "\"Time passes, skies turn--the Serpent moves aside and the Messenger takes its place overhead. A season of abundance awaits...\" - Lunari Priestess",
       cost: 1, rarity: crRare, spellSpeed: some(ssBurst), keywords: {Burst},
       associatedCards: @[Card(`set`: Set3, faction: fTargon, number: 18'u8)]), Card(
       `set`: Set3, faction: fTargon, number: 51'u8): CardInfo(
@@ -3322,7 +3495,7 @@ const
       Card(`set`: Set3, faction: fTargon, number: 58'u8)]), Card(`set`: Set3,
       faction: fTargon, number: 58'u8, subnumber: 2'u8): CardInfo(
       name: "Taric\'s Blessing of Targon", `type`: ctSpell,
-      description: "Grant an ally +3|+3.\c\nShuffle a Taric into your deck.",
+      description: "Grant an ally +3|+3.\c\nCreate a Taric in your deck.",
       flavorText: "\"A little something from Targon.\" - Taric", cost: 5,
       rarity: crNone, spellSpeed: some(ssBurst), supertype: csupChampion,
       keywords: {Burst}, associatedCards: @[
@@ -3359,8 +3532,12 @@ const
       number: 26'u8): CardInfo(name: "Rahvun, Daylight\'s Spear",
                                `type`: ctUnit, description: "Daybreak: Create a random non-champion Daybreak card in hand.\c\nIt\'s always Day for us.", flavorText: "\"Keep your faith, Ra-Horak, and our light shall never falter!\"",
                                cost: 5, rarity: crRare, attack: 5, health: 5), Card(
-      `set`: Set3, faction: fTargon, number: 110'u8): CardInfo(
-      name: "Out Of The Way", `type`: ctSpell, description: "For the rest of the game, allied buffs (except Barrier) are permanent. Draw 1.", flavorText: "\"You know I mean everything that I say<br>When you see me coming get out of the way<br>I came to slay I came to slay<br>Back and I’m better and ready to stay.\"<br>- Kai\'Sa, \'THE BADDEST\'",
+      `set`: Set3, faction: fTargon, number: 93'u8): CardInfo(
+      name: "Paddle Star", `type`: ctSpell, description: "Deal 4 to an enemy that attacked this round or is Stunned.",
+      flavorText: "\"KaBOOMey!\" - Zoe", cost: 3, rarity: crCommon,
+      spellSpeed: some(ssSlow), keywords: {Slow}), Card(`set`: Set3,
+      faction: fTargon, number: 110'u8): CardInfo(name: "Out Of The Way",
+      `type`: ctSpell, description: "For the rest of the game, allied buffs (except Barrier) are permanent. Draw 1.", flavorText: "\"You know I mean everything that I say<br>When you see me coming get out of the way<br>I came to slay I came to slay<br>Back and I’m better and ready to stay.\"<br>- Kai\'Sa, \'THE BADDEST\'",
       cost: 5, rarity: crEpic, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
       `set`: Set3, faction: fTargon, number: 3'u8): CardInfo(
       name: "Dragon\'s Clutch", `type`: ctSpell,
@@ -3385,6 +3562,11 @@ const
       `set`: Set3, faction: fTargon, number: 16'u8): CardInfo(
       name: "Startled Stomper", `type`: ctUnit, description: "", flavorText: "\"Aww, big Stomper don\'t wanna go through the wittle portal? That\'s okay, we can-- HAHAHAHA! Just kidding. OUTYOUGO!\" - Zoe",
       cost: 2, rarity: crCommon, attack: 2, health: 3, keywords: {Overwhelm}), Card(
+      `set`: Set3, faction: fTargon, number: 74'u8): CardInfo(
+      name: "Sleepy Trouble Bubble", `type`: ctSpell,
+      description: "Stun an enemy. Create a Fleeting Paddle Star in hand.", flavorText: "\"Naptime for you! One sparklefly, twoooo sparklefly, thre-- Hey, what\'sthatoverthere?!\" - Zoe",
+      cost: 2, rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow},
+      associatedCards: @[Card(`set`: Set3, faction: fTargon, number: 93'u8)]), Card(
       `set`: Set3, faction: fTargon, number: 35'u8): CardInfo(
       name: "Pale Cascade", `type`: ctSpell,
       description: "Give an ally +2|+1 this round.\c\nNightfall: Draw 1.", flavorText: "\"Under cover of night, watched over by a pale moon.\" - Diana",
@@ -3406,8 +3588,182 @@ const
       `type`: ctUnit, description: "",
       flavorText: "In space, no one can hear you squee.", cost: 1,
       rarity: crCommon, attack: 1, health: 1, subtypes: {csubPoro},
-      keywords: {SpellShield}), Card(`set`: Set3, faction: fDemacia,
-                                     number: 8'u8): CardInfo(
+      keywords: {SpellShield}), Card(`set`: Set3, faction: fPiltoverZaun,
+                                     number: 19'u8): CardInfo(
+      name: "Patched Porobot", `type`: ctUnit, description: "While in hand, I have a random keyword that changes each round. When I\'m summoned, grant me this keyword.", flavorText: "It\'s not quite as cuddly as the real thing, but it IS just as cute.",
+      cost: 2, rarity: crRare, attack: 2, health: 3, subtypes: {csubPoro}), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 5'u8): CardInfo(
+      name: "Ballistic Bot", `type`: ctUnit,
+      description: "Round Start: Create a Ignition in hand.", flavorText: "Subject requested that we keep only his mind intact, stating \"That\'s where I\'ve stored all my grudges.\"\n- Augmentor\'s log, entry 1011",
+      cost: 2, rarity: crCommon, attack: 1, health: 3, keywords: {Augment}, associatedCards: @[
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 16'u8)]), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 4'u8): CardInfo(
+      name: "Death Ray - Mk 1", `type`: ctSpell, description: "Deal 1 to a unit. Create a Death Ray - Mk 2 in the top 3 cards of your deck.", flavorText: "\"Today, I have successfully demonstrated that radiant energy can be focused into a single powerful beam! With the right improvements, this ray could be a tool of unmatched precision, but there is still much to do.\"\n- Viktor\'s design annotations",
+      cost: 1, rarity: crRare, spellSpeed: some(ssFast), keywords: {Fast}, associatedCards: @[
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 1'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 2'u8)]), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 2'u8): CardInfo(
+      name: "Death Ray - Mk 3", `type`: ctSpell,
+      description: "Deal 3 to a unit.", flavorText: "\"The beam melts flesh and metal alike with exceptional speed! I have since eagerly integrated it onto my machine body. To see, feel, and dissect the world with such CLARITY... This is the great potential of the human mind unburdened by flesh! A truly glorious evolution!\" \n- Viktor\'s design annotations",
+      cost: 3, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 1'u8): CardInfo(
+      name: "Death Ray - Mk 2", `type`: ctSpell, description: "Deal 2 to a unit. Create a Death Ray - Mk 3 in the top 3 cards of your deck.", flavorText: "\"Altered beam transmission medium, adjusted lenses to optimal focal distances, internal mirrors polished and positioned. Intensity increased tenfold. But it must improve. I MUST IMPROVE!\"\n- Viktor\'s design annotations",
+      cost: 2, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}, associatedCards: @[
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 2'u8)]), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 3'u8): CardInfo(
+      name: "Viktor", `type`: ctUnit,
+      description: "Round Start: Create a Hex Core Upgrade in hand.", flavorText: "\"Zaun, you have seen your share of tragedies, and the time has come for change. And, as with all great advancements, it must start within you.\"",
+      cost: 4, rarity: crChampion, attack: 2, health: 4,
+      levelupDescription: "You\'ve played 8+ created cards.",
+      supertype: csupChampion, keywords: {Augment}, associatedCards: @[
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 3'u8, subnumber: 1'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 3'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 1'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 2'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 3'u8)]), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 3'u8, subnumber: 1'u8): CardInfo(
+      name: "Viktor", `type`: ctUnit, description: "Your created cards cost 1 less.\c\nRound Start: Create a Hex Core Upgrade in hand.", flavorText: "\"Ah, Piltover. As a boy, I looked up to you, the shining \'City of Progress\'. But as a man, I see its corrupt foundations, built atop the suffering of our home, Zaun. Today, we herald a new era of Zaunite innovation--and you will be the first to witness our rise!\"",
+      cost: 4, rarity: crNone, attack: 3, health: 5, supertype: csupChampion,
+      keywords: {Augment}, associatedCards: @[
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 3'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 3'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 1'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 2'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 3'u8)]), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 3'u8): CardInfo(
+      name: "Viktor\'s Death Ray - Mk 1", `type`: ctSpell, description: "Deal 1 to a unit. Create a Death Ray - Mk 2 in the top 3 cards of your deck.\c\nCreate a Viktor in your deck.", flavorText: "\"Today, I have successfully demonstrated that radiant energy can be focused into a single powerful beam! With the right improvements, this ray could be a tool of unmatched precision, but there is still much to do.\"\n- Viktor\'s design annotations",
+      cost: 1, rarity: crCommon, spellSpeed: some(ssFast),
+      supertype: csupChampion, keywords: {Fast}, associatedCards: @[
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 1'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 4'u8, subnumber: 2'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 3'u8, subnumber: 1'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 3'u8)]), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 3'u8): CardInfo(
+      name: "Hex Core Upgrade", `type`: ctSpell,
+      description: "Grant Viktor a random keyword.", flavorText: "Humanity is destined to break free from the confines of flesh. We must become more. We must augment. We must evolve!\" - Viktor",
+      cost: 1, rarity: crCommon, spellSpeed: some(ssSlow),
+      keywords: {Slow, Fleeting}, associatedCards: @[
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 3'u8)]), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 10'u8): CardInfo(
+      name: "Mechanized Mimic", `type`: ctUnit,
+      description: "Attack: Grant me all keywords on allies.",
+      flavorText: "\"I\'m just like you, only better.\"", cost: 5,
+      rarity: crEpic, attack: 3, health: 4, keywords: {Augment}), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 22'u8): CardInfo(
+      name: "Give It All", `type`: ctSpell, description: "Raise all allies\' Power and Health to the highest Power or Health among allies.\c\nGrant all allies allied keywords.", flavorText: "\"I know I know\nYou want some more\nIf you ready let’s go\nGiving it all\"\n- Seraphine, \'MORE\'",
+      cost: 8, rarity: crEpic, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 14'u8): CardInfo(
+      name: "Calculated Creations", `type`: ctSpell, description: "Create a Armed Gearhead, Ballistic Bot, or Nyandroid in hand.", flavorText: "\"Rationality and choice separate humanity from its base animal instincts.\" - Viktor",
+      cost: 2, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 12'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 5'u8),
+      Card(`set`: Set3, faction: fPiltoverZaun, number: 2'u8)]), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 13'u8): CardInfo(
+      name: "Iterative Improvement", `type`: ctSpell,
+      description: "Pick a follower. Create a copy of it in hand with +1|+1.", flavorText: "\"Self-improvement is a game where you are the hero and the villain. You will struggle. You may even think you\'ve won. But in the end, you will always be left standing in your own way.\" - Mechanized Mimic",
+      cost: 2, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 12'u8): CardInfo(
+      name: "Armed Gearhead", `type`: ctUnit, description: "", flavorText: "\"Alright! New arm! Always wanted one of those. What\'ve we got next? Gravwheels for legs? Electrobelts? METAL TEETH? Actually, leave my face. I like my face.\"",
+      cost: 1, rarity: crCommon, attack: 1, health: 1,
+      keywords: {Augment, QuickStrike}), Card(`set`: Set3,
+      faction: fPiltoverZaun, number: 20'u8): CardInfo(name: "Hexcore Foundry",
+      `type`: ctLandmark, description: "Round Start: ALL players draw 1.", flavorText: "\"Let them say what they will about my methods. They cannot deny progress--the light of my knowledge is shining like a beacon through the darkness of ignorance!\" - Viktor",
+      cost: 3, rarity: crRare, keywords: {LandmarkVisualOnly}), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 16'u8): CardInfo(
+      name: "Ignition", `type`: ctSpell,
+      description: "Deal 1 to the enemy Nexus.", flavorText: "\"If they do not choose to add metal to their bodies, I will deliver metal to them instead. That was a humorous remark. Ha.\"\n- Ballistic Bot",
+      cost: 1, rarity: crCommon, spellSpeed: some(ssSlow),
+      keywords: {Slow, Fleeting}), Card(`set`: Set3, faction: fPiltoverZaun,
+                                        number: 2'u8): CardInfo(
+      name: "Nyandroid", `type`: ctUnit, description: "", flavorText: "\"I clawed my way through years of Piltovan academia only to have my technologies deemed \'too dangerous\' and my very presence dismissed as \'too cute\'! Meow to Zaun, where I know at least one great mind shares my ambitions...\"",
+      cost: 3, rarity: crRare, attack: 1, health: 3,
+      keywords: {Augment, Elusive}), Card(`set`: Set3, faction: fPiltoverZaun,
+      number: 11'u8): CardInfo(name: "Aftershock", `type`: ctSpell, description: "Deal 3 to anything or destroy a landmark.", flavorText: "\"This ray of light will guide our march to Piltover. Nothing will stand in the way of our Glorious Evolution!\" - Viktor",
+                               cost: 4, rarity: crCommon,
+                               spellSpeed: some(ssSlow), keywords: {Slow}), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 17'u8): CardInfo(
+      name: "Tri-beam Improbulator", `type`: ctSpell, description: "Deal 1 to a unit. Summon a random 1 cost follower. While I\'m in hand, increase both by 1 when you play a 3 cost card.", flavorText: "\"...and in one, two, and THREE!!! Oh. Oh, my word... Yet another unforeseen outcome?!\" - Heimerdinger",
+      cost: 4, rarity: crEpic, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
+      `set`: Set3, faction: fPiltoverZaun, number: 18'u8): CardInfo(
+      name: "Poro Cannon", `type`: ctSpell,
+      description: "To play, discard 1.\c\nCreate 2 Daring Poros in hand.", flavorText: "Two downy shapes arced gracefully over the adoring crowd, leaving a cloud of fluff and the faint scent of baked goods in their wake.",
+      cost: 0, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set1, faction: fPiltoverZaun, number: 20'u8)]), Card(
+      `set`: Set3, faction: fShadowIsles, number: 4'u8): CardInfo(
+      name: "Stalking Shadows", `type`: ctSpell, description: "Pick a follower from the top 4 cards in your deck.\c\nDraw it, place the rest into your deck, then create an exact Ephemeral copy in hand.",
+      flavorText: "\"Go... surround them...\" - Nocturne", cost: 2,
+      rarity: crRare, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
+      `set`: Set3, faction: fShadowIsles, number: 1'u8): CardInfo(
+      name: "Evershade Stalker", `type`: ctUnit,
+      description: "Nightfall: Create a copy of me in hand.", flavorText: "\"It was just a pair of eyes at first, and a lone voice chittering in the shadows. More every time I looked back. Angrier. Louder. Soon as I saw the Tooth, I ran.\" - Whale\'s Tooth looter",
+      cost: 2, rarity: crEpic, attack: 2, health: 2,
+      keywords: {Ephemeral, Fearsome, CantBlock}), Card(`set`: Set3,
+      faction: fShadowIsles, number: 12'u8): CardInfo(name: "Passage Unearned",
+      `type`: ctSpell, description: "Obliterate all units that were summoned, but not played, this round.", flavorText: "\"Of course, death is present in Demacia. We see it take our loved ones and know that, someday, it will come for us. But on these isles... I can almost taste death. I feel it in my lungs as I breathe, I hear it whisper in my ear. It is not some abstract notion. It sits with me here. Now. And it will have us all.\"\n- Notes of Jens Tommen, historian",
+      cost: 3, rarity: crRare, spellSpeed: some(ssFast), keywords: {Fast}), Card(
+      `set`: Set3, faction: fShadowIsles, number: 14'u8): CardInfo(
+      name: "Encroaching Shadows", `type`: ctSpell,
+      description: "Grant ALL allies in deck and hand +2|+2 and Ephemeral.", flavorText: "\"Mind or body, I fear that the nightmares of the Shadow Isles will break us all eventually, and insanity will reign forever.\"\n- Notes of Jens Tommen, historian",
+      cost: 4, rarity: crEpic, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
+      `set`: Set3, faction: fShadowIsles, number: 16'u8): CardInfo(
+      name: "Go Hard", `type`: ctSpell, description: "Drain 1 from a unit and create 2 copies of me in your deck. Once you\'ve cast me 3 times, transform all copies of me everywhere into Pack Your Bags. ", flavorText: "\"We go hard, \'til we get it, get it\nWe go hard, we so in it, in it\nWe Pop Stars (Pop Stars), only winning, winning now\nAin\'t nobody bringing us down, down, down, down\"\n- Evelynn, \'POP/STARS\'",
+      cost: 1, rarity: crEpic, spellSpeed: some(ssSlow), keywords: {Slow}, associatedCards: @[
+      Card(`set`: Set3, faction: fShadowIsles, number: 16'u8, subnumber: 1'u8)]), Card(
+      `set`: Set3, faction: fShadowIsles, number: 16'u8, subnumber: 1'u8): CardInfo(
+      name: "Pack Your Bags", `type`: ctSpell, description: "Deal 5 to all enemies and the enemy Nexus. Transform all copies of me everywhere back to Go Hard.", flavorText: "\"Sorry for the bad news sorry I’m so bad\nOnly took a minute for me to get all you had\nSorry for the bad news know it makes you sad\nI’ll be here for a minute baby you should pack your bags\"\n- Evelynn, \'THE BADDEST\'",
+      cost: 1, rarity: crNone, spellSpeed: some(ssSlow), keywords: {Slow}, associatedCards: @[
+      Card(`set`: Set3, faction: fShadowIsles, number: 16'u8)]), Card(
+      `set`: Set3, faction: fShadowIsles, number: 7'u8): CardInfo(
+      name: "Shroud of Darkness", `type`: ctSpell, description: "The next time you summon an ally this round, give it +1|+0 and SpellShield this round.", flavorText: "\"Soon as you step outside the Tooth, you\'ll feel \'em. Fingertips on your nape, light as rain. Them creatures don\'t budge when you come at \'em, neither. Ain\'t afraid of my blade or my torch. Nothin\'. Awful things.\" - Whale\'s Tooth looter",
+      cost: 1, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
+      `set`: Set3, faction: fShadowIsles, number: 13'u8): CardInfo(
+      name: "Risen Mists", `type`: ctSpell, description: "Summon a Mistwraith.", flavorText: "The mistwraiths move through planes unseen by mortal eyes, appear without warning, and inflict misery on all they encounter.",
+      cost: 4, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set1, faction: fShadowIsles, number: 14'u8)]), Card(
+      `set`: Set3, faction: fShadowIsles, number: 5'u8): CardInfo(
+      name: "Nocturne", `type`: ctUnit, description: "Nightfall: Grant an enemy Vulnerable and give enemies -1|-0 this round.", flavorText: "\"It appears that, once enough souls have been shaken, it breaches our world. Only hope can send the monstrosity back to its realm... but hope died here long ago, on a queen\'s final breath, and with a king\'s eternal scream.\"\n- Notes of Jens Tommen, historian",
+      cost: 4, rarity: crChampion, attack: 5, health: 3,
+      levelupDescription: "You\'ve attacked with 5+ Nightfall allies.",
+      supertype: csupChampion, keywords: {Fearsome}, associatedCards: @[
+      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 3'u8),
+      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 1'u8)]), Card(
+      `set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 3'u8): CardInfo(
+      name: "Nocturne\'s Unspeakable Horror", `type`: ctSpell, description: "Drain 1 from anything. Create a Nocturne in your deck.\c\nNightfall: Create a random non-champion Nightfall card in hand.", flavorText: "\"Every passing day saps my spirit, pulls from me the vigor that compelled me to find this place. The Whale\'s Tooth is full of haggard folk, seemingly lost to all endeavor, and I fear the longer I stay, the more like them I become.\"\n- Notes of Jens Tommen, historian",
+      cost: 2, rarity: crNone, spellSpeed: some(ssFast),
+      supertype: csupChampion, keywords: {Fast}, associatedCards: @[
+      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8),
+      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 1'u8)]), Card(
+      `set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 1'u8): CardInfo(
+      name: "Nocturne", `type`: ctUnit, description: "Other allies have Fearsome.\c\nWhen you play a unit, give enemies -1|-0 this round.", flavorText: "\"My dreams grow more vivid with each passing night. I see a creature of pure evil, writhing in the dark, twisting its way toward me. Though I was to be stationed here for another week, I have just paid for transport to Fossbarrow this evening. Plainly, I cannot stand this place.\"\n- Notes of Jens Tommen, historian",
+      cost: 4, rarity: crNone, attack: 6, health: 4, supertype: csupChampion,
+      keywords: {Fearsome}, associatedCards: @[
+      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8, subnumber: 3'u8),
+      Card(`set`: Set3, faction: fShadowIsles, number: 5'u8)]), Card(
+      `set`: Set3, faction: fShadowIsles, number: 6'u8): CardInfo(
+      name: "Doombeast", `type`: ctUnit,
+      description: "Nightfall: Drain 2 from the enemy Nexus.", flavorText: "With each passing night, the travelers grew more weary. Their slumber was restless, and their dreams vivid. Sleep no longer gave respite, and instead pulled the life from their bones.",
+      cost: 3, rarity: crCommon, attack: 3, health: 2, associatedCards: @[
+      Card(`set`: Set3, faction: fShadowIsles, number: 6'u8, subnumber: 1'u8)]), Card(
+      `set`: Set3, faction: fShadowIsles, number: 15'u8): CardInfo(
+      name: "Pesky Specter", `type`: ctUnit,
+      description: "LastBreath: Create 2 copies of me in the enemy deck.", flavorText: "Most of the spirits on the Shadow Isles are utterly terrifying and morbid creatures. A small handful are... well... just really, really annoying.",
+      cost: 0, rarity: crCommon, attack: 1, health: 1,
+      keywords: {Ephemeral, LastBreath}), Card(`set`: Set3,
+      faction: fShadowIsles, number: 6'u8, subnumber: 1'u8): CardInfo(
+      name: "Torment", `type`: ctAbility,
+      description: "Drain 2 from the enemy Nexus.", flavorText: "What knows you better than your own mind? What can torment you more exquisitely than your own dreams?",
+      cost: 0, rarity: crNone, keywords: {Skill}), Card(`set`: Set3,
+      faction: fShadowIsles, number: 3'u8): CardInfo(name: "Stygian Onlooker",
+      `type`: ctUnit,
+      description: "Nightfall: Give me +2|+0 and Fearsome this round.", flavorText: "As the sun melts into pitch, the terrors of this place wake, watch, and wait.",
+      cost: 1, rarity: crCommon, attack: 2, health: 1), Card(`set`: Set3,
+      faction: fShadowIsles, number: 2'u8): CardInfo(name: "Unspeakable Horror",
+      `type`: ctSpell, description: "Drain 1 from anything.\c\nNightfall: Create a random non-champion Nightfall card in hand.", flavorText: "\"Every passing day saps my spirit, pulls from me the vigor that compelled me to find this place. The Whale\'s Tooth is full of haggard folk, seemingly lost to all endeavor, and I fear the longer I stay, the more like them I become.\"\n- Notes of Jens Tommen, historian",
+      cost: 2, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
+      `set`: Set3, faction: fShadowIsles, number: 10'u8): CardInfo(
+      name: "Duskrider", `type`: ctUnit, description: "Nightfall: Grant me +1|+0 for each time we\'ve activated Nightfall this game. ", flavorText: "With every setting sun, the night unfurls its dark wings, and blots out the day\'s last remnants of hope.",
+      cost: 5, rarity: crRare, attack: 2, health: 5, keywords: {Fearsome}), Card(
+      `set`: Set3, faction: fDemacia, number: 8'u8): CardInfo(
       name: "Dragonguard Lieutenant", `type`: ctUnit, description: "When I\'m summoned, if you Behold a Dragon, grant me Challenger.", flavorText: "\"When I lost my comrades in arms at Wrenwall, I thought I had also lost my resolve... but it turns out there is nothing that a fight can\'t stir up in an old soldier.\"",
       cost: 2, rarity: crCommon, attack: 3, health: 2), Card(`set`: Set3,
       faction: fDemacia, number: 1'u8): CardInfo(name: "Confront",
@@ -3441,7 +3797,7 @@ const
       Card(`set`: Set3, faction: fDemacia, number: 11'u8, subnumber: 2'u8),
       Card(`set`: Set3, faction: fDemacia, number: 11'u8)]), Card(`set`: Set3,
       faction: fDemacia, number: 11'u8, subnumber: 2'u8): CardInfo(
-      name: "Shyvana\'s Confront", `type`: ctSpell, description: "Grant an ally Challenger.\c\nShuffle a Shyvana into your deck.",
+      name: "Shyvana\'s Confront", `type`: ctSpell, description: "Grant an ally Challenger.\c\nCreate a Shyvana in your deck.",
       flavorText: "\"None shall escape us!\" - Shyvana", cost: 3,
       rarity: crNone, spellSpeed: some(ssBurst), supertype: csupChampion,
       keywords: {Burst}, associatedCards: @[
@@ -3502,7 +3858,7 @@ const
       flavorText: "Pix protec... or Pix attac...? ", cost: 1, rarity: crNone,
       spellSpeed: some(ssBurst), keywords: {Burst, Fleeting}), Card(`set`: Set3,
       faction: fIonia, number: 2'u8, subnumber: 5'u8): CardInfo(
-      name: "Lulu\'s Whimsy!", `type`: ctSpell, description: "Transform a follower into a 1|1 Squirrel and Silence it this round. Shuffle a Lulu into your deck.",
+      name: "Lulu\'s Whimsy!", `type`: ctSpell, description: "Transform a follower into a 1|1 Squirrel and Silence it this round. Create a Lulu in your deck.",
       flavorText: "\"Adoribus!\" - Lulu", cost: 4, rarity: crNone,
       spellSpeed: some(ssBurst), supertype: csupChampion, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set3, faction: fIonia, number: 8'u8, subnumber: 1'u8),
@@ -3547,41 +3903,10 @@ const
       `set`: Set3, faction: fIonia, number: 18'u8): CardInfo(
       name: "Fuzzy Caretaker", `type`: ctUnit, description: "When I\'m supported, give me +0|+3 this round.\c\nSupport: Give my supported ally +3|+0 this round.", flavorText: "The purple faefolk are sweet little creatures, and cared for by all those who encounter them. Well, almost all.",
       cost: 3, rarity: crRare, attack: 3, health: 2), Card(`set`: Set3,
-      faction: fTargon, number: 5'u8): CardInfo(name: "Divergent Paths",
-      `type`: ctSpell, description: "Draw a landmark or destroy a landmark.", flavorText: "Targon is a capricious place, where the unbreakable is broken, and the broken made whole.",
-      cost: 3, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
-      `set`: Set3, faction: fFreljord, number: 9'u8): CardInfo(
-      name: "The Howling Abyss", `type`: ctLandmark, description: "Round Start: Create in hand a random level 2 champion that\'s not in your hand, deck, or play.", flavorText: "Heroes come to the bridge, called to it by something from the unknown. They brave its bitter cold and crumbling deck to see what lies beyond--victory, or death.",
-      cost: 7, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
-      `set`: Set3, faction: fShadowIsles, number: 9'u8): CardInfo(
-      name: "Vaults of Helia", `type`: ctLandmark, description: "Round Start: Kill your most expensive ally to summon an ally from your deck that costs 1 more.", flavorText: "What could better lure a soul to this wretched place than the promise of eternal life, and endless riches?",
-      cost: 5, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
-      `set`: Set3, faction: fTargon, number: 52'u8): CardInfo(
-      name: "Star Spring", `type`: ctLandmark, description: "Round End: Heal damaged allies 1. Then, once I\'ve seen you heal 22+ damage from allies, win the game. ", flavorText: "\"Up to the sacred falling flow,\nDeep into pools, the healing springs\nShining light, water all aglow,\nListen to how the river sings,\nHigh on the crystal mountain.\"\n- Ottrani verse",
-      cost: 2, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
-      `set`: Set3, faction: fNoxus, number: 13'u8): CardInfo(
-      name: "Scorched Earth", `type`: ctSpell,
-      description: "Kill a damaged unit or destroy a landmark.", flavorText: "\"The drakehounds have the scent. They will find her, and we will finish this. There is no other way.\" - Arrel the Tracker",
-      cost: 3, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
-      `set`: Set3, faction: fNoxus, number: 4'u8): CardInfo(
-      name: "Noxkraya Arena", `type`: ctLandmark, description: "Round End: Your Strongest ally and the Weakest enemy strike each other.", flavorText: "\"Hey there, rrrrreckoner fans, are you ready for a night of scorchin\' hot THRILLS in the RING OF FIRE?! Wuh-oh, looks like Tiny Trik drew the SHORT straw today. He\'s up against the mighty, fight-y, GRANAAAAK the Great! Get those medics ringside, it\'s gonna be a quick one!\" - Arena Battlecaster",
-      cost: 5, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
-      `set`: Set3, faction: fTargon, number: 5'u8, subnumber: 2'u8): CardInfo(
-      name: "Path of Destruction", `type`: ctSpell,
-      description: "Destroy a landmark.", flavorText: "Each summit gave way before them, emboldening their climb and filling their hearts with determination. They would scale Targon.",
-      cost: 3, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
-      `set`: Set3, faction: fTargon, number: 5'u8, subnumber: 1'u8): CardInfo(
-      name: "Path of Discovery", `type`: ctSpell,
-      description: "Draw a landmark.", flavorText: "Beyond each summit loomed yet another, but their spirits pushed them onward. They would surmount the peaks of Targon.",
-      cost: 3, rarity: crCommon, spellSpeed: some(ssFast), keywords: {Fast}), Card(
-      `set`: Set3, faction: fShadowIsles, number: 8'u8): CardInfo(
-      name: "Crumble", `type`: ctSpell,
-      description: "Kill an ally to kill a unit or destroy a landmark.",
-      flavorText: "Nothing lasts on these haunted isles. All will end.",
-      cost: 5, rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
-      `set`: Set3, faction: fPiltoverZaun, number: 1'u8): CardInfo(
-      name: "The University of Piltover", `type`: ctLandmark, description: "Round Start: Discard your hand. Create 3 random cards in hand and grant them Fleeting.", flavorText: "The inventions of Professor Cecil B. Heimerdinger made him famous, but it was his animated lectures and notoriously unpredictable classroom demonstrations that earned him a lasting impression on Piltover\'s brightest minds.",
-      cost: 5, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
+      faction: fFreljord, number: 20'u8): CardInfo(name: "The Scargrounds",
+      `type`: ctLandmark,
+      description: "When an ally survives damage, grant it +1|+0 and Tough.", flavorText: "There are many places of honor among the Winter\'s Claw, but one of the greatest is The Scargrounds, where damaged war vessels that have returned from raids are repurposed as gathering halls for warriors and their kin. These ships embody the tribe that built them--resilient and adaptable.",
+      cost: 3, rarity: crEpic, keywords: {LandmarkVisualOnly}), Card(
       `set`: Set3, faction: fFreljord, number: 7'u8): CardInfo(
       name: "Troll Scavenger", `type`: ctUnit, description: "When I\'m summoned, if you Behold an 8+ cost card, grant me +3|+0.", flavorText: "The scout knelt by a tattered edge of cloth hidden in the snow, where the scent of human sweat and fire smoke lingered in the cold air.\nHe pulled the material free and saw at one end, a talisman dangled, dull under the stormy sky. Avarosan. ",
       cost: 2, rarity: crCommon, attack: 1, health: 3), Card(`set`: Set3,
@@ -3609,7 +3934,7 @@ const
       Card(`set`: Set3, faction: fFreljord, number: 6'u8, subnumber: 3'u8),
       Card(`set`: Set3, faction: fFreljord, number: 6'u8)]), Card(`set`: Set3,
       faction: fFreljord, number: 6'u8, subnumber: 3'u8): CardInfo(
-      name: "Trundle\'s Icequake", `type`: ctSpell, description: "Give ALL units -3|-0 this round. Deal 3 to ALL units.\c\nShuffle a Trundle into your deck.",
+      name: "Trundle\'s Icequake", `type`: ctSpell, description: "Give ALL units -3|-0 this round. Deal 3 to ALL units.\c\nCreate a Trundle in your deck.",
       flavorText: "\"Bury \'em alive!\" - Trundle", cost: 8, rarity: crNone,
       spellSpeed: some(ssSlow), supertype: csupChampion, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set3, faction: fFreljord, number: 6'u8, subnumber: 1'u8),
@@ -3636,28 +3961,14 @@ const
       `type`: ctUnit, description: "When I\'m summoned, if you Behold an 8+ cost card, grant me Regeneration.", flavorText: "Once they were among the Avarosan huts, they called Hgar forward. With a laugh, she raised Snowsunder, ready to use the weapon to batter the wooden homes into little more than splinters.",
       cost: 4, rarity: crCommon, attack: 3, health: 5), Card(`set`: Set3,
       faction: fFreljord, number: 18'u8): CardInfo(name: "Call the Wild",
-      `type`: ctSpell, description: "For the top 4 cards in your deck, draw each Yeti, Poro, and Elnuk. Then shuffle the rest into your deck.", flavorText: "\"...an\' then a BIIIIG HUUUGE ELNUK came FLYIN\' out of the trees with a teeny lil\' poro on his back an\' there was a FRIENDLY YETI as well because he wanted to play with his friends an\' they all ran down the mountain goin\' RAAAAAWRRRR an\' then...\" - Ingvar the Younger",
+      `type`: ctSpell, description: "For the top 4 cards in your deck, draw each Yeti, Poro, and Elnuk. Then place the rest into your deck.", flavorText: "\"...an\' then a BIIIIG HUUUGE ELNUK came FLYIN\' out of the trees with a teeny lil\' poro on his back an\' there was a FRIENDLY YETI as well because he wanted to play with his friends an\' they all ran down the mountain goin\' RAAAAAWRRRR an\' then...\" - Ingvar the Younger",
       cost: 3, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
       `set`: Set3, faction: fFreljord, number: 10'u8): CardInfo(
       name: "Faces of the Old Ones", `type`: ctUnit, description: "Round Start: If you Behold an 8+ cost card, get an extra mana gem this round.", flavorText: "\"Rise, Old Ones, rise,\nRule of ice, break the sky.\nRise, Old Ones, rise,\nBring us strength, them demise.\"\n- Troll chant",
       cost: 2, rarity: crCommon, attack: 0, health: 2), Card(`set`: Set3,
       faction: fFreljord, number: 19'u8): CardInfo(
-      name: "Voices of the Old Ones", `type`: ctSpell, description: "Get 2 empty mana gems.\c\nFor the top 4 cards in your deck, draw each card that costs 8+. Then shuffle the rest into your deck.", flavorText: "For generations, Avarosan settlers heard strange, inexplicable sounds within the tumult of winter storms. Eventually, when they ventured much farther north, they finally discovered the source--ancient troll monoliths whispering in long-lost tongues as the wind swept through their yawning maws.",
+      name: "Voices of the Old Ones", `type`: ctSpell, description: "Get 2 empty mana gems.\c\nFor the top 4 cards in your deck, draw each card that costs 8+. Then place the rest into your deck.", flavorText: "For generations, Avarosan settlers heard strange, inexplicable sounds within the tumult of winter storms. Eventually, when they ventured much farther north, they finally discovered the source--ancient troll monoliths whispering in long-lost tongues as the wind swept through their yawning maws.",
       cost: 8, rarity: crCommon, spellSpeed: some(ssBurst), keywords: {Burst}), Card(
       `set`: Set3, faction: fFreljord, number: 22'u8): CardInfo(
       name: "Feel The Rush", `type`: ctSpell, description: "Summon 2 different, random champions from your hand and deck. Raise their stats up to 10|10.", flavorText: "\"We got it all in our hands now\nSo can you handle what we\'re all about?\"\n- Ahri, \'POP/STARS\'",
-      cost: 12, rarity: crEpic, spellSpeed: some(ssSlow), keywords: {Slow}), Card(
-      `set`: Set3, faction: fNoxus, number: 18'u8): CardInfo(name: "Apprehend",
-      `type`: ctSpell,
-      description: "Stun an enemy.\c\nIf you have a Darius, Rally.",
-      flavorText: "\"I\'ll handle this myself.\" - Darius", cost: 2,
-      rarity: crRare, spellSpeed: some(ssSlow), keywords: {Slow},
-      associatedCards: @[Card(`set`: Set1, faction: fNoxus, number: 38'u8)]), Card(
-      `set`: Set3, faction: fNoxus, number: 17'u8): CardInfo(
-      name: "Basilisk Bloodseeker", `type`: ctUnit,
-      description: "Play: Deal 1 to an ally and an enemy 4 times.", flavorText: "The basilisk trainers withhold live food from the beasts in the days leading up to battle. By the time the creatures are unleashed, they do not distinguish friend from foe, and are utterly indomitable.",
-      cost: 7, rarity: crEpic, attack: 7, health: 4, keywords: {Overwhelm},
-      associatedCards: @[Card(`set`: Set3, faction: fNoxus, number: 16'u8)]), Card(
-      `set`: Set3, faction: fNoxus, number: 16'u8): CardInfo(name: "Gouge",
-      `type`: ctAbility, description: "Deal 1 to an ally and an enemy 4 times.", flavorText: "\"It\'s not the sharpness of the claws you\'ve got to look out for, it\'s the appetite of the beast that\'s grown \'em.\" - Basilisk trainer",
-      cost: 0, rarity: crNone, keywords: {Skill})}.toTable
+      cost: 12, rarity: crEpic, spellSpeed: some(ssSlow), keywords: {Slow})}.toTable
