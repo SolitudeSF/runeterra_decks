@@ -32,7 +32,7 @@ type
     crCommon = "Common", crRare = "Rare", crEpic = "Epic",
     crChampion = "Champion", crNone = "None"
 const
-  runeterraVersion* = "1_16_0"
+  runeterraVersion* = "2_0_0"
   termDescriptions*: array[Term, string] = ["When you summon this, it gets its allegiance bonus if the top card of your deck matches its region.", "Create a random Blade Fragment still needed to restore the blade. Once you’ve cast all 3, create the Blade of the Exile.",
     "Attacking with a support unit will buff the unit to its right.",
     "Highest Power, with ties broken by highest Health then highest Cost.",
@@ -50,7 +50,7 @@ const
     "The enemy can challenge this unit, forcing it to block.",
     "Get this effect when this unit attacks.",
     "Can only be blocked by an Elusive unit.",
-    "Heal our Nexus for the amount of damage dealt", "Remove a unit from combat. It can\'t attack or block for the rest of the round.", "Attaches to another card, trapping it. When the trapped card is drawn, perform the effect.",
+    "Heal your Nexus for the amount of damage dealt", "Remove a unit from combat. It can\'t attack or block for the rest of the round.", "Attaches to another card, trapping it. When the trapped card is drawn, perform the effect.",
     " ", " ", "Missing Translation", " ", "When I kill a unit, grant me +1|+1.",
     "Inflicts damage beyond what would kill the target(s) to the enemy Nexus.",
     "When I\'m summoned, refill 1 spell mana.", "Landmarks take up a space on the board. They can\'t attack, block, or take damage.",
@@ -3370,7 +3370,7 @@ const
       Card(`set`: Set3, faction: fTargon, number: 91'u8),
       Card(`set`: Set3, faction: fTargon, number: 15'u8)]), Card(`set`: Set3,
       faction: fTargon, number: 9'u8, subnumber: 1'u8): CardInfo(name: "Zoe",
-      `type`: ctUnit, description: "For the rest of the game, when you summon an ally, grant its keywords to all allies.\c\nNexus Strike: Create a Behold the Infinite  that costs 0 in hand.", flavorText: "\"Ah, the vastness of space and a myriad realities stretched, squished, and squeezed out before us! Maaaaaybe we\'ll even see my favorite space doggy!\"",
+      `type`: ctUnit, description: "When I level up, grant your Nexus \"When you summon an ally, grant its keywords to all allies.\"\c\nNexus Strike: Create a Behold the Infinite  that costs 0 in hand.", flavorText: "\"Ah, the vastness of space and a myriad realities stretched, squished, and squeezed out before us! Maaaaaybe we\'ll even see my favorite space doggy!\"",
       cost: 1, rarity: crNone, attack: 2, health: 2, supertype: csupChampion,
       keywords: {Elusive}, associatedCards: @[
       Card(`set`: Set3, faction: fTargon, number: 15'u8),
@@ -3709,7 +3709,7 @@ const
       Card(`set`: Set3, faction: fShadowIsles, number: 16'u8, subnumber: 1'u8)]), Card(
       `set`: Set3, faction: fShadowIsles, number: 16'u8, subnumber: 1'u8): CardInfo(
       name: "Pack Your Bags", `type`: ctSpell, description: "Deal 5 to all enemies and the enemy Nexus. Transform all copies of me everywhere back to Go Hard.", flavorText: "\"Sorry for the bad news sorry I’m so bad\nOnly took a minute for me to get all you had\nSorry for the bad news know it makes you sad\nI’ll be here for a minute baby you should pack your bags\"\n- Evelynn, \'THE BADDEST\'",
-      cost: 1, rarity: crNone, spellSpeed: some(ssSlow), keywords: {Slow}, associatedCards: @[
+      cost: 5, rarity: crNone, spellSpeed: some(ssSlow), keywords: {Slow}, associatedCards: @[
       Card(`set`: Set3, faction: fShadowIsles, number: 16'u8)]), Card(
       `set`: Set3, faction: fShadowIsles, number: 7'u8): CardInfo(
       name: "Shroud of Darkness", `type`: ctSpell, description: "The next time you summon an ally this round, give it +1|+0 and SpellShield this round.", flavorText: "\"Soon as you step outside the Tooth, you\'ll feel \'em. Fingertips on your nape, light as rain. Them creatures don\'t budge when you come at \'em, neither. Ain\'t afraid of my blade or my torch. Nothin\'. Awful things.\" - Whale\'s Tooth looter",
