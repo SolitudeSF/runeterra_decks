@@ -5,7 +5,7 @@ Legends of Runeterra deck/card code encoder/decoder and card infomation provider
 ## Example usage
 
 ```nim
-import runeterra_decks
+import runeterra_decks/[cards, codes]
 
 
 let code = "CEBAIAYGAQDQQDYHAMER2IZNGM2DOVICAEBQMCICAMETYYQBAEBQSEY"
@@ -33,4 +33,14 @@ for cards in deck:
   let info = cards.getInfo
   if csubSpider in info.subtypes and info.cost > 2:
     echo info.name
+```
+
+Or you can query entire runeterra library.
+
+```nim
+import tables, runeterra_decks/[info, cards]
+
+for card, info in runeterraLibrary:
+  if DoubleStrike in info.keywords:
+    echo info
 ```
