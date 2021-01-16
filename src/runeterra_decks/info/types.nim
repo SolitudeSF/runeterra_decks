@@ -92,7 +92,7 @@ import
   options
 
 import
-  ../../runeterra_decks
+  ../cards
 
 type
   CardType* = enum
@@ -107,6 +107,7 @@ type
     csubTreasure = "TREASURE", csubCelestial = "CELESTIAL"
 type
   CardInfo* = object
+    cost*: int
     case `type`*: CardType
     of ctUnit:
         attack*, health*: int
@@ -119,7 +120,6 @@ type
         nil
 
     name*, description*, flavorText*: string
-    cost*: int
     rarity*: CardRarity
     keywords*: set[Keyword]
     supertype*: CardSupertype

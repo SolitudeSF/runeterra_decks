@@ -3,7 +3,10 @@ import
   tables, options
 
 import
-  ../../runeterra_decks, ./types
+  ../cards, ./types
+
+export
+  types
 
 const
   runeterraLibraryInternal = {Card(`set`: Set1, faction: fIonia, number: 12'u8): CardInfo(

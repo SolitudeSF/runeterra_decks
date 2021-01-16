@@ -1,6 +1,6 @@
 import macros, os, strutils
 import tables, options
-import ../../runeterra_decks
+import ../cards, ../codes
 
 const
   runeterraRequestedLocale {.strdefine.} = "en_us"
@@ -278,10 +278,11 @@ proc generateCardsInfo: tuple[types, library: NimNode] =
 
   result.types = quote do:
     import options
-    import ../../runeterra_decks
+    import ../cards
 
     `enumDef`
     type `cardInfoIdent`* = object
+      cost*: int
       case `typeIdent`*: CardType
       of ctUnit:
         attack*, health*: int
@@ -291,7 +292,6 @@ proc generateCardsInfo: tuple[types, library: NimNode] =
       else:
         discard
       `nameIdent`*, description*, flavorText*: string
-      cost*: int
       rarity*: CardRarity
       keywords*: set[Keyword]
       supertype*: CardSupertype
@@ -300,7 +300,8 @@ proc generateCardsInfo: tuple[types, library: NimNode] =
 
   result.library = quote do:
     import tables, options
-    import ../../runeterra_decks, ./types
+    import ../cards, ./types
+    export types
 
     const `libraryIdent` = `tableConstructor`.toTable
 
@@ -334,9 +335,8 @@ macro generateAll: untyped =
       result.patch = s[sep2 + 1..^1].parseInt
 
     if version.parseVersion > (2, 0, 0):
-      {.warning: "Updated global definition".}
-      let globals = newStmtList(globals, types)
-      writeFile currentSourcePath().parentDir / "types.nim", globals.repr
+      warning "Updated global definition"
+      writeFile currentSourcePath().parentDir / "types.nim", newStmtList(globals, types).repr
     writeFile currentSourcePath().parentDir / "v" & version & ".nim", library.repr
 
 generateAll()

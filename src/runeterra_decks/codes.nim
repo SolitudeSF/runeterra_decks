@@ -1,30 +1,11 @@
-from strutils import align
+import base32
+import algorithm
 from sequtils import toSeq
 from parseutils import parseUint
-import algorithm
-import base32
-import hashes
+from strutils import align
+import ./cards
 
 type
-  Faction* = enum
-    fDemacia = "Demacia", fFreljord = "Freljord", fIonia = "Ionia", fNoxus = "Noxus"
-    fPiltoverZaun = "Piltover & Zaun", fShadowIsles = "Shadow Isles"
-    fBilgewater = "Bilgewater", fTargon = "Targon"
-
-  Set* = enum
-    Set1 = (1, "Foundations"), Set2 = "Rising Tides", Set3 = "Call of the Mountain"
-
-  Card* = object
-    number*, subnumber*: uint8
-    `set`*: Set
-    faction*: Faction
-
-  Cards* = object
-    card*: Card
-    count*: uint8
-
-  Deck* = seq[Cards]
-
   Queue[T] = object
     data: seq[T]
     current: int
@@ -70,9 +51,6 @@ func toFaction(n: uint64): Faction =
 func toUInt(f: Faction): uint64 =
   if f == fTargon: 9'u64
   else: f.uint64
-
-func hash*(c: Card): Hash =
-  result = !$(c.`set`.hash !& c.faction.hash !& c.number.hash !& c.subnumber.hash)
 
 func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
   let bytes = try:
@@ -124,27 +102,6 @@ func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
       ),
       count: count
     )
-
-func identifier*(f: Faction): string =
-  case f
-  of fDemacia: "DE"
-  of fFreljord: "FR"
-  of fIonia: "IO"
-  of fNoxus: "NX"
-  of fPiltoverZaun: "PZ"
-  of fShadowIsles: "SI"
-  of fBilgewater: "BW"
-  of fTargon: "MT"
-
-func code*(c: Card): string =
-  result.add c.`set`.int.`$`.align(2, '0')
-  result.add c.faction.identifier
-  result.add c.number.`$`.align(3, '0')
-  if c.subnumber > 0:
-    result.add $c.subnumber
-
-func code*(c: Cards): string =
-  $c.count & ":" & c.card.code
 
 func parseFactionIdentifier*(s: openArray[char]): Faction =
   if   s[0] == 'D' and s[1] == 'E': fDemacia
@@ -276,3 +233,13 @@ func getBytes(deck: Deck): seq[byte] =
 
 func serialize*(deck: seq[Cards]): string =
   cast[seq[char]](deck.getBytes).encode false
+
+func code*(c: Card): string =
+  result.add c.`set`.int.`$`.align(2, '0')
+  result.add c.faction.identifier
+  result.add c.number.`$`.align(3, '0')
+  if c.subnumber > 0:
+    result.add $c.subnumber
+
+func code*(c: Cards): string =
+  $c.count & ":" & c.card.code
