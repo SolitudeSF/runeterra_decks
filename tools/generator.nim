@@ -1,13 +1,7 @@
-import macros, os, strutils
-import tables, options
-import ../cards, ../codes
+import std/[macros, os, strutils, json]
 
 const
   runeterraRequestedLocale {.strdefine.} = "en_us"
-
-import os, strutils, json
-
-const
   runeterraGeneratePath {.strdefine.} = ""
   runeterraDataPath = runeterraGeneratePath / runeterraRequestedLocale / "data"
 
@@ -29,34 +23,32 @@ func extractVersion(url: string): string =
 func colonPair(a: string, b: NimNode): NimNode =
   result = nnkExprColonExpr.newTree(ident a, b)
 
-func ident(s: Set): NimNode =
-  result = ident:
-    case s
-    of Set1: "Set1"
-    of Set2: "Set2"
-    of Set3: "Set3"
+func toFactionIdent(s: string): NimNode =
+   result = ident:
+     case s
+     of "DE": "fDemacia"
+     of "FR": "fFreljord"
+     of "IO": "fIonia"
+     of "NX": "fNoxus"
+     of "PZ": "fPiltoverZaun"
+     of "SI": "fShadowIsles"
+     of "BW": "fBilgewater"
+     of "MT": "fTargon"
+     else: raise newException(ValueError, "Unknown faction identifier: " & s)
 
-func ident(f: Faction): NimNode =
-  result = ident:
-    case f
-    of fDemacia: "fDemacia"
-    of fFreljord: "fFreljord"
-    of fIonia: "fIonia"
-    of fNoxus: "fNoxus"
-    of fPiltoverZaun: "fPiltoverZaun"
-    of fShadowIsles: "fShadowIsles"
-    of fBilgewater: "fBilgewater"
-    of fTargon: "fTargon"
-
-func newCardAst(card: Card): NimNode =
+func newCardAst(code: string): NimNode =
+  let
+    exp = "Set" & code[0..1].strip(chars = {'0'}, leading = true, trailing = false)
+    id = code[2..3]
+    num = code[4..6].parseInt
   result = nnkObjConstr.newTree(
     ident "Card",
-    nnkExprColonExpr.newTree(nnkAccQuoted.newTree ident "set", ident card.set),
-    colonPair("faction", ident card.faction),
-    colonPair("number", newLit card.number)
+    nnkExprColonExpr.newTree(nnkAccQuoted.newTree ident "set", ident exp),
+    colonPair("faction", id.toFactionIdent),
+    colonPair("number", newLit num)
   )
-  if card.subnumber > 0:
-    result.add colonPair("subnumber", newLit card.subnumber)
+  if code.len > 7:
+    result.add colonPair("subnumber", newLit code[8..^1].parseInt)
 
 func normalizedName(s: string): string =
   result = newStringOfCap(s.len)
@@ -109,7 +101,7 @@ func newCardInfoAst(
   if associated.len > 0:
     var associatedArray = newNimNode nnkBracket
     for code in associated:
-      associatedArray.add code.getStr.parseCardCode.newCardAst
+      associatedArray.add code.getStr.newCardAst
     result.add colonPair("associatedCards", nnkPrefix.newTree(ident "@", associatedArray))
 
 proc generateGlobals: tuple[globals: NimNode, version: string] =
@@ -181,19 +173,61 @@ proc generateGlobals: tuple[globals: NimNode, version: string] =
     localeIdent = ident "runeterraLocale"
     termIdent = ident "term"
     keywordIdent = ident "keyword"
+    factionIdent = ident "faction"
+    factionType = ident "Faction"
+    setType = ident "Set"
+    cardType = ident "Card"
+    cardsType = ident "Cards"
+    deckType = ident "Deck"
+    setIdent = nnkAccQuoted.newTree ident "set"
+    factionConst = ident "factionIdentifier"
+    cardArg = ident "card"
 
   result.version = version
 
   result.globals = quote do:
+    import hashes
+
+    type
+      `factionType`* = enum
+        fDemacia = "Demacia", fFreljord = "Freljord", fIonia = "Ionia", fNoxus = "Noxus"
+        fPiltoverZaun = "Piltover & Zaun", fShadowIsles = "Shadow Isles"
+        fBilgewater = "Bilgewater", fTargon = "Targon"
+
+      `setType`* = enum
+        Set1 = (1, "Foundations"), Set2 = "Rising Tides", Set3 = "Call of the Mountain"
+
+      `cardType`* = object
+        number*, subnumber*: uint8
+        `setIdent`*: `setType`
+        faction*: `factionType`
+
+      `cardsType`* = object
+        card*: `cardType`
+        count*: uint8
+
+      `deckType`* = seq[`cardsType`]
+
     `enumDef`
     const
       `versionIdent`* = `version`
       `localeIdent`* = `runeterraRequestedLocale`
       `termsIdent`*: array[Term, string] = `termBracket`
       `keywordsIdent`*: array[Keyword, string] = `keywordBracket`
+      `factionConst`*: array[`factionType`, string] = [
+            "DE", "FR", "IO", "NX", "PZ", "SI", "BW", "MT"
+      ]
 
     template description*(`termIdent`: Term): string = termDescriptions[`termIdent`]
     template description*(`keywordIdent`: Keyword): string = keywordDescriptions[`keywordIdent`]
+    template identifier*(`factionIdent`: `factionType`): string = `factionConst`[`factionIdent`]
+
+    func hash*(`cardArg`: `cardType`): Hash =
+      result = `cardArg`.`setIdent`.hash
+      result = result !& `cardArg`.faction.hash
+      result = result !& `cardArg`.number.hash
+      result = result !& `cardArg`.subnumber.hash
+      result = !$result
 
 proc generateCardsInfo: tuple[types, library: NimNode] =
   var
@@ -208,7 +242,7 @@ proc generateCardsInfo: tuple[types, library: NimNode] =
 
     for card in cards:
       let
-        key = card["cardCode"].getStr.parseCardCode
+        key = card["cardCode"].getStr
         typ = card["type"].getStr
         supertype = card["supertype"].getStr
 
@@ -278,7 +312,6 @@ proc generateCardsInfo: tuple[types, library: NimNode] =
 
   result.types = quote do:
     import options
-    import ../cards
 
     `enumDef`
     type `cardInfoIdent`* = object
@@ -300,8 +333,7 @@ proc generateCardsInfo: tuple[types, library: NimNode] =
 
   result.library = quote do:
     import tables, options
-    import ../cards, ./types
-    export types
+    import ../cards
 
     const `libraryIdent` = `tableConstructor`.toTable
 
@@ -317,26 +349,24 @@ proc generateCardsInfo: tuple[types, library: NimNode] =
       result = runeterraLibraryInternal[`cardsIdent`.card]
 
 
-macro generateAll: untyped =
+macro generator =
   let
     (globals, version) = generateGlobals()
     (types, library) = generateCardsInfo()
+    path = currentSourcePath().parentDir.parentDir / "src" / "runeterra_decks"
 
-  result = newStmtList(globals, types, library)
+  func parseVersion(s: string): tuple[major, minor, patch: int] =
+    let
+      sep1 = s.find '_'
+      sep2 = s.rfind '_'
 
-  when defined(runeterraWriteInfo):
-    func parseVersion(s: string): tuple[major, minor, patch: int] =
-      let
-        sep1 = s.find '_'
-        sep2 = s.rfind '_'
+    result.major = s[0..<sep1].parseInt
+    result.minor = s[sep1 + 1..<sep2].parseInt
+    result.patch = s[sep2 + 1..^1].parseInt
 
-      result.major = s[0..<sep1].parseInt
-      result.minor = s[sep1 + 1..<sep2].parseInt
-      result.patch = s[sep2 + 1..^1].parseInt
+  if defined(runeterraForceUpdate) or version.parseVersion > (2, 0, 0):
+    warning "Updated global definition"
+    writeFile path / "cards.nim", newStmtList(globals, types).repr
+  writeFile path / "info" / "v" & version & ".nim", library.repr
 
-    if version.parseVersion > (2, 0, 0):
-      warning "Updated global definition"
-      writeFile currentSourcePath().parentDir / "types.nim", newStmtList(globals, types).repr
-    writeFile currentSourcePath().parentDir / "v" & version & ".nim", library.repr
-
-generateAll()
+generator()

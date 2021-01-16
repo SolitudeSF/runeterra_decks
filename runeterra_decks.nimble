@@ -12,4 +12,4 @@ srcDir        = "src"
 requires "nim >= 1.0.0", "base32"
 
 task generate, "Generate definitions":
-  exec "nim c -d:runeterraWriteInfo -d:runeterraGeneratePath:" & paramStr(9) & " src/runeterra_decks/info"
+  exec "nim r -d:runeterraGeneratePath:" & paramStr(9) & " tools/generator"
