@@ -52,6 +52,12 @@ func toUInt(f: Faction): uint64 =
   if f == fTargon: 9'u64
   else: f.uint64
 
+func toSet(n: uint64): Set =
+  (n - 1).Set
+
+func toUInt(s: Set): uint64 =
+  s.uint64 + 1
+
 func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
   let bytes = try:
     decode s
@@ -72,7 +78,7 @@ func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
     for _ in 1..numGroupOfs:
       let
         numOfsInThisGroup = queue.next
-        `set` = queue.next.Set
+        `set` = queue.next.toSet
         faction = queue.next.toFaction
 
       for _ in 1..numOfsInThisGroup:
@@ -90,7 +96,7 @@ func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
   while queue.current < queue.data.len:
     let
       count = queue.next.uint8
-      `set` = queue.next.Set
+      `set` = queue.next.toSet
       faction = queue.next.toFaction
       number = queue.next.uint8
 
@@ -187,7 +193,7 @@ func encodeGroups(result: var seq[byte], groups: seq[Deck]) =
   result.addVarint groups.len
   for deck in groups:
     result.addVarint deck.len
-    result.addVarint deck[0].card.`set`
+    result.addVarint deck[0].card.`set`.toUInt
     result.addVarint deck[0].card.faction.toUInt
 
     for deckcard in deck:

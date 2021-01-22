@@ -1,17 +1,31 @@
-import std/[macros, os, strutils, json]
+import std/[macros, os, strutils, json, jsonutils]
 
 const
   runeterraRequestedLocale {.strdefine.} = "en_us"
   runeterraGeneratePath {.strdefine.} = ""
   runeterraDataPath = runeterraGeneratePath / runeterraRequestedLocale / "data"
 
-func newEnumField(name, str: string): NimNode =
-  result = nnkEnumFieldDef.newTree(ident name, newLit str)
+type
+  Enums = object
+    regions, sets, terms, keywords, speeds, rarities, types, supertypes, subtypes: seq[string]
 
-func newEnumDef(name: string, children: seq[NimNode]): NimNode =
+  EnumDef = object
+    name, str, prefix: string
+
+func quotedIdent(str: string): NimNode =
+  result = nnkAccQuoted.newTree ident str
+
+func newEnumField(def: EnumDef): NimNode =
+  result = nnkEnumFieldDef.newTree(ident def.prefix & def.name, newLit def.str)
+
+func newEnumDef(name: string, children: seq[EnumDef]): NimNode =
+  var defs = nnkEnumTy.newNimNode
+  defs.add newEmptyNode()
+  for def in children:
+    defs.add def.newEnumField
   result = nnkTypeDef.newTree(
     nnkPostfix.newTree(ident "*", ident name),
-    newEmptyNode(), nnkEnumTy.newTree children
+    newEmptyNode(), defs
   )
 
 func extractVersion(url: string): string =
@@ -43,7 +57,7 @@ func newCardAst(code: string): NimNode =
     num = code[4..6].parseInt
   result = nnkObjConstr.newTree(
     ident "Card",
-    nnkExprColonExpr.newTree(nnkAccQuoted.newTree ident "set", ident exp),
+    nnkExprColonExpr.newTree(quotedIdent "set", ident exp),
     colonPair("faction", id.toFactionIdent),
     colonPair("number", newLit num)
   )
@@ -73,7 +87,7 @@ func newCardInfoAst(
   result = nnkObjConstr.newTree(
     ident "CardInfo",
     colonPair("name", newLit name),
-    nnkExprColonExpr.newTree(nnkAccQuoted.newTree ident "type", ident "ct" & typ),
+    nnkExprColonExpr.newTree(quotedIdent "type", ident "ct" & typ),
     colonPair("description", newLit description),
     colonPair("flavorText", newLit flavorText),
     colonPair("cost", newLit cost),
@@ -104,68 +118,93 @@ func newCardInfoAst(
       associatedArray.add code.getStr.newCardAst
     result.add colonPair("associatedCards", nnkPrefix.newTree(ident "@", associatedArray))
 
-proc generateGlobals: tuple[globals: NimNode, version: string] =
+func extractDescs(js: JsonNode): seq[NimNode] =
+  result.newSeq js.len
+  var i = 0
+  for node in js:
+    result[i] = node["description"].getStr.newLit
+    inc i
+
+func extractDefs(js: JsonNode, prefix = "", refAsStr = true): seq[EnumDef] =
+  result.newSeq js.len
+  var i = 0
+  for node in js:
+    let nameRef = node["nameRef"].getStr
+    if prefix.len > 0:
+      if refAsStr:
+        result[i] = EnumDef(prefix: prefix, name: nameRef, str: nameRef)
+      else:
+        result[i] = EnumDef(prefix: prefix, name: nameRef, str: node["name"].getStr)
+    else:
+      result[i] = EnumDef(name: nameRef, str: node["name"].getStr)
+    inc i
+
+func findName(defs: openArray[EnumDef], name: string): int =
+  for i, def in defs:
+    if def.name == name:
+      return i
+  return -1
+
+template stabilizeEnumsImpl(withDescs = false): untyped =
+  for i, e in enums:
+    let idx = defs.findName e
+    if idx != i:
+      hint "Corrected order of " & defs[i].name
+      swap defs[i], defs[idx]
+      when withDescs:
+        swap descs[i], descs[idx]
+  for i in enums.len..defs.high:
+    warning "New enum field: " & defs[i].name
+    enums.add defs[i].name
+
+func stabilizeEnums(enums: var seq[string], defs: var seq[EnumDef]) =
+  stabilizeEnumsImpl()
+
+func stabilizeEnums(enums: var seq[string], defs: var seq[EnumDef], descs: var seq[NimNode]) =
+  stabilizeEnumsImpl(withDescs = true)
+
+proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string] =
   let
     path = runeterraDataPath / "globals-" & runeterraRequestedLocale & ".json"
     content = slurp path
     js = content.parseJson
+    regions = js["regions"]
+    sets = js["sets"]
     terms = js["vocabTerms"]
-    termCount = terms.len
     keywords = js["keywords"]
-    keywordCount = keywords.len
     spellSpeeds = js["spellSpeeds"]
     rarities = js["rarities"]
 
   var
-    termDefs = newSeq[NimNode](termCount + 1)
-    termDescs = newSeq[NimNode](termCount)
-    keywordDefs = newSeq[NimNode](keywordCount + 1)
-    keywordDescs = newSeq[NimNode](keywordCount)
-    speedDefs = newSeq[NimNode](spellSpeeds.len + 1)
-    rarityDefs = newSeq[NimNode](rarities.len + 1)
-    i = 0
+    termDescs = terms.extractDescs
+    keywordDescs = keywords.extractDescs
+    regionDefs = regions.extractDefs(prefix = "f", refAsStr = false)
+    setDefs = sets.extractDefs
+    termDefs = terms.extractDefs
+    keywordDefs = keywords.extractDefs
+    speedDefs = spellSpeeds.extractDefs(prefix = "ss")
+    rarityDefs = rarities.extractDefs(prefix = "cr")
 
-  termDefs[0] = newEmptyNode()
-  keywordDefs[0] = newEmptyNode()
-  speedDefs[0] = newEmptyNode()
-  rarityDefs[0] = newEmptyNode()
-
-  for term in terms:
-    termDescs[i] = term["description"].getStr.newLit
-    inc i
-    termDefs[i] = newEnumField(term["nameRef"].getStr, term["name"].getStr)
-
-  i = 0
-
-  for keyword in keywords:
-    keywordDescs[i] = keyword["description"].getStr.newLit
-    inc i
-    keywordDefs[i] = newEnumField(keyword["nameRef"].getStr, keyword["name"].getStr)
-
-  i = 0
-
-  for speed in spellSpeeds:
-    inc i
-    let name = speed["nameRef"].getStr
-    speedDefs[i] = newEnumField("ss" & name, name)
-
-  i = 0
-
-  for rarity in rarities:
-    inc i
-    let name = rarity["nameRef"].getStr
-    rarityDefs[i] = newEnumField("cr" & name, name)
+  enums.regions.stabilizeEnums regionDefs
+  enums.sets.stabilizeEnums setDefs
+  enums.terms.stabilizeEnums termDefs, termDescs
+  enums.keywords.stabilizeEnums keywordDefs, keywordDescs
+  enums.speeds.stabilizeEnums speedDefs
+  enums.rarities.stabilizeEnums rarityDefs
 
   let
     enumDef = nnkTypeSection.newTree(
-      newEnumDef("Term", termDefs),
-      newEnumDef("Keyword", keywordDefs),
+      newEnumDef("Faction", regionDefs),
+      newEnumDef("Set", setDefs),
+      newEnumDef("CardRarity", rarityDefs),
       newEnumDef("SpellSpeed", speedDefs),
-      newEnumDef("CardRarity", rarityDefs)
+      newEnumDef("Term", termDefs),
+      newEnumDef("Keyword", keywordDefs)
     )
 
     termBracket = nnkBracket.newTree termDescs
     keywordBracket = nnkBracket.newTree keywordDescs
+
     termsIdent = ident "termDescriptions"
     keywordsIdent = ident "keywordDescriptions"
     versionIdent = ident "runeterraVersion"
@@ -174,12 +213,10 @@ proc generateGlobals: tuple[globals: NimNode, version: string] =
     termIdent = ident "term"
     keywordIdent = ident "keyword"
     factionIdent = ident "faction"
-    factionType = ident "Faction"
-    setType = ident "Set"
     cardType = ident "Card"
     cardsType = ident "Cards"
     deckType = ident "Deck"
-    setIdent = nnkAccQuoted.newTree ident "set"
+    setIdent = quotedIdent "set"
     factionConst = ident "factionIdentifier"
     cardArg = ident "card"
 
@@ -188,19 +225,13 @@ proc generateGlobals: tuple[globals: NimNode, version: string] =
   result.globals = quote do:
     import hashes
 
+    `enumDef`
+
     type
-      `factionType`* = enum
-        fDemacia = "Demacia", fFreljord = "Freljord", fIonia = "Ionia", fNoxus = "Noxus"
-        fPiltoverZaun = "Piltover & Zaun", fShadowIsles = "Shadow Isles"
-        fBilgewater = "Bilgewater", fTargon = "Targon"
-
-      `setType`* = enum
-        Set1 = (1, "Foundations"), Set2 = "Rising Tides", Set3 = "Call of the Mountain"
-
       `cardType`* = object
         number*, subnumber*: uint8
-        `setIdent`*: `setType`
-        faction*: `factionType`
+        `setIdent`*: Set
+        faction*: Faction
 
       `cardsType`* = object
         card*: `cardType`
@@ -208,19 +239,18 @@ proc generateGlobals: tuple[globals: NimNode, version: string] =
 
       `deckType`* = seq[`cardsType`]
 
-    `enumDef`
     const
       `versionIdent`* = `version`
       `localeIdent`* = `runeterraRequestedLocale`
       `termsIdent`*: array[Term, string] = `termBracket`
       `keywordsIdent`*: array[Keyword, string] = `keywordBracket`
-      `factionConst`*: array[`factionType`, string] = [
-            "DE", "FR", "IO", "NX", "PZ", "SI", "BW", "MT"
+      `factionConst`*: array[Faction, string] = [
+        "DE", "FR", "IO", "NX", "PZ", "SI", "BW", "MT"
       ]
 
     template description*(`termIdent`: Term): string = termDescriptions[`termIdent`]
     template description*(`keywordIdent`: Keyword): string = keywordDescriptions[`keywordIdent`]
-    template identifier*(`factionIdent`: `factionType`): string = `factionConst`[`factionIdent`]
+    template identifier*(`factionIdent`: Faction): string = `factionConst`[`factionIdent`]
 
     func hash*(`cardArg`: `cardType`): Hash =
       result = `cardArg`.`setIdent`.hash
@@ -229,7 +259,7 @@ proc generateGlobals: tuple[globals: NimNode, version: string] =
       result = result !& `cardArg`.subnumber.hash
       result = !$result
 
-proc generateCardsInfo: tuple[types, library: NimNode] =
+proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
   var
     typeNames, supertypeNames, subtypeNames: seq[string]
     tablePairs: seq[NimNode]
@@ -278,23 +308,24 @@ proc generateCardsInfo: tuple[types, library: NimNode] =
       tablePairs.add nnkExprColonExpr.newTree(keyAst, valAst)
 
   var
-    typeDefs = newSeq[NimNode](typeNames.len + 1)
-    supertypeDefs = newSeq[NimNode](supertypeNames.len + 2)
-    subtypeDefs = newSeq[NimNode](subtypeNames.len + 1)
+    typeDefs = newSeq[EnumDef](typeNames.len)
+    supertypeDefs = newSeq[EnumDef](supertypeNames.len + 1)
+    subtypeDefs = newSeq[EnumDef](subtypeNames.len)
 
-  typeDefs[0] = newEmptyNode()
-  supertypeDefs[0] = newEmptyNode()
-  supertypeDefs[1] = newEnumField("csupNone", "None")
-  subtypeDefs[0] = newEmptyNode()
+  supertypeDefs[0] = EnumDef(prefix: "csup", name: "None", str: "None")
 
   for i, name in typeNames:
-    typeDefs[i + 1] = newEnumField("ct" & name, name)
+    typeDefs[i] = EnumDef(prefix: "ct", name: name, str: name)
 
   for i, name in supertypeNames:
-    supertypeDefs[i + 2] = newEnumField("csup" & name, name)
+    supertypeDefs[i + 1] = EnumDef(prefix: "csup", name: name, str: name)
 
   for i, name in subtypeNames:
-    subtypeDefs[i + 1] = newEnumField("csub" & name.normalizedName, name)
+    subtypeDefs[i] = EnumDef(prefix: "csub", name: name.normalizedName, str: name)
+
+  enums.types.stabilizeEnums typeDefs
+  enums.supertypes.stabilizeEnums supertypeDefs
+  enums.subtypes.stabilizeEnums subtypeDefs
 
   let
     enumDef = nnkTypeSection.newTree(
@@ -305,7 +336,7 @@ proc generateCardsInfo: tuple[types, library: NimNode] =
     libraryIdent = ident "runeterraLibraryInternal"
     tableConstructor = nnkTableConstr.newTree tablePairs
     cardInfoIdent = ident "CardInfo"
-    typeIdent = nnkAccQuoted.newTree ident "type"
+    typeIdent = quotedIdent "type"
     nameIdent = ident "name"
     cardIdent = ident "card"
     cardsIdent = ident "cards"
@@ -348,21 +379,28 @@ proc generateCardsInfo: tuple[types, library: NimNode] =
     func getInfo*(`cardsIdent`: Cards): CardInfo =
       result = runeterraLibraryInternal[`cardsIdent`.card]
 
+func parseVersion(s: string): tuple[major, minor, patch: int] =
+  let
+    sep1 = s.find '_'
+    sep2 = s.rfind '_'
+
+  result.major = s[0..<sep1].parseInt
+  result.minor = s[sep1 + 1..<sep2].parseInt
+  result.patch = s[sep2 + 1..^1].parseInt
 
 macro generator =
+  let enumsPath = currentSourcePath().parentDir / "enums.json"
+  var enums = try:
+    enumsPath.readFile.parseJson.jsonTo Enums
+  except:
+    Enums()
+
   let
-    (globals, version) = generateGlobals()
-    (types, library) = generateCardsInfo()
+    (globals, version) = generateGlobals(enums)
+    (types, library) = generateCardsInfo(enums)
     path = currentSourcePath().parentDir.parentDir / "src" / "runeterra_decks"
 
-  func parseVersion(s: string): tuple[major, minor, patch: int] =
-    let
-      sep1 = s.find '_'
-      sep2 = s.rfind '_'
-
-    result.major = s[0..<sep1].parseInt
-    result.minor = s[sep1 + 1..<sep2].parseInt
-    result.patch = s[sep2 + 1..^1].parseInt
+  writeFile enumsPath, $enums.toJson
 
   if defined(runeterraForceUpdate) or version.parseVersion > (2, 0, 0):
     warning "Updated global definition"

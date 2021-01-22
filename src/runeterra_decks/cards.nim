@@ -9,19 +9,12 @@ type
     fShadowIsles = "Shadow Isles", fBilgewater = "Bilgewater",
     fTargon = "Targon"
   Set* = enum
-    Set1 = (1, "Foundations"), Set2 = "Rising Tides",
-    Set3 = "Call of the Mountain"
-  Card* = object
-    number*, subnumber*: uint8
-    `set`*: Set
-    faction*: Faction
-
-  Cards* = object
-    card*: Card
-    count*: uint8
-
-  Deck* = seq[Cards]
-type
+    Set1 = "Foundations", Set2 = "Rising Tides", Set3 = "Call of the Mountain"
+  CardRarity* = enum
+    crNone = "None", crCommon = "Common", crRare = "Rare", crEpic = "Epic",
+    crChampion = "Champion"
+  SpellSpeed* = enum
+    ssSlow = "Slow", ssFast = "Fast", ssBurst = "Burst"
   Term* = enum
     Allegiance = "Allegiance", Reforge = "Reforge", Support = "Support",
     Strongest = "Strongest", Toss = "Toss", Behold = "Behold",
@@ -49,11 +42,17 @@ type
     LastBreath = "Last Breath", Bilgewater = "Bilgewater", Nab = "Nab",
     Challenger = "Challenger", Imbue = "Imbue", Fearsome = "Fearsome",
     CantBlock = "Can\'t Block", Deep = "Deep"
-  SpellSpeed* = enum
-    ssSlow = "Slow", ssBurst = "Burst", ssFast = "Fast"
-  CardRarity* = enum
-    crCommon = "Common", crRare = "Rare", crEpic = "Epic",
-    crChampion = "Champion", crNone = "None"
+type
+  Card* = object
+    number*, subnumber*: uint8
+    `set`*: Set
+    faction*: Faction
+
+  Cards* = object
+    card*: Card
+    count*: uint8
+
+  Deck* = seq[Cards]
 const
   runeterraVersion* = "2_0_0"
   runeterraLocale* = "en_us"
