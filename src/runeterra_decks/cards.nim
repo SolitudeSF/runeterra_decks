@@ -21,7 +21,7 @@ type
     RoundEnd = "Round End", Attack = "Attack", Buffed = "Buffed",
     Strike = "Strike", NexusStrike = "Nexus Strike", RoundStart = "Round Start",
     Play = "Play", Everywhere = "Everywhere", Rally = "Rally",
-    Silence = "Silence", Plunder = "Plunder"
+    Silence = "Silence", Plunder = "Plunder", Phase = "Phase"
   Keyword* = enum
     Obliterate = "Obliterate", MtTargon = "Targon", Skill = "Skill",
     DoubleStrike = "Double Attack", Daybreak = "Daybreak", Weakest = "Weakest",
@@ -54,7 +54,7 @@ type
 
   Deck* = seq[Cards]
 const
-  runeterraVersion* = "2_0_0"
+  runeterraVersion* = "2_1_0"
   runeterraLocale* = "en_us"
   termDescriptions*: array[Term, string] = ["When you summon this, it gets its allegiance bonus if the top card of your deck matches its region.", "Create a random Blade Fragment still needed to restore the blade. Once you’ve cast all 3, create the Blade of the Exile.",
     "Attacking with a support unit will buff the unit to its right.",
@@ -65,7 +65,8 @@ const
     "Get this effect when this unit attacks.", "A unit is buffed when its Power or Health is increased or it gains a new keyword.", "Get this effect when a unit attempts to deal damage using its Power, either at the end of battle or with spells. Units with 0 Power can\'t strike.",
     "Effect when unit Strikes the enemy Nexus.",
     "Get this effect when the round starts.",
-    "Get this effect when you play this unit from hand.", "In play, in hand, in deck, in discard, and even if created/summoned later.", "If you don\'t have one, gain the attack token. You can attack this round.", "Remove all keywords, abilities, and ongoing effects. Doesn\'t affect damage or subtype.", "A card triggers its plunder ability when played if you damaged the enemy Nexus this round."]
+    "Get this effect when you play this unit from hand.", "In play, in hand, in deck, in discard, and even if created/summoned later.", "If you don\'t have one, gain the attack token. You can attack this round.", "Remove all keywords, abilities, and ongoing effects. Doesn\'t affect damage or subtype.", "A card triggers its plunder ability when played if you damaged the enemy Nexus this round.",
+    "Pick the next Moon Weapon for Aphelios."]
   keywordDescriptions*: array[Keyword, string] = ["Completely removed from the game. Doesn\'t cause Last Breath and can\'t be revived.",
     " ", "A unit\'s spell-like effect that allows enemy reactions.", "While attacking, it strikes both before AND at the same time as its blocker.",
     "Bonus if this is the FIRST card you play in a round.",
@@ -134,7 +135,8 @@ type
     csubPoro = "PORO", csubDragon = "DRAGON", csubSpider = "SPIDER",
     csubElite = "ELITE", csubTech = "TECH", csubYeti = "YETI",
     csubElnuk = "ELNUK", csubSeaMonster = "SEA MONSTER",
-    csubTreasure = "TREASURE", csubCelestial = "CELESTIAL"
+    csubTreasure = "TREASURE", csubCelestial = "CELESTIAL",
+    csubMoonWeapon = "MOON WEAPON"
 type
   CardInfo* = object
     cost*: int
