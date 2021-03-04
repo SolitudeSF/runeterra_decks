@@ -9,4 +9,4 @@ test "codes":
 
   check format == 1
   check version == 1
-  check deck.serialize == "CIBAIAYGAQDQQDYHAMER2IZNGM2DOVICAEBQMCICAMETYYQBAEBQSEY" # Changed version
+  check deck.serialize == "CMBAIAYGAQDQQDYHAMER2IZNGM2DOVICAEBQMCICAMETYYQBAEBQSEY" # Changed version

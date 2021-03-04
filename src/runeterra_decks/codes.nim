@@ -10,7 +10,9 @@ type
     data: seq[T]
     current: int
 
-const maxKnownVersion* = 2
+const
+  format = 1
+  maxKnownVersion* = 3
 
 proc next[T](q: var Queue[T]): T =
   result = q.data[q.current]
@@ -117,6 +119,7 @@ func parseFactionIdentifier*(s: openArray[char]): Faction =
   elif s[0] == 'P' and s[1] == 'Z': fPiltoverZaun
   elif s[0] == 'S' and s[1] == 'I': fShadowIsles
   elif s[0] == 'B' and s[1] == 'W': fBilgewater
+  elif s[0] == 'S' and s[1] == 'H': fShurima
   elif s[0] == 'M' and s[1] == 'T': fTargon
   else: raise newException(ValueError, "Unknown faction identifier")
 
@@ -206,6 +209,9 @@ func encodeN(result: var seq[byte], deck: Deck) =
     result.addVarint c.card.faction
     result.addVarint c.card.number
 
+func toFormatVersion(format, version: uint8): uint8 =
+  result = version or (format shl 4)
+
 func getBytes(deck: Deck): seq[byte] =
   var cN, c1, c2, c3: Deck
 
@@ -231,7 +237,7 @@ func getBytes(deck: Deck): seq[byte] =
 
   cN.sort cmp
 
-  result.addVarint 18
+  result.addVarint toFormatVersion(format, maxKnownVersion)
   result.encodeGroups groups3
   result.encodeGroups groups2
   result.encodeGroups groups1

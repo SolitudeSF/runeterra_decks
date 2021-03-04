@@ -7,9 +7,10 @@ type
     fDemacia = "Demacia", fFreljord = "Freljord", fIonia = "Ionia",
     fNoxus = "Noxus", fPiltoverZaun = "Piltover & Zaun",
     fShadowIsles = "Shadow Isles", fBilgewater = "Bilgewater",
-    fTargon = "Targon"
+    fShurima = "Shurima", fTargon = "Targon"
   Set* = enum
-    Set1 = "Foundations", Set2 = "Rising Tides", Set3 = "Call of the Mountain"
+    Set1 = "Foundations", Set2 = "Rising Tides", Set3 = "Call of the Mountain",
+    Set4 = "Empires of the Ascended"
   CardRarity* = enum
     crNone = "None", crCommon = "Common", crRare = "Rare", crEpic = "Epic",
     crChampion = "Champion"
@@ -21,7 +22,10 @@ type
     RoundEnd = "Round End", Attack = "Attack", Buffed = "Buffed",
     Strike = "Strike", NexusStrike = "Nexus Strike", RoundStart = "Round Start",
     Play = "Play", Everywhere = "Everywhere", Rally = "Rally",
-    Silence = "Silence", Plunder = "Plunder", Phase = "Phase"
+    Silence = "Silence", Plunder = "Plunder", Phase = "Phase",
+    Advance = "Advance", Buried = "Countdown", Forecast = "Predict",
+    Slay = "Slay", Aftermath = "Reputation",
+    SunDiscRestore = "Restore the Sun Disc"
   Keyword* = enum
     Obliterate = "Obliterate", MtTargon = "Targon", Skill = "Skill",
     DoubleStrike = "Double Attack", Daybreak = "Daybreak", Weakest = "Weakest",
@@ -41,7 +45,8 @@ type
     Scout = "Scout", Ephemeral = "Ephemeral", Freljord = "Freljord",
     LastBreath = "Last Breath", Bilgewater = "Bilgewater", Nab = "Nab",
     Challenger = "Challenger", Imbue = "Imbue", Fearsome = "Fearsome",
-    CantBlock = "Can\'t Block", Deep = "Deep"
+    CantBlock = "Can\'t Block", Deep = "Deep", Shurima = "Shurima",
+    Focus = "Focus"
 type
   Card* = object
     number*, subnumber*: uint8
@@ -54,7 +59,7 @@ type
 
   Deck* = seq[Cards]
 const
-  runeterraVersion* = "2_1_0"
+  runeterraVersion* = "2_3_0"
   runeterraLocale* = "en_us"
   termDescriptions*: array[Term, string] = ["When you summon this, it gets its allegiance bonus if the top card of your deck matches its region.", "Create a random Blade Fragment still needed to restore the blade. Once you’ve cast all 3, create the Blade of the Exile.",
     "Attacking with a support unit will buff the unit to its right.",
@@ -66,7 +71,8 @@ const
     "Effect when unit Strikes the enemy Nexus.",
     "Get this effect when the round starts.",
     "Get this effect when you play this unit from hand.", "In play, in hand, in deck, in discard, and even if created/summoned later.", "If you don\'t have one, gain the attack token. You can attack this round.", "Remove all keywords, abilities, and ongoing effects. Doesn\'t affect damage or subtype.", "A card triggers its plunder ability when played if you damaged the enemy Nexus this round.",
-    "Pick the next Moon Weapon for Aphelios."]
+    "Pick the next Moon Weapon for Aphelios.",
+    "Makes a Countdown landmark count down that many times", "Round Start: I count down 1. At 0, destroy me and activate the Countdown effect.", "Pick a card from among 3 in your deck. Shuffle the deck and put that card on top.", "When you kill a unit via damage, kill effect, or striking it with an ally. (Self-killing, like from Ephemeral, doesn\'t count.)", "Activates if allies have struck for 5+ damage at least 4 times this game.", "Immediately draw 1 of each Ascended ally. For the rest of the game, level 2 Ascended allies are level 3."]
   keywordDescriptions*: array[Keyword, string] = ["Completely removed from the game. Doesn\'t cause Last Breath and can\'t be revived.",
     " ", "A unit\'s spell-like effect that allows enemy reactions.", "While attacking, it strikes both before AND at the same time as its blocker.",
     "Bonus if this is the FIRST card you play in a round.",
@@ -80,8 +86,7 @@ const
     "When I\'m summoned, refill 1 spell mana.", "Landmarks take up a space on the board. They can\'t attack, block, or take damage.",
     "Negates the next damage the unit would take. Lasts one round.",
     "Can\'t attack or block.", "A Captured card is removed from the game. It returns when the Capturing unit leaves play.",
-    "Set a unit\'s Power to 0 this round. It can be changed after.",
-    "Burst spells resolve instantly. The enemy can\'t act before it finishes.",
+    "Set a unit\'s Power to 0 this round. It can be changed after.", "Burst spells are cast instantaneously. The enemy can\'t act before it finishes.",
     "Fleeting cards discard from hand when the round ends.", "Fast spells can be played at any time, but allow the opponent to respond.",
     "Excess damage I deal to my blocker is dealt to the enemy Nexus.",
     "Get this effect when you play this unit from hand.",
@@ -103,9 +108,9 @@ const
     "Draw a non-champion card from the bottom of the enemy deck",
     "Can choose which enemy unit blocks.",
     "These abilities trigger when you resolve a spell.",
-    "Can only be blocked by enemies with 3 or more Power.", " ", ""]
+    "Can only be blocked by enemies with 3 or more Power.", " ", "", " ", "Cannot be cast in combat or while other spells are pending. Cast instantaneously."]
   factionIdentifier*: array[Faction, string] = ["DE", "FR", "IO", "NX", "PZ",
-    "SI", "BW", "MT"]
+    "SI", "BW", "SH", "MT"]
 template description*(term: Term): string =
   termDescriptions[term]
 
@@ -136,7 +141,7 @@ type
     csubElite = "ELITE", csubTech = "TECH", csubYeti = "YETI",
     csubElnuk = "ELNUK", csubSeaMonster = "SEA MONSTER",
     csubTreasure = "TREASURE", csubCelestial = "CELESTIAL",
-    csubMoonWeapon = "MOON WEAPON"
+    csubMoonWeapon = "MOON WEAPON", csubAscended = "ASCENDED"
 type
   CardInfo* = object
     cost*: int

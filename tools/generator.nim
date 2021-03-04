@@ -47,6 +47,7 @@ func toFactionIdent(s: string): NimNode =
      of "PZ": "fPiltoverZaun"
      of "SI": "fShadowIsles"
      of "BW": "fBilgewater"
+     of "SH": "fShurima"
      of "MT": "fTargon"
      else: raise newException(ValueError, "Unknown faction identifier: " & s)
 
@@ -245,7 +246,7 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
       `termsIdent`*: array[Term, string] = `termBracket`
       `keywordsIdent`*: array[Keyword, string] = `keywordBracket`
       `factionConst`*: array[Faction, string] = [
-        "DE", "FR", "IO", "NX", "PZ", "SI", "BW", "MT"
+        "DE", "FR", "IO", "NX", "PZ", "SI", "BW", "SH", "MT"
       ]
 
     template description*(`termIdent`: Term): string = termDescriptions[`termIdent`]
@@ -264,9 +265,12 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
     typeNames, supertypeNames, subtypeNames: seq[string]
     tablePairs: seq[NimNode]
 
-  for set in ["set1", "set2", "set3"]:
+  for set in ["set1", "set2", "set3", "set4"]:
+    let path = runeterraDataPath / set & "-" & runeterraRequestedLocale & ".json"
+
+    if not fileExists path: continue
+
     let
-      path = runeterraDataPath / set & "-" & runeterraRequestedLocale & ".json"
       content = slurp path
       cards = content.parseJson
 
@@ -402,7 +406,7 @@ macro generator =
 
   writeFile enumsPath, $enums.toJson
 
-  if defined(runeterraForceUpdate) or version.parseVersion > (2, 0, 0):
+  if defined(runeterraForceUpdate) or version.parseVersion > (2, 3, 0):
     warning "Updated global definition"
     writeFile path / "cards.nim", newStmtList(globals, types).repr
   writeFile path / "info" / "v" & version & ".nim", library.repr
