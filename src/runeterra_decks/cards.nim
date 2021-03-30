@@ -46,7 +46,8 @@ type
     LastBreath = "Last Breath", Bilgewater = "Bilgewater", Nab = "Nab",
     Challenger = "Challenger", Imbue = "Imbue", Fearsome = "Fearsome",
     CantBlock = "Can\'t Block", Deep = "Deep", Shurima = "Shurima",
-    Focus = "Focus"
+    Focus = "Focus", AuraVisualFakeKeyword = "Missing Translation",
+    Countdown = "Countdown", Blocked = "Missing Translation"
 type
   Card* = object
     number*, subnumber*: uint8
@@ -59,7 +60,7 @@ type
 
   Deck* = seq[Cards]
 const
-  runeterraVersion* = "2_3_0"
+  runeterraVersion* = "2_5_0"
   runeterraLocale* = "en_us"
   termDescriptions*: array[Term, string] = ["When you summon this, it gets its allegiance bonus if the top card of your deck matches its region.", "Create a random Blade Fragment still needed to restore the blade. Once you’ve cast all 3, create the Blade of the Exile.",
     "Attacking with a support unit will buff the unit to its right.",
@@ -108,7 +109,9 @@ const
     "Draw a non-champion card from the bottom of the enemy deck",
     "Can choose which enemy unit blocks.",
     "These abilities trigger when you resolve a spell.",
-    "Can only be blocked by enemies with 3 or more Power.", " ", "", " ", "Cannot be cast in combat or while other spells are pending. Cast instantaneously."]
+    "Can only be blocked by enemies with 3 or more Power.", " ", "", " ", "Cannot be cast in combat or while other spells are pending. Cast instantaneously.",
+    "Missing Translation", "Round Start: I count down 1. At 0, destroy me and activate the Countdown effect.",
+    "Missing Translation"]
   factionIdentifier*: array[Faction, string] = ["DE", "FR", "IO", "NX", "PZ",
     "SI", "BW", "SH", "MT"]
 template description*(term: Term): string =
