@@ -9,4 +9,10 @@ test "codes":
 
   check format == 1
   check version == 1
-  check deck.serialize == "CMBAIAYGAQDQQDYHAMER2IZNGM2DOVICAEBQMCICAMETYYQBAEBQSEY" # Changed version
+  check deck.serialize == "CIBAIAYGAQDQQDYHAMER2IZNGM2DOVICAEBQMCICAMETYYQBAEBQSEY" # Changed version
+
+test "bandle city":
+  let code = "CEBAWBIKAQDSUMLAQUAZCAMYAHAADRQB5MAQCAYCAIBACAICGEAQKCQ2AA"
+  var (deck, format, version) = parseDeck code
+
+  check deck.serialize == "CQBACAYCAIFQKCQEA4VDCYEFAGIQDGABYAA4MAPLAEBACAICGEAQKCQ2AA"

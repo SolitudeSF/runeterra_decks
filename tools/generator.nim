@@ -49,6 +49,7 @@ func toFactionIdent(s: string): NimNode =
      of "BW": "fBilgewater"
      of "SH": "fShurima"
      of "MT": "fTargon"
+     of "BC": "fBandleCity"
      else: raise newException(ValueError, "Unknown faction identifier: " & s)
 
 func newCardAst(code: string): NimNode =
@@ -148,6 +149,11 @@ func findName(defs: openArray[EnumDef], name: string): int =
 
 template stabilizeEnumsImpl(withDescs = false): untyped =
   for i, e in enums:
+    let e = case e
+      of "Buried": "TermCountdown"
+      of "Forecast": "Predict"
+      of "Aftermath": "Reputation"
+      else: e
     let idx = defs.findName e
     if idx != i:
       hint "Corrected order of " & defs[i].name
@@ -171,10 +177,15 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
     js = content.parseJson
     regions = js["regions"]
     sets = js["sets"]
-    terms = js["vocabTerms"]
     keywords = js["keywords"]
     spellSpeeds = js["spellSpeeds"]
     rarities = js["rarities"]
+
+  var terms = js["vocabTerms"]
+
+  for term in terms.mitems:
+    if term["nameRef"].getStr == "Countdown":
+      term["nameRef"] = %"TermCountdown"
 
   var
     termDescs = terms.extractDescs
@@ -220,6 +231,9 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
     setIdent = quotedIdent "set"
     factionConst = ident "factionIdentifier"
     cardArg = ident "card"
+    buriedIdent = ident"Buried"
+    forecastIdent = ident"Forecast"
+    aftermathIdent = ident"Aftermath"
 
   result.version = version
 
@@ -227,6 +241,11 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
     import hashes
 
     `enumDef`
+
+    const
+      `buriedIdent`* = TermCountdown
+      `forecastIdent`* = Predict
+      `aftermathIdent`* = Reputation
 
     type
       `cardType`* = object
@@ -246,7 +265,7 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
       `termsIdent`*: array[Term, string] = `termBracket`
       `keywordsIdent`*: array[Keyword, string] = `keywordBracket`
       `factionConst`*: array[Faction, string] = [
-        "DE", "FR", "IO", "NX", "PZ", "SI", "BW", "SH", "MT"
+        "DE", "FR", "IO", "NX", "PZ", "SI", "BW", "SH", "MT", "BC"
       ]
 
     template description*(`termIdent`: Term): string = termDescriptions[`termIdent`]
@@ -265,7 +284,7 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
     typeNames, supertypeNames, subtypeNames: seq[string]
     tablePairs: seq[NimNode]
 
-  for set in ["set1", "set2", "set3", "set4"]:
+  for set in ["set1", "set2", "set3", "set4", "set5"]:
     let path = runeterraDataPath / set & "-" & runeterraRequestedLocale & ".json"
 
     if not fileExists path: continue

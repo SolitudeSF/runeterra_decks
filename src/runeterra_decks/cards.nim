@@ -7,10 +7,11 @@ type
     fDemacia = "Demacia", fFreljord = "Freljord", fIonia = "Ionia",
     fNoxus = "Noxus", fPiltoverZaun = "Piltover & Zaun",
     fShadowIsles = "Shadow Isles", fBilgewater = "Bilgewater",
-    fShurima = "Shurima", fTargon = "Targon"
+    fShurima = "Shurima", fTargon = "Targon", fBandleCity = "Bandle City"
   Set* = enum
     Set1 = "Foundations", Set2 = "Rising Tides", Set3 = "Call of the Mountain",
-    Set4 = "Empires of the Ascended"
+    Set4 = "Empires of the Ascended", Set5 = "Beyond the Bandlewood",
+    SetEvent = "Events"
   CardRarity* = enum
     crNone = "None", crCommon = "Common", crRare = "Rare", crEpic = "Epic",
     crChampion = "Champion"
@@ -23,9 +24,10 @@ type
     Strike = "Strike", NexusStrike = "Nexus Strike", RoundStart = "Round Start",
     Play = "Play", Everywhere = "Everywhere", Rally = "Rally",
     Silence = "Silence", Plunder = "Plunder", Phase = "Phase",
-    Advance = "Advance", Buried = "Countdown", Forecast = "Predict",
-    Slay = "Slay", Aftermath = "Reputation",
-    SunDiscRestore = "Restore the Sun Disc"
+    Advance = "Advance", TermCountdown = "Countdown", Predict = "Predict",
+    Slay = "Slay", Reputation = "Reputation",
+    SunDiscRestore = "Restore the Sun Disc", BladeDance = "Blade Dance",
+    Manifest = "Manifest"
   Keyword* = enum
     Obliterate = "Obliterate", MtTargon = "Targon", Skill = "Skill",
     DoubleStrike = "Double Attack", Daybreak = "Daybreak", Weakest = "Weakest",
@@ -47,7 +49,13 @@ type
     Challenger = "Challenger", Imbue = "Imbue", Fearsome = "Fearsome",
     CantBlock = "Can\'t Block", Deep = "Deep", Shurima = "Shurima",
     Focus = "Focus", AuraVisualFakeKeyword = "Missing Translation",
-    Countdown = "Countdown", Blocked = "Missing Translation"
+    Countdown = "Countdown", Blocked = "Missing Translation", Impact = "Impact",
+    Lurker = "Lurk", SilenceIndividualKeyword = "Missing Translation",
+    BandleCity = "Bandle City"
+const
+  Buried* = TermCountdown
+  Forecast* = Predict
+  Aftermath* = Reputation
 type
   Card* = object
     number*, subnumber*: uint8
@@ -60,7 +68,7 @@ type
 
   Deck* = seq[Cards]
 const
-  runeterraVersion* = "2_5_0"
+  runeterraVersion* = "2_14_0"
   runeterraLocale* = "en_us"
   termDescriptions*: array[Term, string] = ["When you summon this, it gets its allegiance bonus if the top card of your deck matches its region.", "Create a random Blade Fragment still needed to restore the blade. Once you’ve cast all 3, create the Blade of the Exile.",
     "Attacking with a support unit will buff the unit to its right.",
@@ -73,7 +81,9 @@ const
     "Get this effect when the round starts.",
     "Get this effect when you play this unit from hand.", "In play, in hand, in deck, in discard, and even if created/summoned later.", "If you don\'t have one, gain the attack token. You can attack this round.", "Remove all keywords, abilities, and ongoing effects. Doesn\'t affect damage or subtype.", "A card triggers its plunder ability when played if you damaged the enemy Nexus this round.",
     "Pick the next Moon Weapon for Aphelios.",
-    "Makes a Countdown landmark count down that many times", "Round Start: I count down 1. At 0, destroy me and activate the Countdown effect.", "Pick a card from among 3 in your deck. Shuffle the deck and put that card on top.", "When you kill a unit via damage, kill effect, or striking it with an ally. (Self-killing, like from Ephemeral, doesn\'t count.)", "Activates if allies have struck for 5+ damage at least 4 times this game.", "Immediately draw 1 of each Ascended ally. For the rest of the game, level 2 Ascended allies are level 3."]
+    "Makes a Countdown landmark count down that many times", "Round Start: I count down 1. At 0, activate the Countdown effect, then destroy me.", "Pick a card from among 3 in your deck. Shuffle the deck and put that card on top.", "When you kill a unit via damage, kill effect, or striking it with an ally. (Self-killing, like from Ephemeral, doesn\'t count.)", "Activates if allies have struck for 5+ damage at least 4 times this game.", "Immediately draw 1 of each Ascended ally. For the rest of the game, level 2 Ascended allies are level 3.",
+    "Start a free attack with that many summoned Blades.",
+    "Create in hand 1 of 3 randomly selected cards."]
   keywordDescriptions*: array[Keyword, string] = ["Completely removed from the game. Doesn\'t cause Last Breath and can\'t be revived.",
     " ", "A unit\'s spell-like effect that allows enemy reactions.", "While attacking, it strikes both before AND at the same time as its blocker.",
     "Bonus if this is the FIRST card you play in a round.",
@@ -110,10 +120,11 @@ const
     "Can choose which enemy unit blocks.",
     "These abilities trigger when you resolve a spell.",
     "Can only be blocked by enemies with 3 or more Power.", " ", "", " ", "Cannot be cast in combat or while other spells are pending. Cast instantaneously.",
-    "Missing Translation", "Round Start: I count down 1. At 0, destroy me and activate the Countdown effect.",
-    "Missing Translation"]
+    "Missing Translation", "Round Start: I count down 1. At 0, activate the Countdown effect, then destroy me.",
+    "Missing Translation", "When this strikes while attacking, it deals 1 to the enemy Nexus. This keyword can stack.", "When you attack while I\'m on top of your deck, I Lurk, granting Lurker allies everywhere +1|+0. Max once per round.",
+    "Missing Translation", " Yordles!"]
   factionIdentifier*: array[Faction, string] = ["DE", "FR", "IO", "NX", "PZ",
-    "SI", "BW", "SH", "MT"]
+    "SI", "BW", "SH", "MT", "BC"]
 template description*(term: Term): string =
   termDescriptions[term]
 
@@ -144,7 +155,8 @@ type
     csubElite = "ELITE", csubTech = "TECH", csubYeti = "YETI",
     csubElnuk = "ELNUK", csubSeaMonster = "SEA MONSTER",
     csubTreasure = "TREASURE", csubCelestial = "CELESTIAL",
-    csubMoonWeapon = "MOON WEAPON", csubAscended = "ASCENDED"
+    csubMoonWeapon = "MOON WEAPON", csubAscended = "ASCENDED", csubFae = "FAE",
+    csubLurker = "LURKER", csubYordle = "YORDLE"
 type
   CardInfo* = object
     cost*: int

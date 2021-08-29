@@ -12,7 +12,7 @@ type
 
 const
   format = 1
-  maxKnownVersion* = 3
+  maxKnownVersion* = 4
 
 proc next[T](q: var Queue[T]): T =
   result = q.data[q.current]
@@ -47,11 +47,15 @@ func addVarint[T](result: var seq[byte], val: T) =
       result.add byteVal.byte
 
 func toFaction(n: uint64): Faction =
-  if n == 9: fTargon
+  case cast[int64](n)
+  of 9: fTargon
+  of 10: fBandleCity
   else: n.Faction
 
 func toUInt(f: Faction): uint64 =
-  if f == fTargon: 9'u64
+  case f
+  of fTargon: 9'u64
+  of fBandleCity: 10'u64
   else: f.uint64
 
 func toSet(n: uint64): Set =
@@ -121,6 +125,7 @@ func parseFactionIdentifier*(s: openArray[char]): Faction =
   elif s[0] == 'B' and s[1] == 'W': fBilgewater
   elif s[0] == 'S' and s[1] == 'H': fShurima
   elif s[0] == 'M' and s[1] == 'T': fTargon
+  elif s[0] == 'B' and s[1] == 'C': fBandleCity
   else: raise newException(ValueError, "Unknown faction identifier")
 
 func parseCardCode*(s: string): Card =
@@ -212,6 +217,22 @@ func encodeN(result: var seq[byte], deck: Deck) =
 func toFormatVersion(format, version: uint8): uint8 =
   result = version or (format shl 4)
 
+func versionRequired(faction: Faction): uint8 =
+  case faction
+  of fDemacia..fShadowIsles: 1
+  of fBilgewater, fTargon: 2
+  of fShurima: 3
+  of fBandleCity: 4
+
+func versionRequired(deck: Deck): uint8 =
+  for cards in deck:
+    let version = cards.card.faction.versionRequired
+    if version > result:
+      result = version
+
+  if result == 0:
+    result = maxKnownVersion
+
 func getBytes(deck: Deck): seq[byte] =
   var cN, c1, c2, c3: Deck
 
@@ -237,7 +258,7 @@ func getBytes(deck: Deck): seq[byte] =
 
   cN.sort cmp
 
-  result.addVarint toFormatVersion(format, maxKnownVersion)
+  result.addVarint toFormatVersion(format, deck.versionRequired)
   result.encodeGroups groups3
   result.encodeGroups groups2
   result.encodeGroups groups1
