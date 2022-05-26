@@ -16,3 +16,9 @@ test "bandle city":
   var (deck, format, version) = parseDeck code
 
   check deck.serialize == "CQBACAYCAIFQKCQEA4VDCYEFAGIQDGABYAA4MAPLAEBACAICGEAQKCQ2AA"
+
+test "worldwalker":
+  let code = "CUDACAQDAQAQICINAEDAGDIBAYGAEAQBAMUC4BQBAQGBYJZIFU3ACAIBAQAQEAIDAQJACBAECA"
+  var (deck, format, version) = parseDeck code
+
+  check deck.serialize == code

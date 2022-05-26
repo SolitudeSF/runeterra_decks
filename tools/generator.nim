@@ -50,6 +50,7 @@ func toFactionIdent(s: string): NimNode =
      of "SH": "fShurima"
      of "MT": "fTargon"
      of "BC": "fBandleCity"
+     of "RU": "fRuneterra"
      else: raise newException(ValueError, "Unknown faction identifier: " & s)
 
 func newCardAst(code: string): NimNode =
@@ -70,7 +71,7 @@ func normalizedName(s: string): string =
   result = newStringOfCap(s.len)
   var newWord = true
   for c in s:
-    if c != ' ':
+    elif c notin {' ', '-'}:
       if newWord:
         result.add c
         newWord = false
@@ -120,11 +121,11 @@ func newCardInfoAst(
       associatedArray.add code.getStr.newCardAst
     result.add colonPair("associatedCards", nnkPrefix.newTree(ident "@", associatedArray))
 
-func extractDescs(js: JsonNode): seq[NimNode] =
+func extractFields(js: JsonNode, fieldName: string): seq[NimNode] =
   result.newSeq js.len
   var i = 0
   for node in js:
-    result[i] = node["description"].getStr.newLit
+    result[i] = node[fieldName].getStr.newLit
     inc i
 
 func extractDefs(js: JsonNode, prefix = "", refAsStr = true): seq[EnumDef] =
@@ -187,17 +188,24 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
     if term["nameRef"].getStr == "Countdown":
       term["nameRef"] = %"TermCountdown"
 
+  echo pretty regions
+
+  # for region in regions.mitems:
+  #   if region["nameRef"].getStr in ["Bard", "Jhin"]:
+  #     region = newJNull()
+
   var
-    termDescs = terms.extractDescs
-    keywordDescs = keywords.extractDescs
+    termDescs = terms.extractFields "description"
+    keywordDescs = keywords.extractFields "description"
     regionDefs = regions.extractDefs(prefix = "f", refAsStr = false)
+    regionAbbrs = regions.extractFields "abbreviation"
     setDefs = sets.extractDefs
     termDefs = terms.extractDefs
     keywordDefs = keywords.extractDefs
     speedDefs = spellSpeeds.extractDefs(prefix = "ss")
     rarityDefs = rarities.extractDefs(prefix = "cr")
 
-  enums.regions.stabilizeEnums regionDefs
+  enums.regions.stabilizeEnums regionDefs, regionAbbrs
   enums.sets.stabilizeEnums setDefs
   enums.terms.stabilizeEnums termDefs, termDescs
   enums.keywords.stabilizeEnums keywordDefs, keywordDescs
@@ -216,6 +224,7 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
 
     termBracket = nnkBracket.newTree termDescs
     keywordBracket = nnkBracket.newTree keywordDescs
+    factionBracket = nnkBracket.newTree regionAbbrs
 
     termsIdent = ident "termDescriptions"
     keywordsIdent = ident "keywordDescriptions"
@@ -264,9 +273,7 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
       `localeIdent`* = `runeterraRequestedLocale`
       `termsIdent`*: array[Term, string] = `termBracket`
       `keywordsIdent`*: array[Keyword, string] = `keywordBracket`
-      `factionConst`*: array[Faction, string] = [
-        "DE", "FR", "IO", "NX", "PZ", "SI", "BW", "SH", "MT", "BC"
-      ]
+      `factionConst`*: array[Faction, string] = `factionBracket`
 
     template description*(`termIdent`: Term): string = termDescriptions[`termIdent`]
     template description*(`keywordIdent`: Keyword): string = keywordDescriptions[`keywordIdent`]
@@ -284,7 +291,7 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
     typeNames, supertypeNames, subtypeNames: seq[string]
     tablePairs: seq[NimNode]
 
-  for set in ["set1", "set2", "set3", "set4", "set5"]:
+  for set in ["set1", "set2", "set3", "set4", "set5", "set6"]:
     let path = runeterraDataPath / set & "-" & runeterraRequestedLocale & ".json"
 
     if not fileExists path: continue
@@ -425,7 +432,7 @@ macro generator =
 
   writeFile enumsPath, $enums.toJson
 
-  if defined(runeterraForceUpdate) or version.parseVersion > (2, 3, 0):
+  if defined(runeterraForceUpdate) or version.parseVersion > (3, 8, 0):
     warning "Updated global definition"
     writeFile path / "cards.nim", newStmtList(globals, types).repr
   writeFile path / "info" / "v" & version & ".nim", library.repr
