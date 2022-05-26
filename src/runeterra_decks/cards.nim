@@ -8,7 +8,7 @@ type
     fNoxus = "Noxus", fPiltoverZaun = "Piltover & Zaun",
     fShadowIsles = "Shadow Isles", fBilgewater = "Bilgewater",
     fShurima = "Shurima", fTargon = "Targon", fBandleCity = "Bandle City",
-    fRuneterra = "Runeterra", fBard = "Bard", fJhin = "Jhin"
+    fRuneterra = "Runeterra"
   Set* = enum
     Set1 = "Foundations", Set2 = "Rising Tides", Set3 = "Call of the Mountain",
     Set4 = "Empires of the Ascended", Set5 = "Beyond the Bandlewood",
@@ -133,7 +133,7 @@ const
     "Each round, the first time an allied card targets me, grant me +1|+1.", "Play me on an ally to give it my stats and keywords while I\'m attached. When that ally leaves play, Recall me.",
     "", "Attaches to another card in a deck. When that card is drawn, activate the effect."]
   factionIdentifier*: array[Faction, string] = ["DE", "FR", "IO", "NX", "PZ",
-    "SI", "BW", "SH", "MT", "BC", "RU", "Bard", "Jhin"]
+    "SI", "BW", "SH", "MT", "BC", "RU"]
 template description*(term: Term): string =
   termDescriptions[term]
 

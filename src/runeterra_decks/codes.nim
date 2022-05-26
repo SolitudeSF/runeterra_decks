@@ -6,7 +6,6 @@ from strutils import align
 import ./cards
 
 type
-  DeckFaction = range[Faction.low..fRuneterra]
   Queue[T] = object
     data: seq[T]
     current: int
@@ -47,14 +46,14 @@ func addVarint[T](result: var seq[byte], val: T) =
 
       result.add byteVal.byte
 
-func toDeckFaction(n: uint64): DeckFaction =
+func toFaction(n: uint64): Faction =
   case cast[int64](n)
   of 9: fTargon
   of 10: fBandleCity
   of 12: fRuneterra
-  else: n.DeckFaction
+  else: n.Faction
 
-func toUInt(f: DeckFaction): uint64 =
+func toUInt(f: Faction): uint64 =
   case f
   of fTargon: 9'u64
   of fBandleCity: 10'u64
@@ -88,7 +87,7 @@ func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
       let
         numOfsInThisGroup = queue.next
         `set` = queue.next.toSet
-        faction = queue.next.toDeckFaction
+        faction = queue.next.toFaction
 
       for _ in 1..numOfsInThisGroup:
         let number = queue.next.uint8
@@ -106,7 +105,7 @@ func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
     let
       count = queue.next.uint8
       `set` = queue.next.toSet
-      faction = queue.next.toDeckFaction
+      faction = queue.next.toFaction
       number = queue.next.uint8
 
     result.deck.add Cards(
@@ -118,7 +117,7 @@ func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
       count: count
     )
 
-func parseDeckFactionIdentifier*(s: openArray[char]): DeckFaction =
+func parseDeckFactionIdentifier*(s: openArray[char]): Faction =
   if   s[0] == 'D' and s[1] == 'E': fDemacia
   elif s[0] == 'F' and s[1] == 'R': fFreljord
   elif s[0] == 'I' and s[1] == 'O': fIonia
@@ -221,7 +220,7 @@ func encodeN(result: var seq[byte], deck: Deck) =
 func toFormatVersion(format, version: uint8): uint8 =
   result = version or (format shl 4)
 
-func versionRequired(faction: DeckFaction): uint8 =
+func versionRequired(faction: Faction): uint8 =
   case faction
   of fDemacia..fShadowIsles: 1
   of fBilgewater, fTargon: 2

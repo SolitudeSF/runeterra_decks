@@ -21,4 +21,5 @@ test "worldwalker":
   let code = "CUDACAQDAQAQICINAEDAGDIBAYGAEAQBAMUC4BQBAQGBYJZIFU3ACAIBAQAQEAIDAQJACBAECA"
   var (deck, format, version) = parseDeck code
 
+  check version == 5
   check deck.serialize == code

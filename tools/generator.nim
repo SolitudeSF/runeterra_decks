@@ -71,7 +71,7 @@ func normalizedName(s: string): string =
   result = newStringOfCap(s.len)
   var newWord = true
   for c in s:
-    elif c notin {' ', '-'}:
+    if c notin {' ', '-'}:
       if newWord:
         result.add c
         newWord = false
@@ -128,19 +128,20 @@ func extractFields(js: JsonNode, fieldName: string): seq[NimNode] =
     result[i] = node[fieldName].getStr.newLit
     inc i
 
-func extractDefs(js: JsonNode, prefix = "", refAsStr = true): seq[EnumDef] =
+func extractDefs(js: JsonNode, prefix = "", refAsStr = false): seq[EnumDef] =
   result.newSeq js.len
   var i = 0
   for node in js:
-    let nameRef = node["nameRef"].getStr
-    if prefix.len > 0:
-      if refAsStr:
-        result[i] = EnumDef(prefix: prefix, name: nameRef, str: nameRef)
-      else:
-        result[i] = EnumDef(prefix: prefix, name: nameRef, str: node["name"].getStr)
-    else:
-      result[i] = EnumDef(name: nameRef, str: node["name"].getStr)
+    result[i] = EnumDef(prefix: prefix, name: node["nameRef"].getStr,
+      str: if refAsStr: node["nameRef"].getStr else: node["name"].getStr)
     inc i
+
+func extractRegionsInfo(js: JsonNode): tuple[defs: seq[EnumDef], abbrs: seq[NimNode]] =
+  for node in js:
+    let name = node["name"].getStr
+    if name notin ["Bard", "Jhin"]:
+      result.defs.add EnumDef(prefix: "f", name: node["nameRef"].getStr, str: name)
+      result.abbrs.add node["abbreviation"].getStr.newLit
 
 func findName(defs: openArray[EnumDef], name: string): int =
   for i, def in defs:
@@ -176,7 +177,6 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
     path = runeterraDataPath / "globals-" & runeterraRequestedLocale & ".json"
     content = slurp path
     js = content.parseJson
-    regions = js["regions"]
     sets = js["sets"]
     keywords = js["keywords"]
     spellSpeeds = js["spellSpeeds"]
@@ -188,22 +188,15 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
     if term["nameRef"].getStr == "Countdown":
       term["nameRef"] = %"TermCountdown"
 
-  echo pretty regions
-
-  # for region in regions.mitems:
-  #   if region["nameRef"].getStr in ["Bard", "Jhin"]:
-  #     region = newJNull()
-
   var
     termDescs = terms.extractFields "description"
     keywordDescs = keywords.extractFields "description"
-    regionDefs = regions.extractDefs(prefix = "f", refAsStr = false)
-    regionAbbrs = regions.extractFields "abbreviation"
+    (regionDefs, regionAbbrs) = js["regions"].extractRegionsInfo
     setDefs = sets.extractDefs
     termDefs = terms.extractDefs
     keywordDefs = keywords.extractDefs
     speedDefs = spellSpeeds.extractDefs(prefix = "ss")
-    rarityDefs = rarities.extractDefs(prefix = "cr")
+    rarityDefs = rarities.extractDefs(prefix = "cr", refAsStr = true)
 
   enums.regions.stabilizeEnums regionDefs, regionAbbrs
   enums.sets.stabilizeEnums setDefs
