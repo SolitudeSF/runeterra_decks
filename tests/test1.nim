@@ -1,5 +1,5 @@
-import unittest, random
-import runeterra_decks/codes
+import std/[unittest, random, tables]
+import runeterra_decks/[codes, cards, info]
 
 test "codes":
   let code = "CEBAIAYGAQDQQDYHAMER2IZNGM2DOVICAEBQMCICAMETYYQBAEBQSEY"
@@ -23,3 +23,9 @@ test "worldwalker":
 
   check version == 5
   check deck.serialize == code
+
+test "multiregion":
+  for card, info in runeterraLibrary:
+    if info.name == "Ionian Hookmaster":
+      check info.regions == {fIonia, fNoxus}
+      break

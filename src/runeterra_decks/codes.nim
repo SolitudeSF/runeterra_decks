@@ -69,8 +69,8 @@ func toUInt(s: Set): uint64 =
 func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
   let bytes = try:
     decode s
-  except:
-    raise newException(CatchableError, "Invalid deck code")
+  except ValueError:
+    raise newException(ValueError, "Invalid deck code")
 
   result.version = bytes[0].byte and 0xF
 
@@ -220,7 +220,7 @@ func encodeN(result: var seq[byte], deck: Deck) =
 func toFormatVersion(format, version: uint8): uint8 =
   result = version or (format shl 4)
 
-func versionRequired(faction: Faction): uint8 =
+func versionRequired(faction: CardFaction): uint8 =
   case faction
   of fDemacia..fShadowIsles: 1
   of fBilgewater, fTargon: 2

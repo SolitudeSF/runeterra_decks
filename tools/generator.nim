@@ -85,7 +85,7 @@ func newCardInfoAst(
   cost, attack, health: int,
   speed, rarity, supertype: string,
   subtypes: seq[string],
-  keywords, associated: JsonNode
+  regions, keywords, associated: JsonNode
 ): NimNode =
   result = nnkObjConstr.newTree(
     ident "CardInfo",
@@ -96,6 +96,11 @@ func newCardInfoAst(
     colonPair("cost", newLit cost),
     colonPair("rarity", ident "cr" & rarity)
   )
+  block:
+    var regionSet = newNimNode nnkCurly
+    for region in regions:
+      regionSet.add ident 'f' & region.getStr
+    result.add colonPair("regions", regionSet)
   if typ == "Unit":
     result.add colonPair("attack", newLit attack)
     result.add colonPair("health", newLit health)
@@ -139,9 +144,8 @@ func extractDefs(js: JsonNode, prefix = "", refAsStr = false): seq[EnumDef] =
 func extractRegionsInfo(js: JsonNode): tuple[defs: seq[EnumDef], abbrs: seq[NimNode]] =
   for node in js:
     let name = node["name"].getStr
-    if name notin ["Bard", "Jhin"]:
-      result.defs.add EnumDef(prefix: "f", name: node["nameRef"].getStr, str: name)
-      result.abbrs.add node["abbreviation"].getStr.newLit
+    result.defs.add EnumDef(prefix: "f", name: node["nameRef"].getStr, str: name)
+    result.abbrs.add node["abbreviation"].getStr.newLit
 
 func findName(defs: openArray[EnumDef], name: string): int =
   for i, def in defs:
@@ -157,7 +161,9 @@ template stabilizeEnumsImpl(withDescs = false): untyped =
       of "Aftermath": "Reputation"
       else: e
     let idx = defs.findName e
-    if idx != i:
+    if idx == -1:
+      error "Couldn't find " & e
+    elif idx != i:
       hint "Corrected order of " & defs[i].name
       swap defs[i], defs[idx]
       when withDescs:
@@ -227,6 +233,7 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
     termIdent = ident "term"
     keywordIdent = ident "keyword"
     factionIdent = ident "faction"
+    cardFaction = ident"CardFaction"
     cardType = ident "Card"
     cardsType = ident "Cards"
     deckType = ident "Deck"
@@ -244,16 +251,13 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
 
     `enumDef`
 
-    const
-      `buriedIdent`* = TermCountdown
-      `forecastIdent`* = Predict
-      `aftermathIdent`* = Reputation
-
     type
+      `cardFaction`* = range[Faction.low..fRuneterra]
+
       `cardType`* = object
         number*, subnumber*: uint8
         `setIdent`*: Set
-        faction*: Faction
+        faction*: CardFaction
 
       `cardsType`* = object
         card*: `cardType`
@@ -262,6 +266,9 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
       `deckType`* = seq[`cardsType`]
 
     const
+      `buriedIdent`* = TermCountdown
+      `forecastIdent`* = Predict
+      `aftermathIdent`* = Reputation
       `versionIdent`* = `version`
       `localeIdent`* = `runeterraRequestedLocale`
       `termsIdent`*: array[Term, string] = `termBracket`
@@ -284,7 +291,7 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
     typeNames, supertypeNames, subtypeNames: seq[string]
     tablePairs: seq[NimNode]
 
-  for set in ["set1", "set2", "set3", "set4", "set5", "set6"]:
+  for set in ["set1", "set2", "set3", "set4", "set5", "set6", "set6cde"]:
     let path = runeterraDataPath / set & "-" & runeterraRequestedLocale & ".json"
 
     if not fileExists path: continue
@@ -324,6 +331,7 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
           card["rarityRef"].getStr,
           card["supertype"].getStr,
           subtypes,
+          card["regionRefs"],
           card["keywordRefs"],
           card["associatedCardRefs"]
         )
@@ -379,6 +387,7 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
       else:
         discard
       `nameIdent`*, description*, flavorText*: string
+      regions*: set[CardFaction]
       rarity*: CardRarity
       keywords*: set[Keyword]
       supertype*: CardSupertype
