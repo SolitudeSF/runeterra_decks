@@ -9,7 +9,7 @@ srcDir        = "src"
 
 # Dependencies
 
-requires "nim >= 1.0.0", "base32"
+requires "nim >= 2.0.0", "base32"
 
 task generate, "Generate definitions":
-  exec "nim c -r -d:runeterraGeneratePath:" & paramStr(9) & " tools/generator"
+  exec "nim c -d:runeterraGeneratePath:" & paramStr(9) & " tools/generator"

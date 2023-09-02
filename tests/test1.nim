@@ -27,5 +27,5 @@ test "worldwalker":
 test "multiregion":
   for card, info in runeterraLibrary:
     if info.name == "Ionian Hookmaster":
-      check info.regions == {fIonia, fNoxus}
+      check info.regions == {Ionia, Noxus}
       break

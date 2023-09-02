@@ -48,16 +48,16 @@ func addVarint[T](result: var seq[byte], val: T) =
 
 func toFaction(n: uint64): Faction =
   case cast[int64](n)
-  of 9: fTargon
-  of 10: fBandleCity
-  of 12: fRuneterra
+  of 9: Targon
+  of 10: BandleCity
+  of 12: Runeterra
   else: n.Faction
 
 func toUInt(f: Faction): uint64 =
   case f
-  of fTargon: 9'u64
-  of fBandleCity: 10'u64
-  of fRuneterra: 12'u64
+  of Targon: 9'u64
+  of BandleCity: 10'u64
+  of Runeterra: 12'u64
   else: f.uint64
 
 func toSet(n: uint64): Set =
@@ -118,17 +118,17 @@ func parseDeck*(s: string): tuple[deck: Deck, format, version: uint8] =
     )
 
 func parseDeckFactionIdentifier*(s: openArray[char]): Faction =
-  if   s[0] == 'D' and s[1] == 'E': fDemacia
-  elif s[0] == 'F' and s[1] == 'R': fFreljord
-  elif s[0] == 'I' and s[1] == 'O': fIonia
-  elif s[0] == 'N' and s[1] == 'X': fNoxus
-  elif s[0] == 'P' and s[1] == 'Z': fPiltoverZaun
-  elif s[0] == 'S' and s[1] == 'I': fShadowIsles
-  elif s[0] == 'B' and s[1] == 'W': fBilgewater
-  elif s[0] == 'S' and s[1] == 'H': fShurima
-  elif s[0] == 'M' and s[1] == 'T': fTargon
-  elif s[0] == 'B' and s[1] == 'C': fBandleCity
-  elif s[0] == 'R' and s[1] == 'U': fRuneterra
+  if   s[0] == 'D' and s[1] == 'E': Demacia
+  elif s[0] == 'F' and s[1] == 'R': Freljord
+  elif s[0] == 'I' and s[1] == 'O': Ionia
+  elif s[0] == 'N' and s[1] == 'X': Noxus
+  elif s[0] == 'P' and s[1] == 'Z': PiltoverZaun
+  elif s[0] == 'S' and s[1] == 'I': ShadowIsles
+  elif s[0] == 'B' and s[1] == 'W': Bilgewater
+  elif s[0] == 'S' and s[1] == 'H': Shurima
+  elif s[0] == 'M' and s[1] == 'T': Targon
+  elif s[0] == 'B' and s[1] == 'C': BandleCity
+  elif s[0] == 'R' and s[1] == 'U': Runeterra
   else: raise newException(ValueError, "Unknown faction identifier")
 
 func parseCardCode*(s: string): Card =
@@ -222,11 +222,11 @@ func toFormatVersion(format, version: uint8): uint8 =
 
 func versionRequired(faction: CardFaction): uint8 =
   case faction
-  of fDemacia..fShadowIsles: 1
-  of fBilgewater, fTargon: 2
-  of fShurima: 3
-  of fBandleCity: 4
-  of fRuneterra: 5
+  of Faction.Demacia..Faction.ShadowIsles: 1
+  of Bilgewater, Targon: 2
+  of Shurima: 3
+  of BandleCity: 4
+  of Runeterra: 5
 
 func versionRequired(deck: Deck): uint8 =
   for cards in deck:

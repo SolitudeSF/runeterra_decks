@@ -1,69 +1,51 @@
 
 import
-  hashes
+  std / hashes
 
 type
   Faction* = enum
-    fDemacia = "Demacia", fFreljord = "Freljord", fIonia = "Ionia",
-    fNoxus = "Noxus", fPiltoverZaun = "Piltover & Zaun",
-    fShadowIsles = "Shadow Isles", fBilgewater = "Bilgewater",
-    fShurima = "Shurima", fTargon = "Targon", fBandleCity = "Bandle City",
-    fRuneterra = "Runeterra", fJhin = "Jhin", fBard = "Bard",
-    fEvelynn = "Evelynn", fJax = "Jax", fKayn = "Kayn", fVarus = "Varus",
-    fAatrox = "Aatrox", fRyze = "Ryze"
+    Demacia, Freljord, Ionia, Noxus, PiltoverZaun = "Piltover & Zaun",
+    ShadowIsles = "Shadow Isles", Bilgewater, Shurima, Targon,
+    BandleCity = "Bandle City", Runeterra, Jhin, Bard, Evelynn, Jax, Kayn,
+    Varus, Aatrox, Ryze, PoroKing = "Poro King", Neeko
   Set* = enum
     Set1 = "Foundations", Set2 = "Rising Tides", Set3 = "Call of the Mountain",
     Set4 = "Empires of the Ascended", Set5 = "Beyond the Bandlewood",
-    SetEvent = "Events", Set6 = "Worldwalker", Set6cde = "The Darkin Saga"
+    SetEvent = "Events", Set6 = "Worldwalker", Set6cde = "The Darkin Saga",
+    Set7 = "Glory in Navori", Set7b = "Heart of the Huntress"
   CardRarity* = enum
-    crNone = "None", crCommon = "Common", crRare = "Rare", crEpic = "Epic",
-    crChampion = "Champion"
+    None, Common, Rare, Epic, Champion
   SpellSpeed* = enum
-    ssSlow = "Slow", ssFast = "Fast", ssBurst = "Burst"
+    Slow, Fast, Burst
   Term* = enum
-    Allegiance = "Allegiance", Reforge = "Reforge", Strongest = "Strongest",
-    Toss = "Toss", Behold = "Behold", RoundEnd = "Round End", Attack = "Attack",
-    Buffed = "Buffed", Strike = "Strike", NexusStrike = "Nexus Strike",
-    RoundStart = "Round Start", Play = "Play", Everywhere = "Everywhere",
-    Rally = "Rally", Silence = "Silence", Phase = "Phase", Advance = "Advance",
-    TermCountdown = "Countdown", Predict = "Predict", Slay = "Slay",
-    Reputation = "Reputation", SunDiscRestore = "Restore the Sun Disc",
-    BladeDance = "Blade Dance", Manifest = "Manifest",
-    AttackStrike = "Attack Strike", Power = "Power", Cost = "Cost",
-    Spawn = "Spawn", Health = "Health", Origin = "Origin", Foe = "Foe",
-    Forge = "Forge", Flow = "Flow", Equip = "Equip", Improvise = "Improvise",
-    AutoEquip = "Auto-Equip", Assimilate = "Assimilate", Empowered = "Empowered"
+    Allegiance, Reforge, Strongest, Toss, Behold, RoundEnd = "Round End",
+    Attack, Buffed, Strike, NexusStrike = "Nexus Strike",
+    RoundStart = "Round Start", Play, Everywhere, Rally, Silence, Phase,
+    Advance, Countdown, Predict, Slay, Reputation,
+    SunDiscRestore = "Restore the Sun Disc", BladeDance = "Blade Dance",
+    Manifest, AttackStrike = "Attack Strike", Power, Cost, Spawn, Health,
+    Origin, Foe, Forge, Flow, Equip, Improvise, AutoEquip = "Auto-Equip",
+    Assimilate, Empowered, Ambush, Obliterate, Disguise
   Keyword* = enum
-    Obliterate = "Obliterate", MtTargon = "Targon", Skill = "Skill",
-    DoubleStrike = "Double Attack", Daybreak = "Daybreak", Weakest = "Weakest",
-    Vulnerable = "Vulnerable", AttackSkillMark = "Attack", Elusive = "Elusive",
-    Drain = "Drain", Stun = "Stun", Autoplay = "Trap",
-    PiltoverZaun = "Piltover & Zaun", Demacia = "Demacia",
-    ShadowIsles = "Shadow Isles", Fury = "Fury", SpellOverwhelm = "Overwhelm",
-    Attune = "Attune", LandmarkVisualOnly = "Landmark", Barrier = "Barrier",
-    Immobile = "Immobile", Capture = "Capture", Frostbite = "Frostbite",
-    Burst = "Burst", Fleeting = "Fleeting", Fast = "Fast",
-    Overwhelm = "Overwhelm", PlaySkillMark = "Play",
-    QuickStrike = "Quick Attack", Tough = "Tough", Recall = "Recall",
-    Ionia = "Ionia", Regeneration = "Regeneration", Silenced = "Silenced",
-    SpellShield = "SpellShield", Lifesteal = "Lifesteal",
-    Nightfall = "Nightfall", Enlightened = "Enlightened", LevelUp = "Level Up",
-    Slow = "Slow", Noxus = "Noxus", Invoke = "Invoke", Augment = "Augment",
-    Scout = "Scout", Ephemeral = "Ephemeral", Freljord = "Freljord",
-    LastBreath = "Last Breath", Bilgewater = "Bilgewater", Nab = "Nab",
-    Challenger = "Challenger", Imbue = "Imbue", Fearsome = "Fearsome",
-    CantBlock = "Can\'t Block", Deep = "Deep", Shurima = "Shurima",
-    Focus = "Focus", AuraVisualFakeKeyword = "Missing Translation",
-    Countdown = "Countdown", Impact = "Impact", Lurker = "Lurk",
-    SilenceIndividualKeyword = "Missing Translation",
-    BandleCity = "Bandle City", Formidable = "Formidable", Fated = "Fated",
-    Attach = "Attach", Runeterra = "Runeterra", Boon = "Boon",
-    BlocksElusive = "Blocks Elusive", Support = "Support",
-    Hallowed = "Hallowed", Plunder = "Plunder", Evolve = "Evolve",
-    Flow = "Flow", ClobberNoEmptySlotRequirement = "Missing Translation",
-    Equipment = "Equipment"
+    Brash, MtTargon = "Targon", Skill, DoubleStrike = "Double Attack", Daybreak,
+    Weakest, Vulnerable, AttackSkillMark = "Attack", Elusive, Drain, Stun,
+    Autoplay = "Trap", PiltoverZaun = "Piltover & Zaun", Demacia,
+    ShadowIsles = "Shadow Isles", Fury, SpellOverwhelm = "Overwhelm", Attune,
+    LandmarkVisualOnly = "Landmark", Barrier, Immobile, Capture, Frostbite,
+    Burst, Fleeting, Fast, Overwhelm, PlaySkillMark = "Play",
+    QuickStrike = "Quick Attack", Tough, Recall, Ionia, Regeneration, Silenced,
+    SpellShield, Lifesteal, Nightfall, Enlightened, LevelUp = "Level Up", Slow,
+    Noxus, Invoke, Augment, Scout, Ephemeral, Freljord,
+    LastBreath = "Last Breath", Bilgewater, Nab, Challenger, Imbue, Fearsome,
+    CantBlock = "Can\'t Block", Deep, Shurima, Focus, Aura, Countdown, Impact,
+    Lurker = "Lurk", BandleCity = "Bandle City", Formidable, Fated, Attach,
+    Runeterra, Boon, BlocksElusive = "Blocks Elusive", Support, Hallowed,
+    Plunder, Evolve, Flow, Equipment
+  Format* = enum
+    Standard, Singleton, Eternal, CommonsOnly = "Commons Only",
+    EvenCostCards = "Even Cost Cards"
 type
-  CardFaction* = range[Faction.low .. fRuneterra]
+  CardFaction* = range[Faction.low .. Faction.Runeterra]
   Card* = object
     number*, subnumber*: uint8
     `set`*: Set
@@ -75,12 +57,9 @@ type
 
   Deck* = seq[Cards]
 const
-  Buried* = TermCountdown
-  Forecast* = Predict
-  Aftermath* = Reputation
-  runeterraVersion* = "3_21_0"
+  runeterraVersion* = "4_8_0"
   runeterraLocale* = "en_us"
-  termDescriptions*: array[Term, string] = ["When you summon this, it gets its allegiance bonus if the top card of your deck matches its region.", "Create a random Blade Fragment still needed to restore the blade. Once you’ve played all 3, create the Blade of the Exile.",
+  termDescriptions*: array[Term, string] = ["When you summon this unit, it gets its allegiance bonus if the top card of your deck matches its region.", "Create a random Blade Fragment still needed to restore the blade. Once you’ve played all 3, create the Blade of the Exile.",
     "Highest Power, with ties broken by highest Health then highest Cost.",
     "Obliterate X non-champion cards from the bottom of your deck.",
     "You behold something if you have it in play or hand.",
@@ -96,9 +75,10 @@ const
     "Effect when unit strikes with an attack",
     "This is how much damage the unit deals when it strikes.",
     "This is how much Mana you need to spend to play this card.", "For each Spawn:\nSummon a 1|1 Tentacle, or if you already have one, grant your strongest Tentacle +1|+1.", "This is how much damage the unit can withstand. If it reaches zero, the unit dies.", "This champion counts as one of your deck\'s regions. During deckbuilding, you may add the specified cards to your deck regardless of region. Origins may also have an effect that begins at Start of Game.",
-    "The opponent in The Path of Champions.", "Grant an ally +1|+1. If the ally is equipped, grant it to their item instead.", "A card activates its Flow on Round Start if you played 2+ spells or skills last round.", "Equipping an Item to a unit grants it the listed bonuses. If the unit leaves play, the Item will return to your hand. You may play each item at most once per round.", "Choose one of two random options from a depleting pool of equipment and equip it to this ally. If the ally wasn\'t played from hand, it equips a random equipment instead.", "Automatically equips this item from hand or play when summoned, creating it first if needed.", "Transform allies Equipped with Darkin Equipment into their Darkin unit forms. If they are Champions, they Level Up.", "A unit has its Empowered bonus while its Power is at least the listed number."]
-  keywordDescriptions*: array[Keyword, string] = ["Completely removed from the game. Doesn\'t cause Last Breath and can\'t be revived.",
-    " ", "A unit\'s spell-like effect that allows enemy reactions.", "While attacking, it strikes both before AND at the same time as its blocker.",
+    "The opponent in The Path of Champions.", "Grant an ally +1|+1. If the ally is equipped, grant it to their item instead.", "A card activates its Flow on Round Start if you played 2+ spells or skills last round.", "Equipping an Item to a unit grants it the listed bonuses. If the unit leaves play, the Item will return to your hand. You may play each item at most once per round.", "Choose one of two random options from a depleting pool of equipment and equip it to this ally. If the ally wasn\'t played from hand, it equips a random equipment instead.", "Automatically equips this item from hand or play when summoned, creating it first if needed.", "Transform allies Equipped with Darkin Equipment into their Darkin unit forms. If they are Champions, they Level Up.", "A unit has its Empowered bonus while its Power is at least the listed number.", "Can be played hidden if you have no other hidden Ambush allies. Hidden allies are 2 cost 2|2s. You may pay a hidden ally\'s Ambush cost to transform it into its base card.", "Completely removed from the game. Doesn\'t cause Last Breath and can\'t be revived.", "Secretly transforms into another unit before entering play. They won\'t reveal their true identity to your opponent until they leave play or level up."]
+  keywordDescriptions*: array[Keyword, string] = [
+    "Can only be blocked by enemies with 3 or more Health.", " ",
+    "A unit\'s spell-like effect that allows enemy reactions.", "While attacking, it strikes both before AND at the same time as its blocker.",
     "Bonus if this is the FIRST card you play in a round.",
     "Lowest Power, with ties broken by lowest Health then lowest Cost",
     "The enemy can challenge this unit, forcing it to block.",
@@ -122,8 +102,7 @@ const
     "Negates the next enemy spell or skill that would affect me.",
     "Damage this unit deals heals its Nexus that amount.",
     "Bonus if this is NOT the first card you play in a round.",
-    "You\'re Enlightened when you have 10 max mana.",
-    "A champion levels up once this condition is met, even in hand or deck.", "Can be played outside of combat when no spells or skills are pending. Happens after your opponent has a chance to react.",
+    "You\'re Enlightened when you have 10 max mana.", "A champion in play levels up everywhere once this condition is met. Some champions must be in play to see their condition progress.", "Can be played outside of combat when no spells or skills are pending. Happens after your opponent has a chance to react.",
     " ", "Pick a Celestial card from among 3 to create in hand.",
     "When you play a created card, grant me +1|+0.",
     "The first time only Scout units attack each round, ready your attack.",
@@ -134,15 +113,14 @@ const
     "These abilities trigger when you resolve a spell.",
     "Can only be blocked by enemies with 3 or more Power.", " ", "", " ", "Can be played outside combat or when no other spells or skills are pending. Happens instantly and allows you to continue to play other cards.",
     "Missing Translation", "Round Start: I count down 1. At 0, activate the Countdown effect, then destroy me.", "When this strikes while attacking, it deals 1 to the enemy Nexus. This keyword can stack.", "When you attack while I\'m on top of your deck, I Lurk, granting Lurker allies everywhere +1|+0. Max once per round.",
-    "Missing Translation", "", "I strike with my Health instead of my Power.",
+    "", "I strike with my Health instead of my Power.",
     "Each round, the first time an allied card targets me, grant me +1|+1.", "Attach me to an ally to give it my stats and keywords while I\'m attached. When that ally leaves play, Recall me.",
     "", "Attaches to another card in a deck. When that card is drawn, activate the effect.",
     "Can block Elusive units",
-    "Attacking with a support unit will buff the unit to its right.", "After I die, for the rest of the game when allies attack, hallow your first attacker giving it +1|+0 that round", "A card triggers its plunder ability when played if you damaged the enemy Nexus this round.", "I have +2|+2 once you\'ve had Units with 6+ other unique positive keywords in play this game.", "A card activates its Flow on Round Start if you played 2+ spells or skills last round.",
-    "Missing Translation", "Equip to a unit to grant the listed bonuses. If the unit leaves play, the equipment will return to your hand. You may play each equipment at most once per round."]
+    "Attacking with a support unit will buff the unit to its right.", "After I die, for the rest of the game when allies attack, hallow your first attacker giving it +1|+0 that round", "A card activates its plunder ability when played if you damaged the enemy Nexus this round.", "I have +2|+2 once you\'ve had Units with 6+ other unique positive keywords in play this game.", "A card activates its Flow on Round Start if you played 2+ spells or skills last round.", "Equip to a unit to grant the listed bonuses. If the unit leaves play, the equipment will return to your hand. You may play each equipment at most once per round."]
   factionIdentifier*: array[Faction, string] = ["DE", "FR", "IO", "NX", "PZ",
     "SI", "BW", "SH", "MT", "BC", "RU", "Jhin", "Bard", "Evelynn", "Jax",
-    "Kayn", "Varus", "Aatrox", "RYZE"]
+    "Kayn", "Varus", "Aatrox", "RYZE", "POROKING", "Neeko"]
 template description*(term: Term): string =
   termDescriptions[term]
 
@@ -159,35 +137,26 @@ func hash*(card: Card): Hash =
   result = result !& card.subnumber.hash
   result = !$result
 
-import
-  options
-
 type
   CardType* = enum
-    ctSpell = "Spell", ctUnit = "Unit", ctAbility = "Ability", ctTrap = "Trap",
-    ctLandmark = "Landmark", ctEquipment = "Equipment"
+    Spell, Unit, Ability, Trap, Landmark, Equipment
   CardSupertype* = enum
-    csupNone = "None", csupChampion = "Champion"
+    None, Champion
   CardSubtype* = enum
-    csubPoro = "PORO", csubDragon = "DRAGON", csubSpider = "SPIDER",
-    csubElite = "ELITE", csubTech = "TECH", csubYeti = "YETI",
-    csubElnuk = "ELNUK", csubSeaMonster = "SEA MONSTER",
-    csubTreasure = "TREASURE", csubCelestial = "CELESTIAL",
-    csubMoonWeapon = "MOON WEAPON", csubAscended = "ASCENDED", csubFae = "FAE",
-    csubLurker = "LURKER", csubYordle = "YORDLE",
-    csubMechaYordle = "MECHA-YORDLE", csubCultist = "CULTIST",
-    csubDarkin = "DARKIN", csubWeaponmaster = "WEAPONMASTER",
-    csubWorldRune = "WORLD RUNE"
+    Poro, Dragon, Spider, Elite, Tech, Yeti, Elnuk, SeaMonster = "Sea Monster",
+    Treasure, Celestial, MoonWeapon = "Moon Weapon", Ascended, Fae, Lurker,
+    Yordle, Mecha, Cultist, Darkin, Weaponmaster, WorldRune = "World Rune", Dog,
+    Cat, Bird, Reptile, Shapeshifter
 type
   CardInfo* = object
     cost*: int
     case `type`*: CardType
-    of ctUnit:
+    of Unit:
         attack*, health*: int
         levelupDescription*: string
 
-    of ctSpell:
-        spellSpeed*: Option[SpellSpeed]
+    of Spell:
+        spellSpeed*: SpellSpeed
 
     else:
         nil
@@ -196,6 +165,13 @@ type
     regions*: set[CardFaction]
     rarity*: CardRarity
     keywords*: set[Keyword]
-    supertype*: CardSupertype
     subtypes*: set[CardSubtype]
+    supertype*: CardSupertype
     associatedCards*: seq[Card]
+    formats*: set[Format]
+
+const
+  Buried* {.deprecated: "Use Countdown instead".} = Countdown
+  Forecast* {.deprecated: "Use Predict instead".} = Predict
+  Aftermath* {.deprecated: "Use Reputation instead".} = Reputation
+  MechaYordle* {.deprecated: "Use Mecha instead".} = Mecha

@@ -1,22 +1,35 @@
-import std/[macros, os, strutils, json, jsonutils]
+import std/[macros, os, strutils, json, jsonutils, tables]
 
 const
   runeterraRequestedLocale {.strdefine.} = "en_us"
   runeterraGeneratePath {.strdefine.} = ""
   runeterraDataPath = runeterraGeneratePath / runeterraRequestedLocale / "data"
+  sets = ["set1", "set2", "set3", "set4", "set5", "set6", "set6cde", "set7", "set7b"]
+  deprecated = {
+    "Buried": "Countdown",
+    "Forecast": "Predict",
+    "Aftermath": "Reputation",
+    "MechaYordle": "Mecha"
+  }.toOrderedTable
 
 type
+  EnumKind = enum
+    Region, Set, Term, Keyword, Speed, Rarity, Type, Supertype, Subtype, Format
+
   Enums = object
-    regions, sets, terms, keywords, speeds, rarities, types, supertypes, subtypes: seq[string]
+    regions, sets, terms, keywords, speeds, rarities, types, supertypes, subtypes, formats: seq[string]
 
   EnumDef = object
-    name, str, prefix: string
+    name, str: string
 
 func quotedIdent(str: string): NimNode =
   result = nnkAccQuoted.newTree ident str
 
 func newEnumField(def: EnumDef): NimNode =
-  result = nnkEnumFieldDef.newTree(ident def.prefix & def.name, newLit def.str)
+  if def.str.len == 0 or def.name == def.str:
+    ident def.name
+  else:
+    nnkEnumFieldDef.newTree(ident def.name, newLit def.str)
 
 func newEnumDef(name: string, children: seq[EnumDef]): NimNode =
   var defs = nnkEnumTy.newNimNode
@@ -40,17 +53,17 @@ func colonPair(a: string, b: NimNode): NimNode =
 func toFactionIdent(s: string): NimNode =
    result = ident:
      case s
-     of "DE": "fDemacia"
-     of "FR": "fFreljord"
-     of "IO": "fIonia"
-     of "NX": "fNoxus"
-     of "PZ": "fPiltoverZaun"
-     of "SI": "fShadowIsles"
-     of "BW": "fBilgewater"
-     of "SH": "fShurima"
-     of "MT": "fTargon"
-     of "BC": "fBandleCity"
-     of "RU": "fRuneterra"
+     of "DE": "Demacia"
+     of "FR": "Freljord"
+     of "IO": "Ionia"
+     of "NX": "Noxus"
+     of "PZ": "PiltoverZaun"
+     of "SI": "ShadowIsles"
+     of "BW": "Bilgewater"
+     of "SH": "Shurima"
+     of "MT": "Targon"
+     of "BC": "BandleCity"
+     of "RU": "Runeterra"
      else: raise newException(ValueError, "Unknown faction identifier: " & s)
 
 func newCardAst(code: string): NimNode =
@@ -80,26 +93,45 @@ func normalizedName(s: string): string =
     else:
       newWord = true
 
+func withoutWhitespace(s: string): string =
+  result = newStringOfCap s.len
+  for c in s:
+    if c notin Whitespace:
+      result.add c
+
+func titleCase(s: string): string =
+  result = newString s.len
+  var newWord = true
+  for i, c in s:
+    if c == ' ':
+      newWord = true
+      result[i] = ' '
+    elif newWord:
+      newWord = false
+      result[i] = c.toUpperAscii
+    else:
+      result[i] = c.toLowerAscii
+
 func newCardInfoAst(
   typ, name, description, flavorText, levelup: string,
   cost, attack, health: int,
   speed, rarity, supertype: string,
   subtypes: seq[string],
-  regions, keywords, associated: JsonNode
+  regions, keywords, associated, formats: JsonNode
 ): NimNode =
   result = nnkObjConstr.newTree(
     ident "CardInfo",
     colonPair("name", newLit name),
-    nnkExprColonExpr.newTree(quotedIdent "type", ident "ct" & typ),
+    nnkExprColonExpr.newTree(quotedIdent "type", ident typ),
     colonPair("description", newLit description),
     colonPair("flavorText", newLit flavorText),
     colonPair("cost", newLit cost),
-    colonPair("rarity", ident "cr" & rarity)
+    colonPair("rarity", ident rarity)
   )
   block:
     var regionSet = newNimNode nnkCurly
     for region in regions:
-      regionSet.add ident 'f' & region.getStr
+      regionSet.add ident region.getStr
     result.add colonPair("regions", regionSet)
   if typ == "Unit":
     result.add colonPair("attack", newLit attack)
@@ -107,24 +139,32 @@ func newCardInfoAst(
     if levelup.len > 0:
       result.add colonPair("levelupDescription", newLit levelup)
   elif typ == "Spell":
-    result.add colonPair("spellSpeed", newCall("some", ident "ss" & speed))
+    result.add colonPair("spellSpeed", ident speed)
   if supertype.len > 0:
-    result.add colonPair("supertype", ident "csup" & supertype)
+    result.add colonPair("supertype", ident supertype)
   if subtypes.len > 0:
     var subtypeSet = newNimNode nnkCurly
     for subtype in subtypes:
-      subtypeSet.add ident "csub" & subtype.normalizedName
+      subtypeSet.add ident subtype.normalizedName
     result.add colonPair("subtypes", subtypeSet)
   if keywords.len > 0:
     var keywordSet = newNimNode nnkCurly
     for keyword in keywords:
-      keywordSet.add ident keyword.getStr
+      keywordSet.add:
+        ident case keyword.getStr
+        of "AuraVisualFakeKeyword": "Aura"
+        else: keyword.getStr
     result.add colonPair("keywords", keywordSet)
   if associated.len > 0:
     var associatedArray = newNimNode nnkBracket
     for code in associated:
       associatedArray.add code.getStr.newCardAst
     result.add colonPair("associatedCards", nnkPrefix.newTree(ident "@", associatedArray))
+  if formats != nil:
+    var formatSet = newNimNode nnkCurly
+    for format in formats:
+      formatSet.add ident format.getStr.withoutWhitespace
+    result.add colonPair("formats", formatSet)
 
 func extractFields(js: JsonNode, fieldName: string): seq[NimNode] =
   result.newSeq js.len
@@ -133,19 +173,30 @@ func extractFields(js: JsonNode, fieldName: string): seq[NimNode] =
     result[i] = node[fieldName].getStr.newLit
     inc i
 
-func extractDefs(js: JsonNode, prefix = "", refAsStr = false): seq[EnumDef] =
+func extractDefs(js: JsonNode, refAsStr = false): seq[EnumDef] =
   result.newSeq js.len
   var i = 0
   for node in js:
-    result[i] = EnumDef(prefix: prefix, name: node["nameRef"].getStr,
-      str: if refAsStr: node["nameRef"].getStr else: node["name"].getStr)
+    let
+      name = node["nameRef"].getStr
+      str = if refAsStr: node["nameRef"].getStr else: node["name"].getStr
+    result[i] = EnumDef(name: name)
+    if str != name: result[i].str = str
     inc i
 
 func extractRegionsInfo(js: JsonNode): tuple[defs: seq[EnumDef], abbrs: seq[NimNode]] =
   for node in js:
     let name = node["name"].getStr
-    result.defs.add EnumDef(prefix: "f", name: node["nameRef"].getStr, str: name)
+    result.defs.add EnumDef(name: node["nameRef"].getStr, str: name)
     result.abbrs.add node["abbreviation"].getStr.newLit
+
+func extractFormats(js: JsonNode): seq[EnumDef] =
+  result.newSeq js.len
+  var i = 0
+  for node in js:
+    let name = node["name"].getStr
+    result[i] = EnumDef(name: name.withoutWhitespace, str: name)
+    inc i
 
 func findName(defs: openArray[EnumDef], name: string): int =
   for i, def in defs:
@@ -153,30 +204,45 @@ func findName(defs: openArray[EnumDef], name: string): int =
       return i
   return -1
 
+func undeprecated(s: string): string =
+  deprecated.getOrDefault(s, s)
+
 template stabilizeEnumsImpl(withDescs = false): untyped =
-  for i, e in enums:
-    let e = case e
-      of "Buried": "TermCountdown"
-      of "Forecast": "Predict"
-      of "Aftermath": "Reputation"
-      else: e
-    let idx = defs.findName e
+  for i, name in knownEnums:
+    let name = undeprecated name
+    let idx = defs.findName name
     if idx == -1:
-      error "Couldn't find " & e
+      if name in ["Obliterate"]:
+        hint name & " is outdated"
+      else:
+        error "Couldn't find " & name
     elif idx != i:
       hint "Corrected order of " & defs[i].name
       swap defs[i], defs[idx]
       when withDescs:
         swap descs[i], descs[idx]
-  for i in enums.len..defs.high:
+  for i in knownEnums.len..defs.high:
     warning "New enum field: " & defs[i].name
-    enums.add defs[i].name
+    knownEnums.add defs[i].name
 
-func stabilizeEnums(enums: var seq[string], defs: var seq[EnumDef]) =
+func stabilizeEnums(knownEnums: var seq[string], defs: var seq[EnumDef]) =
   stabilizeEnumsImpl()
 
-func stabilizeEnums(enums: var seq[string], defs: var seq[EnumDef], descs: var seq[NimNode]) =
+func stabilizeEnums(knownEnums: var seq[string], defs: var seq[EnumDef], descs: var seq[NimNode]) =
   stabilizeEnumsImpl(withDescs = true)
+
+func filter(enums: var seq[EnumDef], descs: var seq[NimNode], targets: openArray[string]) =
+  for i in countdown(enums.high, enums.low):
+    if enums[i].name in targets:
+      enums.delete i
+      descs.delete i
+
+func rename(enums: var seq[EnumDef], targets: openArray[tuple[name: string, def: tuple[name, str: string]]]) =
+  for (name, def) in targets:
+    for e in enums.mitems:
+      if e.name == name:
+        e.name = def.name
+        e.str = def.str
 
 proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string] =
   let
@@ -187,6 +253,7 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
     keywords = js["keywords"]
     spellSpeeds = js["spellSpeeds"]
     rarities = js["rarities"]
+    formats = js["formats"]
 
   var terms = js["vocabTerms"]
 
@@ -201,8 +268,13 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
     setDefs = sets.extractDefs
     termDefs = terms.extractDefs
     keywordDefs = keywords.extractDefs
-    speedDefs = spellSpeeds.extractDefs(prefix = "ss")
-    rarityDefs = rarities.extractDefs(prefix = "cr", refAsStr = true)
+    speedDefs = spellSpeeds.extractDefs
+    rarityDefs = rarities.extractDefs(refAsStr = true)
+    formatDefs = formats.extractFormats
+
+  filter keywordDefs, keywordDescs, ["ClobberNoEmptySlotRequirement", "SilenceIndividualKeyword"]
+  keywordDefs.rename {"AuraVisualFakeKeyword": ("Aura", "")}
+  termDefs.rename {"TermCountdown": ("Countdown", "")}
 
   enums.regions.stabilizeEnums regionDefs, regionAbbrs
   enums.sets.stabilizeEnums setDefs
@@ -210,6 +282,7 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
   enums.keywords.stabilizeEnums keywordDefs, keywordDescs
   enums.speeds.stabilizeEnums speedDefs
   enums.rarities.stabilizeEnums rarityDefs
+  enums.formats.stabilizeEnums formatDefs
 
   let
     enumDef = nnkTypeSection.newTree(
@@ -218,7 +291,8 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
       newEnumDef("CardRarity", rarityDefs),
       newEnumDef("SpellSpeed", speedDefs),
       newEnumDef("Term", termDefs),
-      newEnumDef("Keyword", keywordDefs)
+      newEnumDef("Keyword", keywordDefs),
+      newEnumDef("Format", formatDefs)
     )
 
     termBracket = nnkBracket.newTree termDescs
@@ -233,26 +307,23 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
     termIdent = ident "term"
     keywordIdent = ident "keyword"
     factionIdent = ident "faction"
-    cardFaction = ident"CardFaction"
+    cardFaction = ident "CardFaction"
     cardType = ident "Card"
     cardsType = ident "Cards"
     deckType = ident "Deck"
     setIdent = quotedIdent "set"
     factionConst = ident "factionIdentifier"
     cardArg = ident "card"
-    buriedIdent = ident"Buried"
-    forecastIdent = ident"Forecast"
-    aftermathIdent = ident"Aftermath"
 
   result.version = version
 
   result.globals = quote do:
-    import hashes
+    import std/hashes
 
     `enumDef`
 
     type
-      `cardFaction`* = range[Faction.low..fRuneterra]
+      `cardFaction`* = range[Faction.low..Faction.Runeterra]
 
       `cardType`* = object
         number*, subnumber*: uint8
@@ -266,9 +337,6 @@ proc generateGlobals(enums: var Enums): tuple[globals: NimNode, version: string]
       `deckType`* = seq[`cardsType`]
 
     const
-      `buriedIdent`* = TermCountdown
-      `forecastIdent`* = Predict
-      `aftermathIdent`* = Reputation
       `versionIdent`* = `version`
       `localeIdent`* = `runeterraRequestedLocale`
       `termsIdent`*: array[Term, string] = `termBracket`
@@ -291,7 +359,7 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
     typeNames, supertypeNames, subtypeNames: seq[string]
     tablePairs: seq[NimNode]
 
-  for set in ["set1", "set2", "set3", "set4", "set5", "set6", "set6cde"]:
+  for set in sets:
     let path = runeterraDataPath / set & "-" & runeterraRequestedLocale & ".json"
 
     if not fileExists path: continue
@@ -333,7 +401,8 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
           subtypes,
           card["regionRefs"],
           card["keywordRefs"],
-          card["associatedCardRefs"]
+          card["associatedCardRefs"],
+          if card.hasKey "formats": card["formats"] else: nil
         )
 
       tablePairs.add nnkExprColonExpr.newTree(keyAst, valAst)
@@ -343,16 +412,16 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
     supertypeDefs = newSeq[EnumDef](supertypeNames.len + 1)
     subtypeDefs = newSeq[EnumDef](subtypeNames.len)
 
-  supertypeDefs[0] = EnumDef(prefix: "csup", name: "None", str: "None")
+  supertypeDefs[0] = EnumDef(name: "None", str: "None")
 
   for i, name in typeNames:
-    typeDefs[i] = EnumDef(prefix: "ct", name: name, str: name)
+    typeDefs[i] = EnumDef(name: name, str: name)
 
   for i, name in supertypeNames:
-    supertypeDefs[i + 1] = EnumDef(prefix: "csup", name: name, str: name)
+    supertypeDefs[i + 1] = EnumDef(name: name, str: name)
 
   for i, name in subtypeNames:
-    subtypeDefs[i] = EnumDef(prefix: "csub", name: name.normalizedName, str: name)
+    subtypeDefs[i] = EnumDef(name: name.normalizedName, str: name.titleCase)
 
   enums.types.stabilizeEnums typeDefs
   enums.supertypes.stabilizeEnums supertypeDefs
@@ -373,30 +442,29 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
     cardsIdent = ident "cards"
 
   result.types = quote do:
-    import options
-
     `enumDef`
     type `cardInfoIdent`* = object
       cost*: int
       case `typeIdent`*: CardType
-      of ctUnit:
+      of Unit:
         attack*, health*: int
         levelupDescription*: string
-      of ctSpell:
-        spellSpeed*: Option[SpellSpeed]
+      of Spell:
+        spellSpeed*: SpellSpeed
       else:
         discard
       `nameIdent`*, description*, flavorText*: string
       regions*: set[CardFaction]
       rarity*: CardRarity
       keywords*: set[Keyword]
-      supertype*: CardSupertype
       subtypes*: set[CardSubtype]
+      supertype*: CardSupertype
       associatedCards*: seq[Card]
+      formats*: set[Format]
 
   result.library = quote do:
-    import tables, options
-    import ../cards
+    import std/tables
+    import ./cards
 
     const `libraryIdent` = `tableConstructor`.toTable
 
@@ -411,6 +479,18 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
     func getInfo*(`cardsIdent`: Cards): CardInfo =
       result = runeterraLibraryInternal[`cardsIdent`.card]
 
+func generateDeprecations(entries: OrderedTable[string, string]): NimNode =
+  result = nnkConstSection.newNimNode
+  for old, new in entries:
+    result.add nnkConstDef.newTree(
+      nnkPragmaExpr.newTree(
+        nnkPostfix.newTree(ident"*", ident old),
+        nnkPragma.newTree(colonPair("deprecated", newLit "Use " & new & " instead"))
+      ),
+      newEmptyNode(),
+      ident new
+    )
+
 func parseVersion(s: string): tuple[major, minor, patch: int] =
   let
     sep1 = s.find '_'
@@ -422,21 +502,22 @@ func parseVersion(s: string): tuple[major, minor, patch: int] =
 
 macro generator =
   let enumsPath = currentSourcePath().parentDir / "enums.json"
-  var enums = try:
+  var enums = if fileExists enumsPath:
     enumsPath.readFile.parseJson.jsonTo Enums
-  except:
+  else:
     Enums()
 
   let
     (globals, version) = generateGlobals(enums)
     (types, library) = generateCardsInfo(enums)
     path = currentSourcePath().parentDir.parentDir / "src" / "runeterra_decks"
+    deprecations = generateDeprecations deprecated
 
-  writeFile enumsPath, $enums.toJson
+  writeFile enumsPath, enums.toJson.pretty
 
-  if defined(runeterraForceUpdate) or version.parseVersion > (3, 8, 0):
+  if defined(runeterraForceUpdate) or version.parseVersion > (4, 8, 0):
     warning "Updated global definition"
-    writeFile path / "cards.nim", newStmtList(globals, types).repr
-  writeFile path / "info" / "v" & version & ".nim", library.repr
+    writeFile path / "cards.nim", newStmtList(globals, types, deprecations).repr
+  writeFile path / "info.nim", library.repr
 
 generator()
