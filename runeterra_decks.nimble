@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.9.0"
+version       = "0.9.1"
 author        = "SolitudeSF"
 description   = "Legends of Runeterra deck/card code encoder/decoder"
 license       = "MIT"
