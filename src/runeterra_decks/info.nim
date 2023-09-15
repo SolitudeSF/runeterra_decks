@@ -42,7 +42,8 @@ const
       `type`: Spell,
       description: "Stun an attacking enemy.\r\nCreate a Yasuo in your deck.",
       flavorText: "\"Hasagi!\" - Yasuo", cost: 2, rarity: None,
-      regions: {Ionia}, spellSpeed: Fast, supertype: Champion, keywords: {Fast}, associatedCards: @[
+      regions: {Ionia}, spellSpeed: Fast, supertype: Champion,
+      subtypes: {Elemental}, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set1, faction: Ionia, number: 15, subnumber: 1),
       Card(`set`: Set1, faction: Ionia, number: 15)],
       formats: {Eternal, Standard}), Card(`set`: Set1, faction: Ionia,
@@ -336,12 +337,12 @@ const
       faction: Ionia, number: 46): CardInfo(name: "Steel Tempest",
       `type`: Spell, description: "Stun an attacking enemy.",
       flavorText: "\"Hasagi!\" - Yasuo", cost: 2, rarity: Rare,
-      regions: {Ionia}, spellSpeed: Fast, keywords: {Fast}, formats: {Eternal}), Card(
-      `set`: Set1, faction: Ionia, number: 37): CardInfo(
-      name: "Spirit\'s Refuge", `type`: Spell,
-      description: "Give an ally Barrier and Lifesteal this round.", flavorText: "\"This blade was once my father\'s. May it bring you the strength that I once lacked.\" - Shen",
-      cost: 4, rarity: Common, regions: {Ionia}, spellSpeed: Burst,
-      keywords: {Burst}, formats: {CommonsOnly, Eternal, Standard}), Card(
+      regions: {Ionia}, spellSpeed: Fast, subtypes: {Elemental},
+      keywords: {Fast}, formats: {Eternal}), Card(`set`: Set1, faction: Ionia,
+      number: 37): CardInfo(name: "Spirit\'s Refuge", `type`: Spell, description: "Give an ally Barrier and Lifesteal this round.", flavorText: "\"This blade was once my father\'s. May it bring you the strength that I once lacked.\" - Shen",
+                            cost: 4, rarity: Common, regions: {Ionia},
+                            spellSpeed: Burst, keywords: {Burst},
+                            formats: {CommonsOnly, Eternal, Standard}), Card(
       `set`: Set1, faction: Ionia, number: 43): CardInfo(name: "Rivershaper",
       `type`: Unit, description: "Strike: Draw a spell.", flavorText: "\"We are proud children of the First Lands, and the streams of her magic flow through our vastayan blood as they do through our realm.\"",
       cost: 3, rarity: Rare, regions: {Ionia}, attack: 2, health: 2,
@@ -1480,7 +1481,8 @@ const
       `type`: Ability,
       description: "Deal 1 to all enemies and the enemy Nexus.",
       flavorText: "The storm that comes before the calm.", cost: 0,
-      rarity: None, regions: {Freljord}, keywords: {Skill}, associatedCards: @[
+      rarity: None, regions: {Freljord}, subtypes: {Elemental},
+      keywords: {ElementalSkill}, associatedCards: @[
       Card(`set`: Set1, faction: Freljord, number: 24),
       Card(`set`: Set1, faction: Freljord, number: 24, subnumber: 3)],
       formats: {Eternal, Standard}), Card(`set`: Set1, faction: Freljord,
@@ -1488,7 +1490,7 @@ const
       `type`: Spell,
       description: "Frostbite 2 enemies.\r\nCreate an Anivia in your deck.", flavorText: "\"You\'d challenge me on my own lands? You\'re ill-prepared, little one.\" - Anivia",
       cost: 5, rarity: None, regions: {Freljord}, spellSpeed: Burst,
-      supertype: Champion, keywords: {Burst}, associatedCards: @[
+      supertype: Champion, subtypes: {Elemental}, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set1, faction: Freljord, number: 24, subnumber: 4),
       Card(`set`: Set1, faction: Freljord, number: 24, subnumber: 3),
       Card(`set`: Set1, faction: Freljord, number: 24)],
@@ -1505,7 +1507,8 @@ const
       `type`: Ability,
       description: "Deal 2 to all enemies and the enemy Nexus.",
       flavorText: "The storm that comes before the calm.", cost: 0,
-      rarity: None, regions: {Freljord}, keywords: {Skill}, associatedCards: @[
+      rarity: None, regions: {Freljord}, subtypes: {Elemental},
+      keywords: {ElementalSkill}, associatedCards: @[
       Card(`set`: Set1, faction: Freljord, number: 24, subnumber: 3),
       Card(`set`: Set1, faction: Freljord, number: 24)],
       formats: {Eternal, Standard}), Card(`set`: Set1, faction: Freljord,
@@ -1549,8 +1552,9 @@ const
       `set`: Set1, faction: Freljord, number: 42): CardInfo(name: "Harsh Winds",
       `type`: Spell, description: "Frostbite 2 enemies. ", flavorText: "\"You\'d challenge me on my own lands? You\'re ill-prepared, little one.\" - Anivia",
       cost: 5, rarity: Rare, regions: {Freljord}, spellSpeed: Burst,
-      keywords: {Burst}, formats: {Eternal, Standard}), Card(`set`: Set1,
-      faction: Freljord, number: 9): CardInfo(name: "Braum", `type`: Unit,
+      subtypes: {Elemental}, keywords: {Burst}, formats: {Eternal, Standard}), Card(
+      `set`: Set1, faction: Freljord, number: 9): CardInfo(name: "Braum",
+      `type`: Unit,
       description: "The first time I survive damage, summon a Mighty Poro.", flavorText: "“Papa, tell the one about Braum and his door!”\n\"Or when his fall split a mountain in two!\"\n\"Oh! Whattabout when he saved the tavern from the rampaging yeti?!\"",
       cost: 4, rarity: Champion, regions: {Freljord}, attack: 0, health: 6,
       levelupDescription: "I\'ve survived 10+ total damage.",
@@ -1583,9 +1587,10 @@ const
       subtypes: {Poro}, formats: {Eternal, Standard}), Card(`set`: Set1,
       faction: Freljord, number: 55): CardInfo(name: "Shatter", `type`: Spell, description: "Deal 4 to an enemy if it has 0 Power. Otherwise, Frostbite it.", flavorText: "\"When Winter rides across the land, she humbles the strong and fells the weak.\" - Scarthane Steffen",
       cost: 1, rarity: Common, regions: {Freljord}, spellSpeed: Slow,
-      keywords: {Slow}, formats: {CommonsOnly, Eternal, Standard}), Card(
-      `set`: Set1, faction: Freljord, number: 38): CardInfo(name: "Ashe",
-      `type`: Unit, description: "Attack: Frostbite the strongest enemy.", flavorText: "\"When I look out over my home, I see what it is, but also what it could be. Prosperous and plentiful, not only for my people, but for all those who seek peace. The Freljord, united.\"",
+      subtypes: {Elemental}, keywords: {Slow},
+      formats: {CommonsOnly, Eternal, Standard}), Card(`set`: Set1,
+      faction: Freljord, number: 38): CardInfo(name: "Ashe", `type`: Unit,
+      description: "Attack: Frostbite the strongest enemy.", flavorText: "\"When I look out over my home, I see what it is, but also what it could be. Prosperous and plentiful, not only for my people, but for all those who seek peace. The Freljord, united.\"",
       cost: 4, rarity: Champion, regions: {Freljord}, attack: 5, health: 3, levelupDescription: "You\'ve reduced the Power of 5+ enemies to 0. When I level up, create a Crystal Arrow on top of deck.",
       supertype: Champion, associatedCards: @[
       Card(`set`: Set1, faction: Freljord, number: 38, subnumber: 2),
@@ -1595,9 +1600,10 @@ const
       faction: Freljord, number: 38, subnumber: 3): CardInfo(
       name: "Crystal Arrow", `type`: Spell, description: "Frostbite an enemy and all other enemies with 3 or less Health. Draw 1.",
       flavorText: "\"All the world on one arrow.\" - Ashe", cost: 2,
-      rarity: None, regions: {Freljord}, spellSpeed: Slow, keywords: {Slow},
-      formats: {Eternal, Standard}), Card(`set`: Set1, faction: Freljord,
-      number: 38, subnumber: 2): CardInfo(name: "Ashe", `type`: Unit, description: "Attack: Frostbite the strongest enemy.\r\nEnemies with 0 Power can\'t block.", flavorText: "\"You are not our enemy. Our true foe is the long, lawless winter. We are all people of the Freljord, and this land belongs to all of us!\" ",
+      rarity: None, regions: {Freljord}, spellSpeed: Slow,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set1, faction: Freljord, number: 38, subnumber: 2): CardInfo(
+      name: "Ashe", `type`: Unit, description: "Attack: Frostbite the strongest enemy.\r\nEnemies with 0 Power can\'t block.", flavorText: "\"You are not our enemy. Our true foe is the long, lawless winter. We are all people of the Freljord, and this land belongs to all of us!\" ",
       cost: 4, rarity: None, regions: {Freljord}, attack: 6, health: 4,
       supertype: Champion, keywords: {Aura}, associatedCards: @[
       Card(`set`: Set1, faction: Freljord, number: 38, subnumber: 3),
@@ -1608,7 +1614,7 @@ const
       `type`: Spell,
       description: "Frostbite an enemy.\r\nCreate an Ashe in your deck.", flavorText: "The cold strikes without warning, rendering even the strongest warrior helpless.",
       cost: 3, rarity: None, regions: {Freljord}, spellSpeed: Burst,
-      supertype: Champion, keywords: {Burst}, associatedCards: @[
+      supertype: Champion, subtypes: {Elemental}, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set1, faction: Freljord, number: 38, subnumber: 2),
       Card(`set`: Set1, faction: Freljord, number: 38)],
       formats: {Eternal, Standard}), Card(`set`: Set1, faction: Freljord,
@@ -1628,9 +1634,9 @@ const
       faction: Freljord, number: 20): CardInfo(name: "Avalanche", `type`: Spell,
       description: "Deal 2 to ALL units.", flavorText: "The soul of every avalanche is a pebble that would not stay put.",
       cost: 4, rarity: Rare, regions: {Freljord}, spellSpeed: Slow,
-      keywords: {Slow}, formats: {Eternal, Standard}), Card(`set`: Set1,
-      faction: Freljord, number: 14): CardInfo(name: "Yeti Yearling",
-      `type`: Unit,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set1, faction: Freljord, number: 14): CardInfo(
+      name: "Yeti Yearling", `type`: Unit,
       description: "Last Breath: Create 2 Enraged Yetis in your deck.", flavorText: "\"It was so tiny and peaceful! Hard to believe it would grow up to be... well... a yeti.\" - Avarosan Trapper",
       cost: 1, rarity: Common, regions: {Freljord}, attack: 1, health: 2,
       subtypes: {Yeti}, keywords: {LastBreath},
@@ -1672,18 +1678,18 @@ const
       name: "Brittle Steel", `type`: Spell,
       description: "Frostbite an enemy with 3 or less Health.", flavorText: "\"Chilly? Ha! Let us hope that your spirits are sturdier than your summerland steel!\" - Braum",
       cost: 1, rarity: Common, regions: {Freljord}, spellSpeed: Burst,
-      keywords: {Burst}, formats: {CommonsOnly, Eternal, Standard}), Card(
-      `set`: Set1, faction: Freljord, number: 13): CardInfo(
-      name: "Scarmother Vrynna", `type`: Unit,
-      description: "When I survive damage, grant me +3|+0.", flavorText: "\"I would die shivering in the cold before sharing a hearth with Ashe\'s weaklings. But if they desire warmth, I will give it to them.”",
+      subtypes: {Elemental}, keywords: {Burst},
+      formats: {CommonsOnly, Eternal, Standard}), Card(`set`: Set1,
+      faction: Freljord, number: 13): CardInfo(name: "Scarmother Vrynna",
+      `type`: Unit, description: "When I survive damage, grant me +3|+0.", flavorText: "\"I would die shivering in the cold before sharing a hearth with Ashe\'s weaklings. But if they desire warmth, I will give it to them.”",
       cost: 6, rarity: Epic, regions: {Freljord}, attack: 3, health: 8,
       keywords: {Overwhelm}, formats: {Eternal}), Card(`set`: Set1,
       faction: Freljord, number: 19): CardInfo(name: "Winter\'s Breath",
       `type`: Spell, description: "Kill all enemies with 0 Power, then Frostbite all enemies.", flavorText: "Warmother Winter is the first and last foe faced by any who would invade the Freljord. Her bloodsworn are the merciless wind and the biting frost.",
       cost: 7, rarity: Epic, regions: {Freljord}, spellSpeed: Slow,
-      keywords: {Slow}, formats: {Eternal, Standard}), Card(`set`: Set1,
-      faction: Freljord, number: 41): CardInfo(name: "Avarosan Hearthguard ",
-      `type`: Unit,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set1, faction: Freljord, number: 41): CardInfo(
+      name: "Avarosan Hearthguard ", `type`: Unit,
       description: "When I\'m summoned, grant all allies in your deck +1|+1.", flavorText: "\"Many tribes under one banner! Perhaps one day all the Freljord will fight side by side.\"",
       cost: 5, rarity: Epic, regions: {Freljord}, attack: 5, health: 6,
       formats: {Eternal, Standard}), Card(`set`: Set1, faction: Freljord,
@@ -1813,8 +1819,8 @@ const
       faction: Freljord, number: 1): CardInfo(name: "Flash Freeze",
       `type`: Spell, description: "Frostbite an enemy.", flavorText: "The cold strikes without warning, rendering even the strongest warrior helpless.",
       cost: 3, rarity: Rare, regions: {Freljord}, spellSpeed: Burst,
-      keywords: {Burst}, formats: {Eternal, Standard}), Card(`set`: Set1,
-      faction: Freljord, number: 43, subnumber: 1): CardInfo(
+      subtypes: {Elemental}, keywords: {Burst}, formats: {Eternal, Standard}), Card(
+      `set`: Set1, faction: Freljord, number: 43, subnumber: 1): CardInfo(
       name: "Fluft of Poros", `type`: Unit,
       description: "Last Breath: Summon a Heart of the Fluft.", flavorText: "\"... At first she didn\'t know what the little ones could do. But then another appeared, and another, \'til the hall was full of them! And every poro gathered--\" \n\"Bedtime! If you two aren\'t asleep in five minutes...!\"",
       cost: 6, rarity: None, regions: {Freljord}, attack: 4, health: 4,
@@ -2623,7 +2629,7 @@ const
       Card(`set`: Set2, faction: Bilgewater, number: 26, subnumber: 2)],
       formats: {Eternal, Standard}), Card(`set`: Set2, faction: Bilgewater,
       number: 26, subnumber: 1): CardInfo(name: "Twisted Fate\'s Pick a Card",
-      `type`: Spell, description: "Place a card from hand into your deck to draw 2 at the next Round Start. Grant them Fleeting.\r\nCreate a Twisted Fate in your deck.",
+      `type`: Spell, description: "To play, place a card from hand into your deck.\r\nDraw 2 at the next Round Start and grant them Fleeting.\r\nCreate a Twisted Fate in your deck.",
       flavorText: "\"I make my own luck.\" - Twisted Fate", cost: 2,
       rarity: None, regions: {Bilgewater}, spellSpeed: Burst,
       supertype: Champion, keywords: {Burst}, associatedCards: @[
@@ -2699,7 +2705,7 @@ const
       cost: 1, rarity: Common, regions: {Bilgewater}, spellSpeed: Slow,
       keywords: {Slow}, formats: {CommonsOnly, Eternal, Standard}), Card(
       `set`: Set2, faction: Bilgewater, number: 43): CardInfo(
-      name: "Pick a Card", `type`: Spell, description: "Place a card from hand into your deck to draw 2 at the next Round Start. Grant them Fleeting.",
+      name: "Pick a Card", `type`: Spell, description: "To play, place a card from hand into your deck.\r\nDraw 2 at the next Round Start and grant them Fleeting.",
       flavorText: "\"I make my own luck.\" - Twisted Fate", cost: 2,
       rarity: Rare, regions: {Bilgewater}, spellSpeed: Burst, keywords: {Burst},
       formats: {Eternal}), Card(`set`: Set2, faction: Bilgewater, number: 51): CardInfo(
@@ -2774,8 +2780,9 @@ const
       name: "Caught in the Cold", `type`: Spell,
       description: "Give an enemy Frostbite and Vulnerable this round.", flavorText: "\"These warmbloods wouldn\'t last a single day in the Freljord!\" - Sejuani",
       cost: 2, rarity: Rare, regions: {Freljord}, spellSpeed: Slow,
-      keywords: {Slow}, formats: {Eternal}), Card(`set`: Set2,
-      faction: Freljord, number: 2): CardInfo(name: "Sejuani", `type`: Unit,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal}), Card(
+      `set`: Set2, faction: Freljord, number: 2): CardInfo(name: "Sejuani",
+      `type`: Unit,
       description: "Play: Give an enemy Frostbite and Vulnerable this round.", flavorText: "While her flail of True Ice is formidable, Sejuani herself is the weapon--forged in the bitter cold of the Freljord and tested against the freezing climes.",
       cost: 6, rarity: Champion, regions: {Freljord}, attack: 5, health: 6, levelupDescription: "You\'ve damaged the enemy Nexus in 5+ different rounds.",
       supertype: Champion, keywords: {Overwhelm}, associatedCards: @[
@@ -4290,8 +4297,7 @@ const
       cost: 3, rarity: Rare, regions: {ShadowIsles}, spellSpeed: Fast,
       keywords: {Fast}, formats: {Eternal, Standard}), Card(`set`: Set3,
       faction: ShadowIsles, number: 14): CardInfo(name: "Encroaching Shadows",
-      `type`: Spell,
-      description: "Grant ALL allies in deck and hand +2|+2 and Ephemeral.", flavorText: "\"Mind or body, I fear that the nightmares of the Shadow Isles will break us all eventually, and insanity will reign forever.\"\n- Notes of Jens Tommen, historian",
+      `type`: Spell, description: "Grant ALL allies in your deck and hand +2|+2 and Ephemeral.", flavorText: "\"Mind or body, I fear that the nightmares of the Shadow Isles will break us all eventually, and insanity will reign forever.\"\n- Notes of Jens Tommen, historian",
       cost: 4, rarity: Epic, regions: {ShadowIsles}, spellSpeed: Burst,
       keywords: {Burst}, formats: {Eternal, Standard}), Card(`set`: Set3,
       faction: ShadowIsles, number: 16): CardInfo(name: "Go Hard",
@@ -4485,11 +4491,11 @@ const
       faction: Demacia, number: 25): CardInfo(name: "Molten Breath",
       `type`: Spell, description: "An ally with Fury strikes the 2 weakest enemies one after another.\r\n", flavorText: "For centuries, the Demacians only knew of a dragon\'s fury through legend. Wrenwall changed that.",
       cost: 5, rarity: Rare, regions: {Demacia}, spellSpeed: Slow,
-      keywords: {Slow}, formats: {Eternal}), Card(`set`: Set3, faction: Demacia,
-      number: 2): CardInfo(name: "Strafing Strike", `type`: Spell, description: "An ally and an enemy strike each other. Then, if the ally is a Dragon, heal it 5.", flavorText: "When knight and dragon separated, panting and wounded, the latter seemed reinvigorated. It smelled blood, and was eager for more.",
-                           cost: 3, rarity: Rare, regions: {Demacia},
-                           spellSpeed: Fast, keywords: {Fast},
-                           formats: {Eternal, Standard}), Card(`set`: Set3,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal}), Card(
+      `set`: Set3, faction: Demacia, number: 2): CardInfo(
+      name: "Strafing Strike", `type`: Spell, description: "An ally and an enemy strike each other. Then, if the ally is a Dragon, heal it 5.", flavorText: "When knight and dragon separated, panting and wounded, the latter seemed reinvigorated. It smelled blood, and was eager for more.",
+      cost: 3, rarity: Rare, regions: {Demacia}, spellSpeed: Fast,
+      keywords: {Fast}, formats: {Eternal, Standard}), Card(`set`: Set3,
       faction: Demacia, number: 11): CardInfo(name: "Shyvana", `type`: Unit,
       description: "Attack: Give me +1|+1 this round.", flavorText: "\"On the one hand, she is, by her very nature, our most hated foe, her kind having historically brought only anguish to Demacia. On the other, she is trusted by the Prince, and seems to have all the makings of a determined soldier and valuable ally. I only hope that she does not betray the trust we have placed in her.\"\n- Page from Lieutenant Jerik\'s account on Wrenwall",
       cost: 4, rarity: Champion, regions: {Demacia}, attack: 3, health: 4,
@@ -4578,7 +4584,7 @@ const
       `type`: Spell, description: "Give ALL units -3|-0 this round. Deal 3 to ALL units.\r\nCreate a Trundle in your deck.",
       flavorText: "\"Bury \'em alive!\" - Trundle", cost: 8, rarity: None,
       regions: {Freljord}, spellSpeed: Slow, supertype: Champion,
-      keywords: {Slow}, associatedCards: @[
+      subtypes: {Elemental}, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set3, faction: Freljord, number: 6, subnumber: 1),
       Card(`set`: Set3, faction: Freljord, number: 6),
       Card(`set`: Set3, faction: Freljord, number: 6, subnumber: 2)],
@@ -4590,12 +4596,13 @@ const
       faction: Freljord, number: 8): CardInfo(name: "Icequake ", `type`: Spell,
       description: "Give ALL units -3|-0 this round. Deal 3 to ALL units.",
       flavorText: "\"Bury \'em alive!\" - Trundle", cost: 8, rarity: Epic,
-      regions: {Freljord}, spellSpeed: Slow, keywords: {Slow},
-      formats: {Eternal, Standard}), Card(`set`: Set3, faction: Freljord,
-      number: 2): CardInfo(name: "Troll Chant", `type`: Spell, description: "Give an ally +0|+2 to give an enemy -2|-0 this round.", flavorText: "Troll chants are highly varied. They differ from group to group, and are often incomprehensible. They are all, however, terrifying to witness. ",
-                           cost: 2, rarity: Common, regions: {Freljord},
-                           spellSpeed: Burst, keywords: {Burst},
-                           formats: {CommonsOnly, Eternal}), Card(`set`: Set3,
+      regions: {Freljord}, spellSpeed: Slow, subtypes: {Elemental},
+      keywords: {Slow}, formats: {Eternal, Standard}), Card(`set`: Set3,
+      faction: Freljord, number: 2): CardInfo(name: "Troll Chant",
+      `type`: Spell,
+      description: "Give an ally +0|+2 to give an enemy -2|-0 this round.", flavorText: "Troll chants are highly varied. They differ from group to group, and are often incomprehensible. They are all, however, terrifying to witness. ",
+      cost: 2, rarity: Common, regions: {Freljord}, spellSpeed: Burst,
+      keywords: {Burst}, formats: {CommonsOnly, Eternal}), Card(`set`: Set3,
       faction: Freljord, number: 11): CardInfo(name: "Uzgar the Ancient",
       `type`: Unit, description: "", flavorText: "They felt it before they heard it, the ground trembling beneath their feet, but it quickly became audible, like distant thunder drawing closer.\nMeyrick lifted his head, eyes wide, listening.\n\"What is it?\" Anya whispered urgently, drawing her bow, but Meyrick was already sprinting back toward the path. \n\"RUN!\"",
       cost: 8, rarity: Rare, regions: {Freljord}, attack: 7, health: 7,
@@ -4791,8 +4798,8 @@ const
       name: "Death From Below", `type`: Spell,
       description: "Summon Pyke striking an enemy.",
       flavorText: "\"Breach!\" - Pyke", cost: 4, rarity: None,
-      regions: {Bilgewater}, spellSpeed: Fast, subtypes: {Lurker},
-      keywords: {Fast, Lurker},
+      regions: {Bilgewater}, spellSpeed: Fast, supertype: Champion,
+      subtypes: {Lurker}, keywords: {Fast, Lurker},
       associatedCards: @[Card(`set`: Set4, faction: Bilgewater, number: 5)],
       formats: {Eternal, Standard}), Card(`set`: Set4, faction: Bilgewater,
       number: 5, subnumber: 2): CardInfo(name: "Pyke", `type`: Unit, description: "When I Lurk, transform me into Death From Below.\r\nWhen I kill an enemy, I strike the weakest enemy.", flavorText: "First he came for his old crew, then other captains, then cheaters, gamblers, and drunkards. Pyke\'s craving for revenge slowly gave way to a newfound lust for murder. Now, instead of only listing those who once wronged him, his growing manifest only illustrates what Pyke has become.",
@@ -5168,14 +5175,14 @@ const
       number: 73, subnumber: 1): CardInfo(name: "Threaded Volley",
       `type`: Ability, description: "Deal 2 to Taliyah\'s blocker. If it\'s dead or gone, deal 2 to the enemy Nexus instead.",
       flavorText: "\"Throw another rock!\" - Taliyah", cost: 0, rarity: None,
-      regions: {Shurima}, keywords: {Skill},
+      regions: {Shurima}, subtypes: {Elemental}, keywords: {ElementalSkill},
       associatedCards: @[Card(`set`: Set4, faction: Shurima, number: 73)],
       formats: {Eternal, Standard}), Card(`set`: Set4, faction: Shurima,
       number: 73, subnumber: 3): CardInfo(name: "Taliyah\'s Stoneweaving",
       `type`: Spell, description: "Manifest a landmark you can afford.\r\nCreate a Taliyah in your deck.",
       flavorText: "\"Come on - there\'s so much to see!\" - Taliyah", cost: 1,
       rarity: None, regions: {Shurima}, spellSpeed: Burst, supertype: Champion,
-      keywords: {Burst}, associatedCards: @[
+      subtypes: {Elemental}, keywords: {Burst}, associatedCards: @[
       Card(`set`: Set4, faction: Shurima, number: 73),
       Card(`set`: Set4, faction: Shurima, number: 73, subnumber: 2)],
       formats: {Eternal, Standard}), Card(`set`: Set4, faction: Shurima,
@@ -5481,17 +5488,18 @@ const
       formats: {CommonsOnly, Eternal, Standard}), Card(`set`: Set4,
       faction: Shurima, number: 109): CardInfo(name: "Quicksand", `type`: Spell, description: "Give an enemy -4|-0 or 2 enemies -1|-0 this round. Disable their positive keywords this round.", flavorText: "In parts of the desert, old ruins have sunk into sand, creating hollows where unwary travelers might join them. ",
       cost: 3, rarity: Common, regions: {Shurima}, spellSpeed: Burst,
-      keywords: {Burst}, formats: {CommonsOnly, Eternal, Standard}), Card(
-      `set`: Set4, faction: Shurima, number: 109, subnumber: 1): CardInfo(
-      name: "Quicksand", `type`: Spell, description: "Give 2 enemies -1|-0 and disable their positive keywords this round.", flavorText: "In parts of the desert, old ruins have sunk into sand, creating hollows where unwary travelers might join them. ",
+      subtypes: {Elemental}, keywords: {Burst},
+      formats: {CommonsOnly, Eternal, Standard}), Card(`set`: Set4,
+      faction: Shurima, number: 109, subnumber: 1): CardInfo(name: "Quicksand",
+      `type`: Spell, description: "Give 2 enemies -1|-0 and disable their positive keywords this round.", flavorText: "In parts of the desert, old ruins have sunk into sand, creating hollows where unwary travelers might join them. ",
       cost: 3, rarity: None, regions: {Shurima}, spellSpeed: Burst,
-      keywords: {Burst}, formats: {Eternal, Standard}), Card(`set`: Set4,
-      faction: Shurima, number: 109, subnumber: 2): CardInfo(name: "Quicksand",
-      `type`: Spell, description: "Give an enemy -4|-0 and disable its positive keywords this round.", flavorText: "In parts of the desert, old ruins have sunk into sand, creating hollows where unwary travelers might join them. ",
+      subtypes: {Elemental}, keywords: {Burst}, formats: {Eternal, Standard}), Card(
+      `set`: Set4, faction: Shurima, number: 109, subnumber: 2): CardInfo(
+      name: "Quicksand", `type`: Spell, description: "Give an enemy -4|-0 and disable its positive keywords this round.", flavorText: "In parts of the desert, old ruins have sunk into sand, creating hollows where unwary travelers might join them. ",
       cost: 3, rarity: None, regions: {Shurima}, spellSpeed: Burst,
-      keywords: {Burst}, formats: {Eternal, Standard}), Card(`set`: Set4,
-      faction: Shurima, number: 43): CardInfo(name: "Shifting Sands",
-      `type`: Spell,
+      subtypes: {Elemental}, keywords: {Burst}, formats: {Eternal, Standard}), Card(
+      `set`: Set4, faction: Shurima, number: 43): CardInfo(
+      name: "Shifting Sands", `type`: Spell,
       description: "Deal 4 to a unit.\r\nSummon 2 Sand Soldiers.", flavorText: "\"Go. Surround them. They cannot fight the land itself.\" - Azir",
       cost: 6, rarity: Rare, regions: {Shurima}, spellSpeed: Slow,
       keywords: {Slow}, associatedCards: @[
@@ -5660,7 +5668,7 @@ const
       name: "Unraveled Earth", `type`: Spell,
       description: "Summon 2 Roiling Sands.\r\nDraw 1.", flavorText: "As beautiful as the Great Sai may be, it is not a place for the weak. Many lives have been lost among its rolling dunes, and while the xer\'sai claim many, the land itself takes its share.",
       cost: 3, rarity: Rare, regions: {Shurima}, spellSpeed: Burst,
-      keywords: {Burst},
+      subtypes: {Elemental}, keywords: {Burst},
       associatedCards: @[Card(`set`: Set4, faction: Shurima, number: 6)],
       formats: {Eternal}), Card(`set`: Set4, faction: Shurima, number: 107): CardInfo(
       name: "Ascended\'s Rise", `type`: Spell,
@@ -5679,7 +5687,7 @@ const
       Card(`set`: Set4, faction: Shurima, number: 62)],
       formats: {CommonsOnly, Eternal, Standard}), Card(`set`: Set4,
       faction: Shurima, number: 97): CardInfo(name: "Sanctum Conservator",
-      `type`: Unit, description: "Play: Kill a follower. If you\'ve slain 13+ units this game, kill all enemy followers, then summon a copy of me instead. ", flavorText: "The baccai are tasked with defending the inner sanctum to safeguard the ancient treasures there, and for the sake of mortals that might think themselves clever enough, or mighty enough, to withstand the weight of the Curator\'s judgment.",
+      `type`: Unit, description: "Play: Kill an enemy follower. If you\'ve slain 13+ units this game, kill all enemy followers, then summon a copy of me instead. ", flavorText: "The baccai are tasked with defending the inner sanctum to safeguard the ancient treasures there, and for the sake of mortals that might think themselves clever enough, or mighty enough, to withstand the weight of the Curator\'s judgment.",
       cost: 8, rarity: Epic, regions: {Shurima}, attack: 8, health: 5,
       keywords: {Fearsome}, associatedCards: @[
       Card(`set`: Set4, faction: Shurima, number: 97, subnumber: 1)],
@@ -5913,16 +5921,16 @@ const
       regions: {Shurima}, spellSpeed: Slow, keywords: {Slow},
       formats: {Eternal, Standard}), Card(`set`: Set4, faction: Shurima,
       number: 97, subnumber: 1): CardInfo(name: "Conservator\'s Judgment",
-      `type`: Ability, description: "Kill a follower. If you\'ve slain 13+ units this game, kill all enemy followers, then summon a copy of me instead.", flavorText: "\"We are where both gods and men find their end.\" - Sanctum Conservator",
+      `type`: Ability, description: "Kill an enemy follower. If you\'ve slain 13+ units this game, kill all enemy followers, then summon a copy of me instead.", flavorText: "\"We are where both gods and men find their end.\" - Sanctum Conservator",
       cost: 0, rarity: None, regions: {Shurima}, keywords: {Skill},
       associatedCards: @[Card(`set`: Set4, faction: Shurima, number: 97)],
       formats: {Eternal, Standard}), Card(`set`: Set4, faction: Shurima,
       number: 110): CardInfo(name: "Stoneweaving", `type`: Spell, description: "Manifest a landmark you can afford.", flavorText: "\"Come on - there\'s so much to see!\" - Taliyah",
                              cost: 1, rarity: Epic, regions: {Shurima},
-                             spellSpeed: Burst, keywords: {Burst},
-                             formats: {Eternal}), Card(`set`: Set4,
-      faction: Shurima, number: 51): CardInfo(name: "Emperor\'s Dais",
-      `type`: Landmark,
+                             spellSpeed: Burst, subtypes: {Elemental},
+                             keywords: {Burst}, formats: {Eternal}), Card(
+      `set`: Set4, faction: Shurima, number: 51): CardInfo(
+      name: "Emperor\'s Dais", `type`: Landmark,
       description: "When allies attack, summon an attacking Sand Soldier.", flavorText: "The Sandcrafters lifted their hands, willing the sand into the familiar shape of armored, faceless soldiers, a tireless army ready to fight for their god-emperor. ",
       cost: 2, rarity: Rare, regions: {Shurima}, keywords: {LandmarkVisualOnly}, associatedCards: @[
       Card(`set`: Set4, faction: Shurima, number: 3, subnumber: 1)],
@@ -5948,7 +5956,8 @@ const
       formats: {Eternal, Standard}), Card(`set`: Set4, faction: Freljord,
       number: 12): CardInfo(name: "Buried in Ice", `type`: Spell, description: "Obliterate each enemy to summon a Frozen Tomb in place with the enemy stored inside.", flavorText: "\"The cold overcomes all, eventually.\" - Lissandra",
                             cost: 9, rarity: Epic, regions: {Freljord},
-                            spellSpeed: Slow, keywords: {Slow}, associatedCards: @[
+                            spellSpeed: Slow, subtypes: {Elemental},
+                            keywords: {Slow}, associatedCards: @[
       Card(`set`: Set4, faction: Freljord, number: 7, subnumber: 1)],
                             formats: {Eternal, Standard}), Card(`set`: Set4,
       faction: Freljord, number: 16): CardInfo(name: "Spoils of War",
@@ -5964,9 +5973,9 @@ const
       `type`: Spell,
       description: "Get an empty mana gem and grant an ally +0|+2.", flavorText: "\"Beware the ice... and more importantly... beware what lies within!\" - Scrawled on a Freljord inn wall",
       cost: 5, rarity: Common, regions: {Freljord}, spellSpeed: Burst,
-      keywords: {Burst}, formats: {CommonsOnly, Eternal, Standard}), Card(
-      `set`: Set4, faction: Freljord, number: 5): CardInfo(name: "Lissandra",
-      `type`: Unit, description: "When I\'m summoned, summon a Frozen Thrall and advance it 2.", flavorText: "\"The Watchers lurk just beyond these walls, suspended in ice, frozen in time... and while they wait, I have plans that must be set in motion...\"",
+      subtypes: {Elemental}, keywords: {Burst},
+      formats: {CommonsOnly, Eternal, Standard}), Card(`set`: Set4,
+      faction: Freljord, number: 5): CardInfo(name: "Lissandra", `type`: Unit, description: "When I\'m summoned, summon a Frozen Thrall and advance it 2.", flavorText: "\"The Watchers lurk just beyond these walls, suspended in ice, frozen in time... and while they wait, I have plans that must be set in motion...\"",
       cost: 3, rarity: Champion, regions: {Freljord}, attack: 2, health: 3, levelupDescription: "You\'ve summoned 2+ allies that cost 8+. When I level up, create a Watcher in hand.",
       supertype: Champion, keywords: {Tough}, associatedCards: @[
       Card(`set`: Set4, faction: Freljord, number: 5, subnumber: 1),
@@ -5997,14 +6006,15 @@ const
       `type`: Spell, description: "Obliterate a unit to summon a Frozen Tomb in place with the unit stored inside.\r\nCreate a Lissandra in your deck.",
       flavorText: "\"Kneel, or freeze.\" - Lissandra", cost: 5, rarity: None,
       regions: {Freljord}, spellSpeed: Fast, supertype: Champion,
-      keywords: {Fast}, associatedCards: @[
+      subtypes: {Elemental}, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set4, faction: Freljord, number: 7, subnumber: 1),
       Card(`set`: Set4, faction: Freljord, number: 5),
       Card(`set`: Set4, faction: Freljord, number: 5, subnumber: 1)],
       formats: {Eternal, Standard}), Card(`set`: Set4, faction: Freljord,
       number: 11): CardInfo(name: "Succumb to the Cold", `type`: Spell, description: "Frostbite an enemy.\r\nSummon a Frozen Thrall.", flavorText: "\"The cold elicits many reactions. Let us find out yours.\" - Lissandra",
                             cost: 4, rarity: Common, regions: {Freljord},
-                            spellSpeed: Burst, keywords: {Burst}, associatedCards: @[
+                            spellSpeed: Burst, subtypes: {Elemental},
+                            keywords: {Burst}, associatedCards: @[
       Card(`set`: Set4, faction: Freljord, number: 1),
       Card(`set`: Set4, faction: Freljord, number: 1, subnumber: 1)],
                             formats: {CommonsOnly, Eternal, Standard}), Card(
@@ -6021,11 +6031,12 @@ const
       formats: {CommonsOnly, Eternal, Standard}), Card(`set`: Set4,
       faction: Freljord, number: 7): CardInfo(name: "Entomb", `type`: Spell, description: "Obliterate a unit to summon a Frozen Tomb in place with the unit stored inside.",
       flavorText: "\"Kneel, or freeze.\" - Lissandra", cost: 5, rarity: Rare,
-      regions: {Freljord}, spellSpeed: Fast, keywords: {Fast}, associatedCards: @[
+      regions: {Freljord}, spellSpeed: Fast, subtypes: {Elemental},
+      keywords: {Fast}, associatedCards: @[
       Card(`set`: Set4, faction: Freljord, number: 7, subnumber: 1)],
       formats: {Eternal, Standard}), Card(`set`: Set4, faction: Freljord,
       number: 7, subnumber: 1): CardInfo(name: "Frozen Tomb", `type`: Landmark, description: "Countdown 2: Summon exact copies of the units and landmarks stored inside.", flavorText: "\"Our lady will bury this world and all you know in ice.\" - Draklorn Inquisitor ",
-      cost: 0, rarity: None, regions: {Freljord},
+      cost: 0, rarity: None, regions: {Freljord}, subtypes: {Elemental},
       keywords: {Countdown, LandmarkVisualOnly}, formats: {Eternal, Standard}), Card(
       `set`: Set4, faction: Freljord, number: 17): CardInfo(
       name: "Ancestral Boon", `type`: Spell, description: "Grant the top ally in your deck +2|+2.\r\nEnlightened: Instead, grant all allies in your deck +2|+2.", flavorText: "The Freljord\'s unrelenting cold and punishing storms kill most who enter its barren lands. But those who survive find within themselves an inner strength that spurs them onward through the rest of their lives.",
@@ -6038,7 +6049,8 @@ const
       `set`: Set4, faction: Freljord, number: 9): CardInfo(name: "Ice Shard",
       `type`: Spell, description: "Deal 1 to EVERYTHING.",
       flavorText: "\"I will bury the world in ice.\" - Lissandra", cost: 3,
-      rarity: Common, regions: {Freljord}, spellSpeed: Fast, keywords: {Fast},
+      rarity: Common, regions: {Freljord}, spellSpeed: Fast,
+      subtypes: {Elemental}, keywords: {Fast},
       formats: {CommonsOnly, Eternal, Standard}), Card(`set`: Set4,
       faction: Freljord, number: 15): CardInfo(name: "Fabled Poro",
       `type`: Unit,
@@ -6365,25 +6377,26 @@ const
       number: 8, subnumber: 4): CardInfo(name: "Unstoppable Force",
       `type`: Spell, description: "Stun all enemies.",
       flavorText: "\"ROCK. SOLID.\" - Malphite", cost: 2, rarity: None,
-      regions: {Targon}, spellSpeed: Slow, keywords: {Slow, Fleeting},
-      formats: {Eternal, Standard}), Card(`set`: Set4, faction: Targon,
-      number: 8, subnumber: 5): CardInfo(name: "Malphite\'s Ground Slam",
-      `type`: Spell, description: "Stun an enemy. Deal 3 to it if you\'ve summoned a landmark this game.\r\nCreate a Malphite in your deck.", flavorText: "\"Oop yep dat\'s just da ground shakin\' and not papa doin\' nothin\' with his hands NOPE OKAY onwards annn\' UPWARDS!\" - Chip",
+      regions: {Targon}, spellSpeed: Slow, subtypes: {Elemental},
+      keywords: {Slow, Fleeting}, formats: {Eternal, Standard}), Card(
+      `set`: Set4, faction: Targon, number: 8, subnumber: 5): CardInfo(
+      name: "Malphite\'s Ground Slam", `type`: Spell, description: "Stun an enemy. Deal 3 to it if you\'ve summoned a landmark this game.\r\nCreate a Malphite in your deck.", flavorText: "\"Oop yep dat\'s just da ground shakin\' and not papa doin\' nothin\' with his hands NOPE OKAY onwards annn\' UPWARDS!\" - Chip",
       cost: 4, rarity: None, regions: {Targon}, spellSpeed: Fast,
-      supertype: Champion, keywords: {Fast}, associatedCards: @[
+      supertype: Champion, subtypes: {Elemental}, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set4, faction: Targon, number: 8, subnumber: 1),
       Card(`set`: Set4, faction: Targon, number: 8)],
       formats: {Eternal, Standard}), Card(`set`: Set4, faction: Targon,
       number: 8, subnumber: 6): CardInfo(name: "Rockslide", `type`: Ability,
       description: "Stun an enemy.",
       flavorText: "\"Only place to go is down!\" - Malphite", cost: 0,
-      rarity: None, regions: {Targon}, keywords: {Skill},
-      formats: {Eternal, Standard}), Card(`set`: Set4, faction: Targon,
-      number: 10): CardInfo(name: "Startipped Peak", `type`: Landmark, description: "Countdown 2: Create 2 random Celestial cards that cost 3 or less in hand.", flavorText: "Those who set off to climb Mount Targon are soon rewarded with some of Runeterra\'s most glorious views. And as the climb steepens, so do its rewards.",
-                            cost: 1, rarity: Rare, regions: {Targon},
-                            keywords: {Countdown, LandmarkVisualOnly},
-                            formats: {Eternal}), Card(`set`: Set4,
-      faction: Targon, number: 5): CardInfo(name: "Chip", `type`: Unit, description: "Once you\'ve summoned a landmark this game, grant me +2|+2.", flavorText: "\"Okay so hello I\'m Chip an\' I\'m here to show you Targon! It\'s wowow big an\' tall so I hope you got good shoes for da walkin\'! Let\'s GO!\"\n- Adventures with Chip, part 1",
+      rarity: None, regions: {Targon}, subtypes: {Elemental},
+      keywords: {ElementalSkill}, formats: {Eternal, Standard}), Card(
+      `set`: Set4, faction: Targon, number: 10): CardInfo(
+      name: "Startipped Peak", `type`: Landmark, description: "Countdown 2: Create 2 random Celestial cards that cost 3 or less in hand.", flavorText: "Those who set off to climb Mount Targon are soon rewarded with some of Runeterra\'s most glorious views. And as the climb steepens, so do its rewards.",
+      cost: 1, rarity: Rare, regions: {Targon},
+      keywords: {Countdown, LandmarkVisualOnly}, formats: {Eternal}), Card(
+      `set`: Set4, faction: Targon, number: 5): CardInfo(name: "Chip",
+      `type`: Unit, description: "Once you\'ve summoned a landmark this game, grant me +2|+2.", flavorText: "\"Okay so hello I\'m Chip an\' I\'m here to show you Targon! It\'s wowow big an\' tall so I hope you got good shoes for da walkin\'! Let\'s GO!\"\n- Adventures with Chip, part 1",
       cost: 1, rarity: Common, regions: {Targon}, attack: 1, health: 1,
       formats: {CommonsOnly, Eternal, Standard}), Card(`set`: Set4,
       faction: Targon, number: 9): CardInfo(name: "Spiral Stairs",
@@ -6443,19 +6456,20 @@ const
       keywords: {Burst}, formats: {Eternal, Standard}), Card(`set`: Set4,
       faction: Targon, number: 7): CardInfo(name: "Ground Slam ", `type`: Spell, description: "Stun an enemy. Deal 3 to it if you\'ve summoned a landmark this game.", flavorText: "\"Oop yep dat\'s just da ground shakin\' and not papa doin\' nothin\' with his hands NOPE OKAY onwards annn\' UPWARDS!\" - Chip",
       cost: 4, rarity: Rare, regions: {Targon}, spellSpeed: Fast,
-      keywords: {Fast}, formats: {Eternal}), Card(`set`: Set4, faction: Targon,
-      number: 13, subnumber: 1): CardInfo(name: "Blinding Crest",
-      `type`: Ability, description: "Stun the Strongest enemy.", flavorText: "Some Solari claim the sunhawk\'s brilliant gleam is the bird trying to send a signal to The Immortal Fire herself.",
+      subtypes: {Elemental}, keywords: {Fast}, formats: {Eternal}), Card(
+      `set`: Set4, faction: Targon, number: 13, subnumber: 1): CardInfo(
+      name: "Blinding Crest", `type`: Ability,
+      description: "Stun the Strongest enemy.", flavorText: "Some Solari claim the sunhawk\'s brilliant gleam is the bird trying to send a signal to The Immortal Fire herself.",
       cost: 0, rarity: None, regions: {Targon}, keywords: {Skill},
       formats: {Eternal, Standard}), Card(`set`: Set4, faction: Targon,
       number: 2, subnumber: 2): CardInfo(name: "Shaken Ground", `type`: Ability, description: "If you\'ve summoned 4+ landmarks this game, deal 4 to an enemy and 2 to the enemy Nexus.",
       flavorText: "\"Spike is not a morning person...\" - Malphite", cost: 0,
-      rarity: None, regions: {Targon}, keywords: {Skill},
-      formats: {Eternal, Standard}), Card(`set`: Set4, faction: Targon,
-      number: 15): CardInfo(name: "Heavens Aligned", `type`: Spell, description: "Daybreak: Create a random Nightfall card in hand.\r\nNightfall: Create a random Daybreak card in hand.", flavorText: "So goes the cycle of night and day, one always following the other.",
-                            cost: 1, rarity: Common, regions: {Targon},
-                            spellSpeed: Burst, keywords: {Focus},
-                            formats: {CommonsOnly, Eternal, Standard}), Card(
+      rarity: None, regions: {Targon}, subtypes: {Elemental},
+      keywords: {ElementalSkill}, formats: {Eternal, Standard}), Card(
+      `set`: Set4, faction: Targon, number: 15): CardInfo(
+      name: "Heavens Aligned", `type`: Spell, description: "Daybreak: Create a random Nightfall card in hand.\r\nNightfall: Create a random Daybreak card in hand.", flavorText: "So goes the cycle of night and day, one always following the other.",
+      cost: 1, rarity: Common, regions: {Targon}, spellSpeed: Burst,
+      keywords: {Focus}, formats: {CommonsOnly, Eternal, Standard}), Card(
       `set`: Set4, faction: Demacia, number: 4): CardInfo(
       name: "Ardent Tracker", `type`: Unit,
       description: "When you summon an Elite, reduce my cost by 1.", flavorText: "Though the Noxians had laid their trap well, still no-one knew the woods better than Demacia\'s scouts. Every snapped branch, every footprint was a clue that led them closer to their prince.",
@@ -6877,16 +6891,17 @@ const
       `type`: Spell, description: "Recall an ally to deal 2 to anything.\r\nCreate a Kennen in your deck.",
       flavorText: "\"First the crack, then the boom!\" - Kennen", cost: 3,
       rarity: None, regions: {BandleCity}, spellSpeed: Fast,
-      supertype: Champion, keywords: {Fast}, associatedCards: @[
+      supertype: Champion, subtypes: {Elemental}, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set5, faction: BandleCity, number: 58),
       Card(`set`: Set5, faction: BandleCity, number: 58, subnumber: 2)],
       formats: {Eternal, Standard}), Card(`set`: Set5, faction: BandleCity,
       number: 58, subnumber: 5): CardInfo(name: "Mark of the Storm",
       `type`: Spell, description: "Grant an enemy Mark of the Storm. If they already have it, remove the mark to Stun and deal 2 to them instead.",
       flavorText: "The storm approaches.", cost: 0, rarity: None,
-      regions: {BandleCity}, spellSpeed: Fast, keywords: {Fast, Fleeting},
-      formats: {Eternal, Standard}), Card(`set`: Set5, faction: BandleCity,
-      number: 58, subnumber: 2): CardInfo(name: "Kennen", `type`: Unit, description: "When I\'m summoned, blocked, or Attack: Create a Mark of the Storm in hand.", flavorText: "\"We are wind and thunder! We are rain and lightning! This is... TEMPEST!\"",
+      regions: {BandleCity}, spellSpeed: Fast, subtypes: {Elemental},
+      keywords: {Fast, Fleeting}, formats: {Eternal, Standard}), Card(
+      `set`: Set5, faction: BandleCity, number: 58, subnumber: 2): CardInfo(
+      name: "Kennen", `type`: Unit, description: "When I\'m summoned, blocked, or Attack: Create a Mark of the Storm in hand.", flavorText: "\"We are wind and thunder! We are rain and lightning! This is... TEMPEST!\"",
       cost: 1, rarity: None, regions: {BandleCity, Ionia}, attack: 3, health: 2,
       supertype: Champion, subtypes: {Yordle}, keywords: {QuickStrike}, associatedCards: @[
       Card(`set`: Set5, faction: BandleCity, number: 58, subnumber: 5),
@@ -7537,15 +7552,16 @@ const
       faction: BandleCity, number: 182): CardInfo(name: "Lightning Rush",
       `type`: Spell, description: "Recall an ally to deal 2 to anything.",
       flavorText: "\"First the crack, then the boom!\" - Kennen", cost: 3,
-      rarity: Rare, regions: {BandleCity}, spellSpeed: Fast, keywords: {Fast},
-      formats: {Eternal, Standard}), Card(`set`: Set5, faction: BandleCity,
-      number: 127): CardInfo(name: "Rissu, The Silent Storm", `type`: Unit, description: "When I\'m summoned, summon a Stormcloud.", flavorText: "Weaving a Stormcloud took time. Time Rissu didn\'t have. Her hands worked furiously as the Aberration closed in. A bit of cloud here, some lightning there. Then... CRACK! BOOM! She had done it, but would it be enough?",
-                             cost: 5, rarity: Epic, regions: {BandleCity},
-                             attack: 1, health: 3, subtypes: {Yordle}, associatedCards: @[
+      rarity: Rare, regions: {BandleCity}, spellSpeed: Fast,
+      subtypes: {Elemental}, keywords: {Fast}, formats: {Eternal, Standard}), Card(
+      `set`: Set5, faction: BandleCity, number: 127): CardInfo(
+      name: "Rissu, The Silent Storm", `type`: Unit,
+      description: "When I\'m summoned, summon a Stormcloud.", flavorText: "Weaving a Stormcloud took time. Time Rissu didn\'t have. Her hands worked furiously as the Aberration closed in. A bit of cloud here, some lightning there. Then... CRACK! BOOM! She had done it, but would it be enough?",
+      cost: 5, rarity: Epic, regions: {BandleCity}, attack: 1, health: 3,
+      subtypes: {Yordle}, associatedCards: @[
       Card(`set`: Set5, faction: BandleCity, number: 127, subnumber: 1)],
-                             formats: {Eternal}), Card(`set`: Set5,
-      faction: BandleCity, number: 69): CardInfo(name: "Lecturing Yordle",
-      `type`: Unit,
+      formats: {Eternal}), Card(`set`: Set5, faction: BandleCity, number: 69): CardInfo(
+      name: "Lecturing Yordle", `type`: Unit,
       description: "Attack: Create a Fleeting Poison Dart in hand.",
       flavorText: "Don\'t get him started.", cost: 4, rarity: Rare,
       regions: {BandleCity}, attack: 3, health: 5, subtypes: {Yordle},
@@ -7753,8 +7769,8 @@ const
       faction: Ionia, number: 20, subnumber: 1): CardInfo(name: "Gust",
       `type`: Ability, description: "Recall a unit.",
       flavorText: "The wind moves all, in its own time.", cost: 0, rarity: None,
-      regions: {Ionia}, keywords: {Skill}, formats: {Eternal, Standard}), Card(
-      `set`: Set5, faction: Ionia, number: 7): CardInfo(
+      regions: {Ionia}, subtypes: {Elemental}, keywords: {ElementalSkill},
+      formats: {Eternal, Standard}), Card(`set`: Set5, faction: Ionia, number: 7): CardInfo(
       name: "Sai\'nen Thousand-Tailed", `type`: Unit, description: "When I\'m summoned, draw 2 and give all allies +1|+1 this round.", flavorText: "The forest offers its secrets freely... but few bear the courage to ask questions of it.",
       cost: 6, rarity: Epic, regions: {Ionia}, attack: 3, health: 5,
       formats: {Eternal, Standard}), Card(`set`: Set5, faction: Ionia,
@@ -8059,7 +8075,7 @@ const
       name: "Nami\'s Ebb", `type`: Spell, description: "Deal 2 randomly to an enemy or the enemy Nexus and create a Flow in hand.\r\nCreate a Nami in your deck.",
       flavorText: "\"Heed the tide\'s temper...\" - Nami", cost: 2,
       rarity: None, regions: {Bilgewater}, spellSpeed: Fast,
-      supertype: Champion, keywords: {Fast}, associatedCards: @[
+      supertype: Champion, subtypes: {Elemental}, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set5, faction: Bilgewater, number: 5, subnumber: 1),
       Card(`set`: Set5, faction: Bilgewater, number: 5),
       Card(`set`: Set5, faction: Bilgewater, number: 6, subnumber: 2),
@@ -8076,7 +8092,8 @@ const
       number: 6): CardInfo(name: "Ebb", `type`: Spell, description: "Deal 2 randomly to an enemy or the enemy Nexus and create a Flow in hand.",
                            flavorText: "\"Heed the tide\'s temper...\" - Nami",
                            cost: 2, rarity: Common, regions: {Bilgewater},
-                           spellSpeed: Fast, keywords: {Fast}, associatedCards: @[
+                           spellSpeed: Fast, subtypes: {Elemental},
+                           keywords: {Fast}, associatedCards: @[
       Card(`set`: Set5, faction: Bilgewater, number: 6, subnumber: 2),
       Card(`set`: Set5, faction: Bilgewater, number: 6, subnumber: 1)],
                            formats: {CommonsOnly, Eternal, Standard}), Card(
@@ -8084,17 +8101,19 @@ const
       name: "Flow", `type`: Spell, description: "Heal an ally or your Nexus 2, and create an Ebb and Flow in hand.",
       flavorText: "\"...And cherish the swell\'s calm.\" - Nami", cost: 2,
       rarity: None, regions: {Bilgewater}, spellSpeed: Burst,
-      keywords: {Fleeting, Burst}, associatedCards: @[
+      subtypes: {Elemental}, keywords: {Fleeting, Burst}, associatedCards: @[
       Card(`set`: Set5, faction: Bilgewater, number: 6, subnumber: 1)],
       formats: {Eternal, Standard}), Card(`set`: Set5, faction: Bilgewater,
       number: 6, subnumber: 1): CardInfo(name: "Ebb and Flow", `type`: Spell, description: "Deal 2 randomly to an enemy or the enemy Nexus and heal an ally or your Nexus 2.",
       flavorText: "\"I decide what the tide will bring.\" - Nami", cost: 2,
       rarity: None, regions: {Bilgewater}, spellSpeed: Fast,
-      keywords: {Fast, Fleeting}, formats: {Eternal, Standard}), Card(
-      `set`: Set5, faction: Bilgewater, number: 2): CardInfo(
-      name: "Journeying Sandhopper", `type`: Unit, description: "", flavorText: "\"Sure, a few of \'em hunt us, like they hunt everything. But y\'know, most landwalkers I meet are just looking to enjoy their time in the big blue, same as us. We\'re all just people.\"",
-      cost: 3, rarity: Common, regions: {Bilgewater}, attack: 4, health: 3,
-      keywords: {Attune}, formats: {CommonsOnly, Eternal, Standard}), Card(
+      subtypes: {Elemental}, keywords: {Fast, Fleeting},
+      formats: {Eternal, Standard}), Card(`set`: Set5, faction: Bilgewater,
+      number: 2): CardInfo(name: "Journeying Sandhopper", `type`: Unit,
+                           description: "", flavorText: "\"Sure, a few of \'em hunt us, like they hunt everything. But y\'know, most landwalkers I meet are just looking to enjoy their time in the big blue, same as us. We\'re all just people.\"",
+                           cost: 3, rarity: Common, regions: {Bilgewater},
+                           attack: 4, health: 3, keywords: {Attune},
+                           formats: {CommonsOnly, Eternal, Standard}), Card(
       `set`: Set5, faction: Bilgewater, number: 8): CardInfo(
       name: "Abyssal Guard", `type`: Unit,
       description: "When you play a spell, give me +2|+0 this round.", flavorText: "\"Many of our tribe find Loto somewhat unnerving. They see only a tireless fighter, and the distance in his troubled gaze. But I know what\'s truly in his heart--fear that he is not strong enough to save us... and extraordinary love.\" - Tama, Marai Songstress",
@@ -8107,24 +8126,26 @@ const
       `set`: Set5, faction: Bilgewater, number: 3): CardInfo(name: "Tidal Wave",
       `type`: Spell, description: "Deal 1 to two different randomly targeted enemies and create a Crashing Wave in your deck.",
       flavorText: "\"Oceans spill forth!\" - Nami", cost: 3, rarity: Rare,
-      regions: {Bilgewater}, spellSpeed: Slow, keywords: {Slow}, associatedCards: @[
+      regions: {Bilgewater}, spellSpeed: Slow, subtypes: {Elemental},
+      keywords: {Slow}, associatedCards: @[
       Card(`set`: Set5, faction: Bilgewater, number: 3, subnumber: 1),
       Card(`set`: Set5, faction: Bilgewater, number: 3, subnumber: 2)],
       formats: {Eternal, Standard}), Card(`set`: Set5, faction: Bilgewater,
       number: 3, subnumber: 1): CardInfo(name: "Crashing Wave", `type`: Spell, description: "Deal 2 to four different randomly targeted enemies and create a Colossal Wave in your deck.",
       flavorText: "\"Roiling seas engulf them!\" - Nami", cost: 3, rarity: None,
-      regions: {Bilgewater}, spellSpeed: Slow, keywords: {Slow}, associatedCards: @[
+      regions: {Bilgewater}, spellSpeed: Slow, subtypes: {Elemental},
+      keywords: {Slow}, associatedCards: @[
       Card(`set`: Set5, faction: Bilgewater, number: 3, subnumber: 2)],
       formats: {Eternal, Standard}), Card(`set`: Set5, faction: Bilgewater,
       number: 3, subnumber: 2): CardInfo(name: "Colossal Wave", `type`: Spell,
       description: "Deal 4 to all enemies and the enemy Nexus. ",
       flavorText: "\"Rolling tides, heed my call!\" - Nami", cost: 3,
-      rarity: None, regions: {Bilgewater}, spellSpeed: Slow, keywords: {Slow},
-      formats: {Eternal, Standard}), Card(`set`: Set5, faction: Bilgewater,
-      number: 4): CardInfo(name: "Avatar of the Tides", `type`: Unit, description: "If you would get a mana gem, instead refill your spell mana.\r\nWhen you play a spell, create in hand a random spell that costs 3 or less and grant it Fleeting.", flavorText: "To the Marai, the Leo\'lei is a herald of great change. It is said each flourish of its graceful wings influences the flow of the tides.",
-                           cost: 6, rarity: Epic, regions: {Bilgewater},
-                           attack: 4, health: 6, keywords: {Imbue},
-                           formats: {Eternal, Standard}), Card(`set`: Set5,
+      rarity: None, regions: {Bilgewater}, spellSpeed: Slow,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set5, faction: Bilgewater, number: 4): CardInfo(
+      name: "Avatar of the Tides", `type`: Unit, description: "If you would get a mana gem, instead refill your spell mana.\r\nWhen you play a spell, create in hand a random spell that costs 3 or less and grant it Fleeting.", flavorText: "To the Marai, the Leo\'lei is a herald of great change. It is said each flourish of its graceful wings influences the flow of the tides.",
+      cost: 6, rarity: Epic, regions: {Bilgewater}, attack: 4, health: 6,
+      keywords: {Imbue}, formats: {Eternal, Standard}), Card(`set`: Set5,
       faction: Bilgewater, number: 1): CardInfo(name: "Marai Warden",
       `type`: Unit,
       description: "When I\'m summoned, summon a random 1 cost follower.", flavorText: "The Marai rarely desire to venture far from home. But Ai\'la was born with curiosity in her heart--and though she is bound by duty to her tribe, she spends each waking moment dreaming of the day she can truly be free.",
@@ -8617,14 +8638,14 @@ const
       `set`: Set6, faction: Noxus, number: 12, subnumber: 3): CardInfo(
       name: "Annie\'s Disintegrate", `type`: Spell, description: "Pick a unit. The next time it takes 1 or more damage this round, kill it.\r\nCreate an Annie in your deck.", flavorText: "Headmistress Telsi spoke at length about the Noxian tenets, leaving the children before her increasingly bored and restless. But, while most students largely contained their outbursts, Annie acted. First with smoke, then with fire.",
       cost: 2, rarity: None, regions: {Noxus}, spellSpeed: Fast,
-      supertype: Champion, keywords: {Fast}, associatedCards: @[
+      supertype: Champion, subtypes: {Elemental}, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set6, faction: Noxus, number: 12, subnumber: 7),
       Card(`set`: Set6, faction: Noxus, number: 12)],
       formats: {Eternal, Standard}), Card(`set`: Set6, faction: Noxus,
       number: 12, subnumber: 6): CardInfo(name: "Molten Shield",
       `type`: Ability, description: "Deal 2 to Annie\'s blocker. If it\'s dead or gone, deal 2 to the enemy Nexus instead.",
       flavorText: "\"Do you wanna play, too?\" - Annie", cost: 0, rarity: None,
-      regions: {Noxus}, keywords: {Skill},
+      regions: {Noxus}, subtypes: {Elemental}, keywords: {ElementalSkill},
       associatedCards: @[Card(`set`: Set6, faction: Noxus, number: 12)],
       formats: {Eternal, Standard}), Card(`set`: Set6, faction: Noxus,
       number: 12, subnumber: 7): CardInfo(name: "Annie", `type`: Unit, description: "Attack: I deal 3 to my blocker and Stun it. If it\'s dead or gone, I deal 3 to the enemy Nexus instead.", flavorText: "\"I\'ve found her. She\'s Amoline\'s, no doubt. Same eyes, same giggle. I\'ll bring her back within the fortnight. Having spoken to the girl, I ask that you be kind to her. I believe there\'s good in there, along with the dark.\"\n- Excerpt of a letter from Fynn Retrick",
@@ -8638,9 +8659,9 @@ const
       number: 12, subnumber: 5): CardInfo(name: "Pyroclastic Arrival",
       `type`: Ability, description: "Stun an enemy, then deal 2 to all Stunned or damaged enemies.",
       flavorText: "\"TIBBERS!\" - Annie", cost: 0, rarity: None,
-      regions: {Noxus}, keywords: {Skill}, formats: {Eternal, Standard}), Card(
-      `set`: Set6, faction: Noxus, number: 12, subnumber: 1): CardInfo(
-      name: "Tibbers", `type`: Unit, description: "Play: Stun an enemy, then deal 2 to all Stunned or damaged enemies.", flavorText: "The demon Tybaulk had infested the minds of countless victims over the centuries. Slowly, inexorably, he would lead them to the fire, and watch his flames feast on scorched flesh. But in young Annie, Tybaulk found a will completely indomitable, and a talent for magic that rivaled even his own.",
+      regions: {Noxus}, subtypes: {Elemental}, keywords: {ElementalSkill},
+      formats: {Eternal, Standard}), Card(`set`: Set6, faction: Noxus,
+      number: 12, subnumber: 1): CardInfo(name: "Tibbers", `type`: Unit, description: "Play: Stun an enemy, then deal 2 to all Stunned or damaged enemies.", flavorText: "The demon Tybaulk had infested the minds of countless victims over the centuries. Slowly, inexorably, he would lead them to the fire, and watch his flames feast on scorched flesh. But in young Annie, Tybaulk found a will completely indomitable, and a talent for magic that rivaled even his own.",
       cost: 6, rarity: None, regions: {Noxus}, attack: 5, health: 5,
       keywords: {Fearsome}, associatedCards: @[
       Card(`set`: Set6, faction: Noxus, number: 12, subnumber: 5),
@@ -8649,7 +8670,7 @@ const
       number: 12, subnumber: 8): CardInfo(name: "Molten Shield",
       `type`: Ability, description: "Deal 3 and Stun Annie\'s blocker. If it\'s dead or gone, deal 3 to the enemy Nexus instead.",
       flavorText: "\"It\'ll be fun...\" - Annie", cost: 0, rarity: None,
-      regions: {Noxus}, keywords: {Skill}, associatedCards: @[
+      regions: {Noxus}, subtypes: {Elemental}, keywords: {ElementalSkill}, associatedCards: @[
       Card(`set`: Set6, faction: Noxus, number: 12, subnumber: 7)],
       formats: {Eternal, Standard}), Card(`set`: Set6, faction: Noxus,
       number: 29): CardInfo(name: "The Gray Apothecary", `type`: Landmark, description: "When an ally with 5+ Power dies, create a random follower with 5+ Power in hand.", flavorText: "\"Today I found myself thinking back to my small infirmary in Penrose Hill, and the years I spent there trying to unlock the secrets of physiology. Years! I\'ve now been in Lady Noradi\'s employ for just a few short months, but I know now that I learned nothing. How simple I was. How fortunate.\"\n- Notes from Dr. Esslanger",
@@ -8687,7 +8708,8 @@ const
       formats: {Eternal, Standard}), Card(`set`: Set6, faction: Noxus,
       number: 14): CardInfo(name: "Disintegrate", `type`: Spell, description: "Pick a unit. The next time it takes 1 or more damage this round, kill it.", flavorText: "Headmistress Telsi spoke at length about the Noxian tenets, leaving the children before her increasingly bored and restless. But, while most students largely contained their outbursts, Annie acted. First with smoke, then with fire.",
                             cost: 2, rarity: Common, regions: {Noxus},
-                            spellSpeed: Fast, keywords: {Fast},
+                            spellSpeed: Fast, subtypes: {Elemental},
+                            keywords: {Fast},
                             formats: {CommonsOnly, Eternal, Standard}), Card(
       `set`: Set6, faction: Noxus, number: 31): CardInfo(name: "Captive Yeti",
       `type`: Unit, description: "Reputation: I cost 4 less. ", flavorText: "The crowd gasped as the two shackled yetis were brought into the Bordent\'s legendary fighting pit. No one thought the beasts strong enough to break their chains, because none of them had ever faced a yeti\'s might before.",
@@ -8721,9 +8743,10 @@ const
       number: 15, subnumber: 1): CardInfo(name: "Magic Embers", `type`: Ability,
       description: "Deal 1 to the enemy Nexus.",
       flavorText: "\"Whoa... I can SEE the magic!\" - Manasoul Student",
-      cost: 0, rarity: None, regions: {Noxus}, keywords: {Skill},
-      formats: {Eternal, Standard}), Card(`set`: Set6, faction: Noxus, number: 8): CardInfo(
-      name: "The Prefect", `type`: Unit, description: "When you play a Fast spell, Slow spell, or Skill, grant me +1|+0.", flavorText: "\"Many of the children are of an age where their natural inclinations lead them to rebel against formal direction. Fortunate, then, that the eldest of them is both favored by the rest, and malleable to our cause. If the students choose to ignore our lessons, then we will teach through her.\" - Headmistress Telsi",
+      cost: 0, rarity: None, regions: {Noxus}, subtypes: {Elemental},
+      keywords: {ElementalSkill}, formats: {Eternal, Standard}), Card(
+      `set`: Set6, faction: Noxus, number: 8): CardInfo(name: "The Prefect",
+      `type`: Unit, description: "When you play a Fast spell, Slow spell, or Skill, grant me +1|+0.", flavorText: "\"Many of the children are of an age where their natural inclinations lead them to rebel against formal direction. Fortunate, then, that the eldest of them is both favored by the rest, and malleable to our cause. If the students choose to ignore our lessons, then we will teach through her.\" - Headmistress Telsi",
       cost: 3, rarity: Epic, regions: {Noxus}, attack: 2, health: 3,
       keywords: {Overwhelm}, formats: {Eternal, Standard}), Card(`set`: Set6,
       faction: Noxus, number: 13, subnumber: 1): CardInfo(
@@ -8986,7 +9009,7 @@ const
       `type`: Spell,
       description: "Frostbite an enemy and summon a Rimefang Pack. ", flavorText: "With the cold, so too come the rimefangs, and they don\'t have to outpace their prey... merely outwait them.",
       cost: 4, rarity: Epic, regions: {Freljord}, spellSpeed: Slow,
-      keywords: {Slow}, associatedCards: @[
+      subtypes: {Elemental}, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set4, faction: Freljord, number: 19, subnumber: 1)],
       formats: {Eternal, Standard}), Card(`set`: Set6, faction: Freljord,
       number: 33): CardInfo(name: "Hunting Boar", `type`: Unit,
@@ -8999,9 +9022,9 @@ const
       name: "Wings of the Cryophoenix", `type`: Spell,
       description: "Deal 3 to ALL units.\r\nEnlightened: Heal your Nexus 3.", flavorText: "In the shadow of the great Cryophoenix\'s wings, her followers rejoiced, and her enemies shuddered.",
       cost: 7, rarity: Rare, regions: {Freljord}, spellSpeed: Slow,
-      keywords: {Slow}, formats: {Eternal, Standard}), Card(`set`: Set6,
-      faction: Freljord, number: 30): CardInfo(name: "Harbinger of Thralls",
-      `type`: Unit, description: "Play: Summon a Frozen Thrall or advance all your Frozen Thralls 1 round.", flavorText: "The strange, whistling cry of the creature overhead was barely audible, but as it rung off the ravine\'s stone walls, the scouts felt it vibrate along their bones. Before their very eyes, cracks rapidly formed along the surface of the ice, disproportionate and quick.",
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set6, faction: Freljord, number: 30): CardInfo(
+      name: "Harbinger of Thralls", `type`: Unit, description: "Play: Summon a Frozen Thrall or advance all your Frozen Thralls 1 round.", flavorText: "The strange, whistling cry of the creature overhead was barely audible, but as it rung off the ravine\'s stone walls, the scouts felt it vibrate along their bones. Before their very eyes, cracks rapidly formed along the surface of the ice, disproportionate and quick.",
       cost: 2, rarity: Common, regions: {Freljord}, attack: 2, health: 2,
       subtypes: {Bird},
       associatedCards: @[Card(`set`: Set4, faction: Freljord, number: 1)],
@@ -9033,7 +9056,8 @@ const
       formats: {Eternal, Standard}), Card(`set`: Set6, faction: Freljord,
       number: 37): CardInfo(name: "Cracking Ice", `type`: Spell, description: "Grant an enemy \"Frostbite me at the next Round Start.\"", flavorText: "One must always test the ice before stepping onto it, no matter how thick it may look.",
                             cost: 1, rarity: Common, regions: {Freljord},
-                            spellSpeed: Burst, keywords: {Burst},
+                            spellSpeed: Burst, subtypes: {Elemental},
+                            keywords: {Burst},
                             formats: {CommonsOnly, Eternal, Standard}), Card(
       `set`: Set6, faction: BandleCity, number: 45): CardInfo(
       name: "Sneezy Biggledust!", `type`: Spell, description: "Give allies +1|+1 this round. If they\'re created, give them +2|+2 instead.", flavorText: "\"HELLO. I MUSHROOM I TALKING I DON\'T KNOW WHY OR HOW OR WHAT IS HAPPEN PLEASE LET ME BE MUSHROOM. PLEASE. THANK. BYE.\" - Mushroom",
@@ -10209,10 +10233,10 @@ const
       Card(`set`: Set6, faction: Freljord, number: 11, subnumber: 4)],
       formats: {Eternal, Standard}), Card(`set`: Set6, faction: Freljord,
       number: 11, subnumber: 2): CardInfo(name: "Ornn\'s Bellows Breath",
-      `type`: Spell, description: "Forge an ally and deal 1 to ALL units, then do it again.\r\nCreate a Ornn in deck.",
+      `type`: Spell, description: "Forge an ally and deal 1 to ALL units, then do it again.\r\nCreate an Ornn in your deck.",
       flavorText: "\"An iron will must be forged!\" - Ornn", cost: 5,
       rarity: None, regions: {Freljord}, spellSpeed: Slow, supertype: Champion,
-      keywords: {Slow}, associatedCards: @[
+      subtypes: {Elemental}, keywords: {Slow}, associatedCards: @[
       Card(`set`: Set6, faction: Freljord, number: 11),
       Card(`set`: Set6, faction: Freljord, number: 11, subnumber: 1)],
       formats: {Eternal, Standard}), Card(`set`: Set6, faction: Freljord,
@@ -10275,18 +10299,12 @@ const
       faction: Freljord, number: 20): CardInfo(name: "Fracture", `type`: Spell,
       description: "Deal 1 to EVERYTHING or destroy a unit\'s equipment.",
       flavorText: "The cold spares nothing and no one.", cost: 2, rarity: Rare,
-      regions: {Freljord}, spellSpeed: Slow, keywords: {Slow},
-      formats: {Eternal, Standard}), Card(`set`: Set6, faction: Freljord,
-      number: 27): CardInfo(name: "Woolly Snailmoth", `type`: Unit,
-                            description: "Empowered 8: Regeneration.", flavorText: "While troll aren\'t typically known for their intellect, they can be surprisingly ingenious.",
-                            cost: 6, rarity: Rare, regions: {Freljord},
-                            attack: 6, health: 6, keywords: {Overwhelm},
-                            formats: {Eternal, Standard}), Card(`set`: Set6,
-      faction: Freljord, number: 41): CardInfo(name: "Winter\'s Touch",
-      `type`: Spell,
-      description: "Get an empty mana gem. Enlightened: I cost 1. Draw 1.", flavorText: "Strange runes pulse from the facets of the gem in your hand. With an eerie flash their light rises off the surface, curling up your arm in a chilling whorl. But rather than freezing, its chill is invigorating, as though the cold itself imbued you with its essence. ",
-      cost: 4, rarity: Epic, regions: {Freljord}, spellSpeed: Burst,
-      keywords: {Burst}, formats: {Eternal, Standard}), Card(`set`: Set6,
+      regions: {Freljord}, spellSpeed: Slow, subtypes: {Elemental},
+      keywords: {Slow}, formats: {Eternal, Standard}), Card(`set`: Set6,
+      faction: Freljord, number: 27): CardInfo(name: "Woolly Snailmoth",
+      `type`: Unit, description: "Empowered 8: Regeneration.", flavorText: "While troll aren\'t typically known for their intellect, they can be surprisingly ingenious.",
+      cost: 6, rarity: Rare, regions: {Freljord}, attack: 6, health: 6,
+      keywords: {Overwhelm}, formats: {Eternal, Standard}), Card(`set`: Set6,
       faction: Freljord, number: 32): CardInfo(name: "Gift of the Hearthblood",
       `type`: Spell, description: "Heal your Nexus 4 and grant all allies and equipment in your deck +1|+1. Draw 1 of them.",
       flavorText: "\"Come, warm yourself by the fire.\" - Hearthblood Mender",
@@ -10296,12 +10314,13 @@ const
       `type`: Spell,
       description: "Forge an ally and deal 1 to ALL units, then do it again.",
       flavorText: "\"An iron will must be forged!\" - Ornn", cost: 5,
-      rarity: Rare, regions: {Freljord}, spellSpeed: Slow, keywords: {Slow},
-      formats: {Eternal, Standard}), Card(`set`: Set6, faction: Freljord,
-      number: 21): CardInfo(name: "Pouty Poro", `type`: Unit, description: "Empowered 3: Overwhelm, Regeneration, and Tough.", flavorText: "\"Come on, you have to take your medicine! You won\'t feel better \'til you do!\" - Ingvar the Younger",
-                            cost: 1, rarity: Common, regions: {Freljord},
-                            attack: 1, health: 1, subtypes: {Poro},
-                            formats: {CommonsOnly, Eternal, Standard}), Card(
+      rarity: Rare, regions: {Freljord}, spellSpeed: Slow,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set6, faction: Freljord, number: 21): CardInfo(name: "Pouty Poro",
+      `type`: Unit,
+      description: "Empowered 3: Overwhelm, Regeneration, and Tough.", flavorText: "\"Come on, you have to take your medicine! You won\'t feel better \'til you do!\" - Ingvar the Younger",
+      cost: 1, rarity: Common, regions: {Freljord}, attack: 1, health: 1,
+      subtypes: {Poro}, formats: {CommonsOnly, Eternal, Standard}), Card(
       `set`: Set6, faction: Freljord, number: 23): CardInfo(
       name: "Wrought Colossus", `type`: Unit, description: "The first time I\'m Equipped, create a 4 cost copy of me in hand. Grant it the equipment\'s stats.", flavorText: "Though he would not admit it, Ornn was quite pleased with the colossi. They served the exact purpose he assigned to them, and best of all, they did not speak.",
       cost: 8, rarity: Epic, regions: {Freljord}, attack: 8, health: 8,
@@ -10319,24 +10338,27 @@ const
       `set`: Set6, faction: Freljord, number: 20, subnumber: 1): CardInfo(
       name: "Fracture", `type`: Spell, description: "Deal 1 to EVERYTHING.",
       flavorText: "The cold spares nothing and no one.", cost: 2, rarity: None,
-      regions: {Freljord}, spellSpeed: Slow, keywords: {Slow},
-      formats: {Eternal, Standard}), Card(`set`: Set6, faction: Freljord,
-      number: 20, subnumber: 2): CardInfo(name: "Fracture", `type`: Spell,
-      description: "Destroy a unit\'s equipment.",
+      regions: {Freljord}, spellSpeed: Slow, subtypes: {Elemental},
+      keywords: {Slow}, formats: {Eternal, Standard}), Card(`set`: Set6,
+      faction: Freljord, number: 20, subnumber: 2): CardInfo(name: "Fracture",
+      `type`: Spell, description: "Destroy a unit\'s equipment.",
       flavorText: "The cold spares nothing and no one.", cost: 2, rarity: None,
-      regions: {Freljord}, spellSpeed: Slow, keywords: {Slow},
-      formats: {Eternal, Standard}), Card(`set`: Set6, faction: Freljord,
-      number: 24): CardInfo(name: "Bone Club", `type`: Equipment,
-                            description: "",
-                            flavorText: "\"Crunch!\" - Tarkaz the Tribeless",
-                            cost: 5, rarity: Common, regions: {Freljord},
-                            keywords: {Equipment},
-                            formats: {CommonsOnly, Eternal, Standard}), Card(
-      `set`: Set6, faction: Freljord, number: 17): CardInfo(
-      name: "Icevale Cultist", `type`: Unit,
-      description: "Your Equipped allies have Overwhelm.", flavorText: "The Winter\'s Claw was right. The Avarosans HAD been too soft. It was time for a new leader, one that would not seek to unify the Freljord through peace, but rule over it. ",
+      regions: {Freljord}, spellSpeed: Slow, subtypes: {Elemental},
+      keywords: {Slow}, formats: {Eternal, Standard}), Card(`set`: Set6,
+      faction: Freljord, number: 24): CardInfo(name: "Bone Club",
+      `type`: Equipment, description: "",
+      flavorText: "\"Crunch!\" - Tarkaz the Tribeless", cost: 5, rarity: Common,
+      regions: {Freljord}, keywords: {Equipment},
+      formats: {CommonsOnly, Eternal, Standard}), Card(`set`: Set6,
+      faction: Freljord, number: 17): CardInfo(name: "Icevale Cultist",
+      `type`: Unit, description: "Your Equipped allies have Overwhelm.", flavorText: "The Winter\'s Claw was right. The Avarosans HAD been too soft. It was time for a new leader, one that would not seek to unify the Freljord through peace, but rule over it. ",
       cost: 5, rarity: Rare, regions: {Freljord}, attack: 5, health: 5,
       subtypes: {Cultist}, keywords: {Aura}, formats: {Eternal, Standard}), Card(
+      `set`: Set6, faction: Freljord, number: 41): CardInfo(
+      name: "Winter\'s Touch", `type`: Spell,
+      description: "Get an empty mana gem. Enlightened: I cost 1. Draw 1.", flavorText: "Strange runes pulse from the facets of the gem in your hand. With an eerie flash their light rises off the surface, curling up your arm in a chilling whorl. But rather than freezing, its chill is invigorating, as though the cold itself imbued you with its essence. ",
+      cost: 4, rarity: Epic, regions: {Freljord}, spellSpeed: Burst,
+      subtypes: {Elemental}, keywords: {Burst}, formats: {Eternal, Standard}), Card(
       `set`: Set6, faction: Freljord, number: 36): CardInfo(
       name: "Wild Mysticism", `type`: Spell,
       description: "Get an empty mana gem.\r\nSummon a Feral Mystic.", flavorText: "\"The spirits, the stars... again, they bring us together.\" - Hyara Allseer",
@@ -11662,9 +11684,9 @@ const
       name: "Divine Draft", `type`: Spell,
       description: "Deal 1 to an enemy or the enemy Nexus, and 1 to another.", flavorText: "Most Piltovans could care less about the patterns of the wind. But for many Zaunites, even a stray breeze smells of salvation.",
       cost: 2, rarity: Common, regions: {PiltoverZaun}, spellSpeed: Slow,
-      keywords: {Slow}, formats: {Eternal, Standard}), Card(`set`: Set7,
-      faction: PiltoverZaun, number: 13): CardInfo(name: "Sump Monument",
-      `type`: Landmark, description: "If your Nexus would take non-Poison Puffcap damage, your opponent plants 5 Poison Puffcaps in your deck for each damage instead.",
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set7, faction: PiltoverZaun, number: 13): CardInfo(
+      name: "Sump Monument", `type`: Landmark, description: "If your Nexus would take non-Poison Puffcap damage, your opponent plants 5 Poison Puffcaps in your deck for each damage instead.",
       flavorText: "Deep beneath the streets of Zaun, you are what you eat.",
       cost: 4, rarity: Epic, regions: {PiltoverZaun},
       keywords: {LandmarkVisualOnly}, associatedCards: @[
@@ -11794,7 +11816,7 @@ const
       description: "Deal 1 to a unit. Spawn 1 for each damage dealt.",
       flavorText: "Only the most learned can bend the elements to their will.",
       cost: 2, rarity: Rare, regions: {Bilgewater}, spellSpeed: Fast,
-      keywords: {Fast}, associatedCards: @[
+      subtypes: {Elemental}, keywords: {Fast}, associatedCards: @[
       Card(`set`: Set6, faction: Bilgewater, number: 6, subnumber: 3)],
       formats: {Eternal, Standard}), Card(`set`: Set7, faction: Bilgewater,
       number: 35): CardInfo(name: "The Swindler\'s Den", `type`: Landmark, description: "Your cards in hand have Fleeting.\r\nWhen you play a card, draw 1.", flavorText: "\"I reckon you ought to know your hand and hold it close, or be prepared to lose it all.\" - Twisted Fate",
@@ -11816,16 +11838,15 @@ const
       faction: Ionia, number: 41): CardInfo(name: "Rejuvenating Breeze",
       `type`: Spell, description: "Heal your Nexus 3 and draw 2 spells.",
       flavorText: "\"The wind is the wanderer\'s only ally.\" - Yasuo", cost: 5,
-      rarity: Common, regions: {Ionia}, spellSpeed: Burst, keywords: {Burst},
-      formats: {Eternal, Standard}), Card(`set`: Set7, faction: Ionia,
-      number: 43): CardInfo(name: "All-Seeing Oracle", `type`: Unit, description: "Play: Pick 1 of 3 Fast or Slow spells in the enemy\'s hand or deck. Create a Carvings of Divination for it.", flavorText: "The eye unbound from the material world sees all. Blind though he may seem, those who mistake the oracle for an easy target are rebuked swiftly and without mercy.",
-                            cost: 4, rarity: Rare, regions: {Ionia}, attack: 4,
-                            health: 3, associatedCards: @[
+      rarity: Common, regions: {Ionia}, spellSpeed: Burst,
+      subtypes: {Elemental}, keywords: {Burst}, formats: {Eternal, Standard}), Card(
+      `set`: Set7, faction: Ionia, number: 43): CardInfo(
+      name: "All-Seeing Oracle", `type`: Unit, description: "Play: Pick 1 of 3 Fast or Slow spells in the enemy\'s hand or deck. Create a Carvings of Divination for it.", flavorText: "The eye unbound from the material world sees all. Blind though he may seem, those who mistake the oracle for an easy target are rebuked swiftly and without mercy.",
+      cost: 4, rarity: Rare, regions: {Ionia}, attack: 4, health: 3, associatedCards: @[
       Card(`set`: Set7, faction: Ionia, number: 43, subnumber: 1)],
-                            formats: {Eternal, Standard}), Card(`set`: Set7,
-      faction: Ionia, number: 43, subnumber: 1): CardInfo(
-      name: "Carvings of Divination", `type`: Spell,
-      description: "Stop the chosen spell.", flavorText: "\"Watch how the sticks fall. Only when you look beyond what you see will you understand your fate.\" - All-Seeing Oracle",
+      formats: {Eternal, Standard}), Card(`set`: Set7, faction: Ionia,
+      number: 43, subnumber: 1): CardInfo(name: "Carvings of Divination",
+      `type`: Spell, description: "Stop the chosen spell.", flavorText: "\"Watch how the sticks fall. Only when you look beyond what you see will you understand your fate.\" - All-Seeing Oracle",
       cost: 1, rarity: None, regions: {Ionia}, spellSpeed: Fast,
       keywords: {Fast}, formats: {Eternal, Standard}), Card(`set`: Set7,
       faction: Ionia, number: 49): CardInfo(name: "Airis", `type`: Unit,
@@ -12051,7 +12072,8 @@ const
       faction: Freljord, number: 17, subnumber: 1): CardInfo(
       name: "Piercing Lightning", `type`: Ability,
       description: "Deal 2 to ALL other units.", flavorText: "\"You want to know how to survive the shriek of the stormraptor? Ha. When you hear the bird\'s call, the only thing left to do is pray.\" - Avarosan Outrider",
-      cost: 0, rarity: None, regions: {Freljord}, keywords: {Skill},
+      cost: 0, rarity: None, regions: {Freljord}, subtypes: {Elemental},
+      keywords: {ElementalSkill},
       formats: {CommonsOnly, Eternal, EvenCostCards, Standard}), Card(
       `set`: Set7, faction: Freljord, number: 16): CardInfo(
       name: "Glacial Saurian", `type`: Unit, description: "When I\'m summoned, grant the top 3 units in your deck +1|+1. If an ally has a different subtype than me, draw 1 of those units.", flavorText: "With a bony exterior belying its big heart, these reliable steeds are vital for clearing icy mountain passes.",
@@ -12072,7 +12094,7 @@ const
       cost: 2, rarity: Common, regions: {ShadowIsles}, attack: 3, health: 1,
       subtypes: {Spider}, keywords: {Fearsome}, formats: {Eternal, Standard}), Card(
       `set`: Set7, faction: ShadowIsles, number: 13): CardInfo(
-      name: "Proliferating Darkwraith", `type`: Unit, description: "Last Breath: Create in deck an exact copy of your strongest Proliferating Darkwraith in deck, then double the stats of Proliferating Darkwraith in deck.", flavorText: "\"This Mist has taught me many things. Most importantly, it has taught me to know when to run.\" - Ixtali Sentinel",
+      name: "Proliferating Darkwraith", `type`: Unit, description: "Last Breath: Create in deck an exact copy of your strongest Proliferating Darkwraith in deck, then double the stats of Proliferating Darkwraiths in deck.", flavorText: "\"This Mist has taught me many things. Most importantly, it has taught me to know when to run.\" - Ixtali Sentinel",
       cost: 1, rarity: Rare, regions: {ShadowIsles}, attack: 1, health: 1,
       keywords: {LastBreath}, formats: {Eternal, Standard}), Card(`set`: Set7,
       faction: ShadowIsles, number: 4): CardInfo(name: "Sacred Shears",
@@ -12135,7 +12157,344 @@ const
       `type`: Unit,
       description: "Attack: Grant Formidable allies everywhere +0|+1.", flavorText: "A long-time companion of the Durand family, Balen\'s great size belies his gentle precision. Though he began as an assistant, Balen is greatly gifted in the craft and uniquely inspired in its practice--and the Durands are proud to call him their friend.",
       cost: 4, rarity: Epic, regions: {Demacia}, attack: 0, health: 4,
-      keywords: {Formidable}, formats: {Eternal, Standard})}.toTable
+      keywords: {Formidable}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Bilgewater, number: 8): CardInfo(name: "Nilah", `type`: Unit, description: "Attack: Create a Slipstream in the top 6 cards of your deck.", flavorText: "In the north, a new challenger awaits Nilah and her monster-hunting crew: a creature called the Volibear, who threatens to destroy the Freljord that once worshipped him. For Nilah, the chance to test her skills against a monster others call a god is the opportunity of a lifetime. Not to mention the lesser monstrosities she will add to her list of accomplishments along the way. ",
+      cost: 2, rarity: Champion, regions: {Bilgewater}, attack: 2, health: 3,
+      levelupDescription: "You\'ve drawn 16+ cards. ", supertype: Champion,
+      keywords: {Brash}, associatedCards: @[
+      Card(`set`: Set8, faction: Bilgewater, number: 8, subnumber: 1),
+      Card(`set`: Set8, faction: Bilgewater, number: 8, subnumber: 5),
+      Card(`set`: Set8, faction: Bilgewater, number: 8, subnumber: 3)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Bilgewater,
+      number: 8, subnumber: 3): CardInfo(name: "Slipstream", `type`: Spell,
+      description: "Draw 2 and grant them Fleeting.",
+      flavorText: "\"Unfettered exultation!\" - Nilah", cost: 1, rarity: None,
+      regions: {Bilgewater}, spellSpeed: Burst, subtypes: {Elemental},
+      keywords: {Burst}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Bilgewater, number: 8, subnumber: 1): CardInfo(name: "Nilah",
+      `type`: Unit, description: "Attack: Create a Slipstream in the top 6 cards of your deck and deal 2 damage to all enemies and the enemy Nexus. They cannot drop below 1 Health from this damage.", flavorText: "\"Monster! I am called Nilah of the Seventh Layer! It is my name, not yours, which will be remembered by history.\"",
+      cost: 2, rarity: Champion, regions: {Bilgewater}, attack: 3, health: 4,
+      supertype: Champion, keywords: {Brash}, associatedCards: @[
+      Card(`set`: Set8, faction: Bilgewater, number: 8),
+      Card(`set`: Set8, faction: Bilgewater, number: 8, subnumber: 5),
+      Card(`set`: Set8, faction: Bilgewater, number: 8, subnumber: 3)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Bilgewater,
+      number: 8, subnumber: 5): CardInfo(name: "Nilah\'s Formless Blade",
+      `type`: Spell, description: "Deal 2 damage to a unit. It can\'t drop below 1 Health from this damage.\r\nCreate a Nilah in your deck.",
+      flavorText: "\"By my blade, rejoice!\" - Nilah", cost: 1, rarity: None,
+      regions: {Bilgewater}, spellSpeed: Burst, supertype: Champion,
+      subtypes: {Elemental}, keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set8, faction: Bilgewater, number: 8),
+      Card(`set`: Set8, faction: Bilgewater, number: 8, subnumber: 1)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Bilgewater,
+      number: 32): CardInfo(name: "Joy Unending", `type`: Spell, description: "Give allies +1|+0 this round and heal damaged allies 2.", flavorText: "\"Joy, overflowing and everlasting!\" - Nilah",
+                            cost: 3, rarity: Common, regions: {Bilgewater},
+                            spellSpeed: Burst, subtypes: {Elemental},
+                            keywords: {Burst}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: Bilgewater, number: 15): CardInfo(
+      name: "The Tidedancer", `type`: Unit, description: "When I\'m summoned, draw a Nilah.\r\nEach round, when you play your third card, give other allies +2|+0 and Brash this round. \r\nWhen I would gain Fleeting, reveal me instead.", flavorText: "\"I hear that strange-shaped ship is the fastest Bilgewater\'s seen. Nimble, too. Got a peculiar captain, but seemed to me like she knows what she\'s about. Maybe we could stand to learn a thing or two.\" - Bilgewater bartender",
+      cost: 6, rarity: Epic, regions: {Bilgewater}, attack: 3, health: 5,
+      associatedCards: @[Card(`set`: Set8, faction: Bilgewater, number: 8)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Bilgewater,
+      number: 2): CardInfo(name: "Formless Blade", `type`: Spell, description: "Deal 2 damage to a unit. It can\'t drop below 1 Health from this damage.", flavorText: "\"Monsters who call themselves gods have a long way to fall, no matter the land.\" - Nilah",
+                           cost: 1, rarity: Common, regions: {Bilgewater},
+                           spellSpeed: Burst, subtypes: {Elemental},
+                           keywords: {Burst}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: Bilgewater, number: 25): CardInfo(
+      name: "Master Lookout", `type`: Unit, description: "Once you\'ve drawn 3+ cards in a round this game, grant me +1|+1 and Brash.", flavorText: "\"Hey, bud, what\'s all the fuss about? Relax! There\'s nothing in the water we can\'t handle!\" - Dedicant of the Challenge",
+      cost: 1, rarity: Common, regions: {Bilgewater}, attack: 2, health: 1,
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Bilgewater,
+      number: 26): CardInfo(name: "Dedicant of the Challenge", `type`: Unit, description: "When I\'m summoned, Updraft your hand to grant me +1|+1 for each card Updrafted and draw 2.", flavorText: "\"Oh, c\'mon, are you even trying? I feel like I gotta hold back, and man, I hate that!\"",
+                            cost: 4, rarity: Rare, regions: {Bilgewater},
+                            attack: 2, health: 1, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: Bilgewater, number: 28): CardInfo(
+      name: "Octo Adventurer", `type`: Unit,
+      description: "Play: Pick an Explorer spell to create in hand.", flavorText: "\"Odd specimen. Very blue. Eyes quite large. Uncomfortably large. Will acquire for further study.\" - From the expedition records of the Explorer\'s Guild Far Reaches Division, allocation: Piltover",
+      cost: 3, rarity: Rare, regions: {Bilgewater, PiltoverZaun}, attack: 1,
+      health: 4, keywords: {Elusive}, associatedCards: @[
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 1),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 2),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 3),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 4)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Bilgewater,
+      number: 28, subnumber: 4): CardInfo(name: "Explorer\'s Refreshments ",
+      `type`: Spell, description: "Heal an ally or your Nexus 2.", flavorText: "\"Get me some of that, uh... chocolatey stuff you make. Best chocolatey stuff within two days\' travel. Oh, and extra hot, please.\" - Scholarly Pioneer",
+      cost: 2, rarity: None, regions: {Targon}, spellSpeed: Burst,
+      keywords: {Focus},
+      formats: {CommonsOnly, Eternal, EvenCostCards, Singleton, Standard}), Card(
+      `set`: Set8, faction: Bilgewater, number: 28, subnumber: 3): CardInfo(
+      name: "Explorer\'s Blunder", `type`: Spell, description: "Disable an enemy\'s positive keywords this round and again at next Round Start.", flavorText: "\"Was little crack. Became big one. Now very dried out.\" - Octo Adventurer",
+      cost: 2, rarity: None, regions: {Shurima}, spellSpeed: Burst,
+      keywords: {Focus}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Bilgewater, number: 28, subnumber: 1): CardInfo(
+      name: "Explorer\'s Malfunction", `type`: Spell,
+      description: "Destroy a unit\'s equipment.", flavorText: "\"It seems the Isles have come to enjoy my company.\" - Spectral Surveyor",
+      cost: 2, rarity: None, regions: {ShadowIsles}, spellSpeed: Slow,
+      keywords: {Slow}, formats: {CommonsOnly, Eternal, EvenCostCards, Standard}), Card(
+      `set`: Set8, faction: Bilgewater, number: 28, subnumber: 2): CardInfo(
+      name: "Explorer\'s Excavation", `type`: Spell,
+      description: "Destroy a landmark.", flavorText: "\"A little damage to the artifacts is no problem. Makes \'em seem more authentic.\" - Armed Acquisitioner",
+      cost: 2, rarity: None, regions: {Noxus}, spellSpeed: Slow,
+      keywords: {Slow}, formats: {CommonsOnly, Eternal, EvenCostCards, Standard}), Card(
+      `set`: Set8, faction: Bilgewater, number: 9): CardInfo(
+      name: "Wizened Helmsman", `type`: Unit, description: "Play: Manifest two different Elemental spells you\'ve played this game. They cost 0 this round.", flavorText: "\"The mind is a river. Over time, the dedication of its flow carves the faces of the mountains. And like the mind, with momentum, it may grow ever wider and touch new shores.\"",
+      cost: 7, rarity: Rare, regions: {Bilgewater}, attack: 5, health: 5,
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Bilgewater,
+      number: 10): CardInfo(name: "Deluge", `type`: Spell, description: "For the rest of the game, all of your Elemental spells and Skills deal 1 extra damage.", flavorText: "\"In the hands of the wise, water shapes all.\" - Dedicant of Wisdom",
+                            cost: 5, rarity: Epic, regions: {Bilgewater},
+                            spellSpeed: Slow, subtypes: {Elemental},
+                            keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: Bilgewater, number: 23): CardInfo(
+      name: "Vikrash the Exuberant", `type`: Unit, description: "When I\'m summoned, create a Slipstream in the top 6 cards of your deck.", flavorText: "\"Look, my friends, at how the whole world moves with us! The waves dance beneath the hull, the wind in the sails, the birds upon the breeze. Join me in our highest calling, and rejoice!\"",
+      cost: 3, rarity: Epic, regions: {Bilgewater}, attack: 2, health: 2,
+      keywords: {Attune, Elusive}, associatedCards: @[
+      Card(`set`: Set8, faction: Bilgewater, number: 8, subnumber: 3)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: PiltoverZaun,
+      number: 7): CardInfo(name: "Galesong Flock", `type`: Spell, description: "Summon a Galesong Swallow and grant it +1|+1 for each other Elemental spell and Skill you\'ve played this game. \r\nDraw 1.", flavorText: "When galesong swallows gather in numbers, a storm is never far off.",
+                           cost: 5, rarity: Rare, regions: {PiltoverZaun},
+                           spellSpeed: Slow, subtypes: {Elemental},
+                           keywords: {Slow}, associatedCards: @[
+      Card(`set`: Set8, faction: PiltoverZaun, number: 26, subnumber: 1)],
+                           formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: PiltoverZaun, number: 5): CardInfo(name: "Eye Of The Storm",
+      `type`: Spell, description: "Give an ally +2|+0 this round.\r\nDraw 2.", flavorText: "\"Be at peace! The storm may rage around you, but it shall not harm you.\" - Janna",
+      cost: 4, rarity: Common, regions: {PiltoverZaun}, spellSpeed: Burst,
+      subtypes: {Elemental}, keywords: {Burst}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: PiltoverZaun, number: 19): CardInfo(
+      name: "Divine Whirlwind", `type`: Spell, description: "If you\'ve drawn 3+ cards this round, I cost 2 less.\r\nDeal 3 to a unit and 2 to the enemy Nexus.",
+      flavorText: "\"The tempest is at my command.\" - Janna", cost: 5,
+      rarity: Rare, regions: {PiltoverZaun}, spellSpeed: Fast,
+      subtypes: {Elemental}, keywords: {Fast}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: PiltoverZaun, number: 1): CardInfo(name: "Janna",
+      `type`: Unit, description: "Play: Updraft 2 to draw 2 at the next Round Start.\r\nEach round, the first 3 times you draw a card, reduce its cost by 1 this round. ", flavorText: "\"Zaun is closer to Janna than pretty much anywhere else. After all, she\'s the one who saved the poor souls Piltover left to die. Yeah--if there\'s answers to be had, I\'ll get \'em here.\" - Windborne Mariner",
+      cost: 4, rarity: Champion, regions: {PiltoverZaun}, attack: 2, health: 4,
+      levelupDescription: "I\'ve seen you play 6 cost reduced cards.",
+      supertype: Champion, associatedCards: @[
+      Card(`set`: Set8, faction: PiltoverZaun, number: 1, subnumber: 3),
+      Card(`set`: Set8, faction: PiltoverZaun, number: 1, subnumber: 1)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: PiltoverZaun,
+      number: 1, subnumber: 3): CardInfo(name: "Janna", `type`: Unit, description: "Round Start: Draw 1.\r\nWhen you draw a card, reduce its cost by 1 this round.", flavorText: "\"Go no further! Violate my protection and you shall see the breath torn from your lungs, and your very self scattered by the winds!\"",
+      cost: 4, rarity: Champion, regions: {PiltoverZaun}, attack: 3, health: 5,
+      supertype: Champion, keywords: {Elusive}, associatedCards: @[
+      Card(`set`: Set8, faction: PiltoverZaun, number: 1),
+      Card(`set`: Set8, faction: PiltoverZaun, number: 1, subnumber: 1)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: PiltoverZaun,
+      number: 1, subnumber: 1): CardInfo(name: "Janna\'s Eye Of The Storm",
+      `type`: Spell, description: "Give an ally +2|+0 this round.\r\nDraw 2.\r\nCreate a Janna in your deck.", flavorText: "\"Be at peace! The storm may rage around you, but it shall not harm you.\" - Janna",
+      cost: 4, rarity: None, regions: {PiltoverZaun}, spellSpeed: Burst,
+      supertype: Champion, subtypes: {Elemental}, keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set8, faction: PiltoverZaun, number: 1, subnumber: 3),
+      Card(`set`: Set8, faction: PiltoverZaun, number: 1)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: PiltoverZaun,
+      number: 26): CardInfo(name: "Galesong Call", `type`: Spell,
+                            description: "Summon a Galesong Swallow.", flavorText: "\"All children of the wind answer my call.\" - Janna",
+                            cost: 1, rarity: Common, regions: {PiltoverZaun},
+                            spellSpeed: Slow, subtypes: {Elemental},
+                            keywords: {Slow}, associatedCards: @[
+      Card(`set`: Set8, faction: PiltoverZaun, number: 26, subnumber: 1)],
+                            formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: PiltoverZaun, number: 6): CardInfo(
+      name: "Iascylla, Figurehead of the Deep", `type`: Unit, description: "When you play an Elemental spell or Skill, copy it with the same targets.", flavorText: "\"Come, Iascylla! You are old indeed, if Ashlesh knows your name. But old or young, pretty or ugly, no matter. There is no higher honor for any monster than to fall to my blade upon the open sea.\" - Nilah",
+      cost: 6, rarity: Epic, regions: {PiltoverZaun}, attack: 4, health: 4,
+      keywords: {Aura}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: PiltoverZaun, number: 18): CardInfo(name: "Windborne Mariner",
+      `type`: Unit,
+      description: "If you\'ve drawn 3+ cards this round, I cost 2 less.", flavorText: "\"Yeah, I had what I wanted. But I got it all by taking, and taking leaves a man empty. First thing I found to follow was the wind, so now I\'m here, hoping she\'ll push me onto a better path.\"",
+      cost: 2, rarity: Common, regions: {PiltoverZaun}, attack: 3, health: 1,
+      keywords: {QuickStrike}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: PiltoverZaun, number: 8): CardInfo(
+      name: "Maryam, Temple Caretaker", `type`: Unit, description: "Play: Updraft 1 to either draw 1 or refill your spell mana.", flavorText: "Convinced that she was saved by the wind spirit as a young girl, Maryam has preached Janna\'s virtues from her home country of Shurima all the way to Zaun. Now serving as the Zaun temple matriarch, she is dedicated to passing forward Janna\'s kindness to the young and downtrodden.",
+      cost: 2, rarity: Epic, regions: {PiltoverZaun}, attack: 2, health: 3,
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: PiltoverZaun,
+      number: 26, subnumber: 1): CardInfo(name: "Galesong Swallow",
+      `type`: Unit, description: "", flavorText: "\"These galesong swallows are flighty creatures. Half the time they seem to be made up entirely of water! Still, I\'ve learned the hard way to avoid upsetting them...\" - Intrepid Mariner",
+      cost: 1, rarity: None, regions: {PiltoverZaun}, attack: 2, health: 1,
+      subtypes: {Bird}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: PiltoverZaun, number: 9): CardInfo(name: "Sunken Temple",
+      `type`: Landmark, description: "Round End: Updraft your hand. \r\nRound Start: Draw that many cards plus 1.", flavorText: "Much was lost in the disastrous collapse that ultimately delineated Zaun from Piltover. Janna may have lost her temple to the waves, but she saved the people who worshipped in it.",
+      cost: 5, rarity: Epic, regions: {PiltoverZaun},
+      keywords: {LandmarkVisualOnly}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: PiltoverZaun, number: 2): CardInfo(
+      name: "Howling Gale", `type`: Spell, description: "Deal 2 to a unit.\r\nIncrease my damage by 1 for each other card you\'ve played this round, up to 3 times. ",
+      flavorText: "\"My fury upon howling winds!\" - Janna", cost: 3,
+      rarity: Rare, regions: {PiltoverZaun}, spellSpeed: Slow,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: PiltoverZaun, number: 8, subnumber: 3): CardInfo(
+      name: "Maryam, Temple Caretaker", `type`: Unit,
+      description: "Play: Updraft 1 to refill your spell mana.", flavorText: "Convinced that she was saved by the wind spirit as a young girl, Maryam has preached Janna\'s virtues from her home country of Shurima all the way to Zaun. Now serving as the Zaun temple matriarch, she is dedicated to passing forward Janna\'s kindness to the young and downtrodden.",
+      cost: 2, rarity: None, regions: {PiltoverZaun}, attack: 2, health: 3,
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: PiltoverZaun,
+      number: 8, subnumber: 2): CardInfo(name: "Maryam, Temple Caretaker",
+      `type`: Unit, description: "Play: Updraft 1 to draw 1.", flavorText: "Convinced that she was saved by the wind spirit as a young girl, Maryam has preached Janna\'s virtues from her home country of Shurima all the way to Zaun. Now serving as the Zaun temple matriarch, she is dedicated to passing forward Janna\'s kindness to the young and downtrodden.",
+      cost: 2, rarity: None, regions: {PiltoverZaun}, attack: 2, health: 3,
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: PiltoverZaun,
+      number: 20): CardInfo(name: "Exalted Cloudwinder", `type`: Unit, description: "If you\'ve drawn 3+ cards this round, I cost 2 less.\r\nWhen I\'m summoned, draw 2 at the next Round Start.", flavorText: "\"My dear Zephyr. Come down from your clouds and perch on my shoulder awhile, won\'t you?\" - Janna",
+                            cost: 5, rarity: Rare, regions: {PiltoverZaun},
+                            attack: 3, health: 2, keywords: {QuickStrike},
+                            formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Freljord, number: 12): CardInfo(name: "Invocation Of Thunder",
+      `type`: Spell, description: "Draw 1.\r\nSummon a Sigil of the Storm.", flavorText: "\"In the name of Valhir, we make this offering...\" - Valhir\'s Prophet",
+      cost: 3, rarity: Common, regions: {Freljord}, spellSpeed: Slow,
+      subtypes: {Elemental}, keywords: {Slow}, associatedCards: @[
+      Card(`set`: Set8, faction: Freljord, number: 2, subnumber: 1)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Freljord,
+      number: 19): CardInfo(name: "Sky Splitter", `type`: Spell,
+                            description: "Give an ally +1|+3 this round.", flavorText: "Cloaked in clouds and wreathed in lightning, the god-bear stands untouchable at the heart of the storm.",
+                            cost: 2, rarity: Common, regions: {Freljord},
+                            spellSpeed: Burst, subtypes: {Elemental},
+                            keywords: {Burst}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: Freljord, number: 1): CardInfo(name: "Volibear",
+      `type`: Unit, description: "Play: Play Relentless Storm 3 times. Each one targets a different random enemy or the enemy Nexus if none.", flavorText: "\"Kneel to me, mortal, and I may spare you! Your power is feeble, but perhaps worthy enough to serve mine. Kneel, or be swept from the earth!\"",
+      cost: 9, rarity: Champion, regions: {Freljord}, attack: 10, health: 10,
+      levelupDescription: "Round End: You\'ve dealt 50+ damage.",
+      supertype: Champion, associatedCards: @[
+      Card(`set`: Set8, faction: Freljord, number: 1, subnumber: 3),
+      Card(`set`: Set8, faction: Freljord, number: 1, subnumber: 1),
+      Card(`set`: Set8, faction: Freljord, number: 1, subnumber: 2)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Freljord,
+      number: 1, subnumber: 3): CardInfo(name: "Relentless Storm",
+      `type`: Ability, description: "Deal 4 to a unit. If it\'s dead or gone, deal 2 to the enemy Nexus instead.",
+      flavorText: "\"With these claws, I carve the very world!\" - Volibear",
+      cost: 0, rarity: None, regions: {Freljord}, subtypes: {Elemental},
+      keywords: {ElementalSkill}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: Freljord, number: 1, subnumber: 2): CardInfo(
+      name: "Volibear\'s Stormbringer", `type`: Spell, description: "Deal 4 to ALL units except Titanic allies.\r\nCreate a Volibear in your deck.",
+      flavorText: "\"Let the tundra run red!\" - Volibear", cost: 8,
+      rarity: None, regions: {Freljord}, spellSpeed: Slow, supertype: Champion,
+      subtypes: {Elemental}, keywords: {Slow}, associatedCards: @[
+      Card(`set`: Set8, faction: Freljord, number: 1),
+      Card(`set`: Set8, faction: Freljord, number: 1, subnumber: 1)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Freljord,
+      number: 1, subnumber: 1): CardInfo(name: "Volibear", `type`: Unit, description: "Play or Attack: Play Relentless Storm 3 times. Each one targets a different random enemy or the enemy Nexus if none.\r\nOther allies have Overwhelm.", flavorText: "\"You dare to insult me with a challenge? Puny girl from lands far away. I am the heart of the tundra! I am the storm, and to you I promise a forgettable death!\"",
+      cost: 9, rarity: Champion, regions: {Freljord}, attack: 11, health: 11,
+      supertype: Champion, keywords: {Overwhelm, Aura}, associatedCards: @[
+      Card(`set`: Set8, faction: Freljord, number: 1),
+      Card(`set`: Set8, faction: Freljord, number: 1, subnumber: 2),
+      Card(`set`: Set8, faction: Freljord, number: 1, subnumber: 3)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Freljord,
+      number: 18): CardInfo(name: "Clash of Giants", `type`: Spell, description: "Summon 2 random Titanic followers.\r\nI cost 1 less for each Elemental spell or Skill you\'ve played this game (max 10).", flavorText: "\"With his body, I sculpted the mountains. With the fire of his maw, I carved a thousand fjords.\" - Volibear",
+                            cost: 16, rarity: Epic, regions: {Freljord},
+                            spellSpeed: Slow, subtypes: {Elemental},
+                            keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: Freljord, number: 11): CardInfo(
+      name: "Flamecaller Caprine", `type`: Unit,
+      description: "When you play an Elemental spell or Skill, Forge me.", flavorText: "\"The Forgelord promised change and hammered out the chains of inaction instead. Those who worship a weak god are weak themselves. Only by Valhir\'s might will we be delivered to the glory of old!\"",
+      cost: 4, rarity: Rare, regions: {Freljord}, attack: 3, health: 2,
+      keywords: {Tough}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Freljord, number: 8): CardInfo(name: "Stormbringer",
+      `type`: Spell, description: "Deal 4 to ALL units except Titanic allies.",
+      flavorText: "\"Let the tundra run red!\" - Volibear", cost: 8,
+      rarity: Rare, regions: {Freljord}, spellSpeed: Slow,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: Freljord, number: 15): CardInfo(
+      name: "Rhond, the Magma Serpent", `type`: Unit,
+      description: "Play: Summon 3 Sigils of the Storm.", flavorText: "Though few still worship him, all Freljordians know the tale of the Volibear\'s great battle with Rhond. Long before any mortal stepped foot in the frozen north, this earth-shattering struggle formed the ridges and rivers of the tundra itself.",
+      cost: 7, rarity: Epic, regions: {Freljord}, attack: 8, health: 6, associatedCards: @[
+      Card(`set`: Set8, faction: Freljord, number: 2, subnumber: 1)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Freljord,
+      number: 2): CardInfo(name: "Valhir\'s Prophet", `type`: Unit, description: "When I\'m summoned, summon an Sigil of the Storm.", flavorText: "\"I see what the others cannot: the storm which will shatter the mountain, the breaking of the bones of the earth. The Freljord of old will be forged anew in blood--it is only a matter of time.\"",
+                           cost: 3, rarity: Common, regions: {Freljord},
+                           attack: 2, health: 3, associatedCards: @[
+      Card(`set`: Set8, faction: Freljord, number: 2, subnumber: 1)],
+                           formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Freljord, number: 2, subnumber: 1): CardInfo(
+      name: "Sigil of the Storm", `type`: Landmark, description: "Sigils of the Storm stack.\r\nTitanic allies cost 1 less. Destroy me when you play a Titanic ally.", flavorText: "In a treacherous mountain pass, a sigil hangs suspended, burning into the night. Much blood was offered to reach this point, and in signs like these the Volibear offers both his approval and his desire for more...",
+      cost: 1, rarity: None, regions: {Freljord},
+      keywords: {LandmarkVisualOnly, Aura}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: Freljord, number: 3): CardInfo(
+      name: "Berserker Ursine", `type`: Unit, description: "When you play a spell or Skill, summon an Sigil of the Storm.", flavorText: "Occasionally, followers of the Volibear lose themselves so totally in their fanaticism that they begin to take on aspects of the bear himself. Nothing will stand in the way of Valhir\'s will--not even those the Ursine once called countrymen.",
+      cost: 6, rarity: Rare, regions: {Freljord}, attack: 5, health: 3,
+      keywords: {Imbue}, associatedCards: @[
+      Card(`set`: Set8, faction: Freljord, number: 2, subnumber: 1)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Demacia,
+      number: 6): CardInfo(name: "Scholarly Pioneer", `type`: Unit, description: "Play: Pick an Explorer spell to create in hand.", flavorText: "\"It\'s cold. I\'m cold. Everything is cold, all the time. There are some places people just aren\'t meant to live. Please send me somewhere warm after this.\" - From the expedition records of the Explorer\'s Guild Far Reaches Division, allocation: Freljord",
+                           cost: 3, rarity: Rare, regions: {Demacia, Freljord},
+                           attack: 2, health: 3, keywords: {Challenger}, associatedCards: @[
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 1),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 2),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 3),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 4)],
+                           formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Demacia, number: 10): CardInfo(name: "Gentlemen\'s Duel",
+      `type`: Spell, description: "Give an ally +0|+2.\r\nThat ally and an enemy strike each other.", flavorText: "\"En garde, my friend! Surely you are not coward enough to refuse a gentleman\'s duel?\" - Laurent Chevalier",
+      cost: 3, rarity: Common, regions: {Demacia}, spellSpeed: Fast,
+      keywords: {Fast}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Noxus, number: 11): CardInfo(name: "Wildfire", `type`: Spell, description: "Deal 1 to the enemy Nexus, increased by 1 for each other Wildfire you\'ve played. Create a Wildfire in your deck.",
+      flavorText: "\"Ashes, ashes...\" - Annie", cost: 1, rarity: Common,
+      regions: {Noxus}, spellSpeed: Slow, subtypes: {Elemental},
+      keywords: {Slow}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Noxus, number: 14): CardInfo(name: "Headmistress Telsi",
+      `type`: Unit, description: "Allied Attack and Support effects activate an additional time.", flavorText: "Headmistress Telsi\'s class on personal discipline is rife with arduous assignments, wrist-slapping, and detention slips. It has always been mandatory for students at the Ravenbloom Conservatory--otherwise, nobody would enroll.",
+      cost: 5, rarity: Epic, regions: {Noxus}, attack: 5, health: 5,
+      keywords: {Aura}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Noxus, number: 12): CardInfo(name: "Armed Acquisitioner",
+      `type`: Unit,
+      description: "Play: Pick an Explorer spell to create in hand.", flavorText: "\"You\'d think it would be easier to dig in the desert--but no! Given enough time, sand readily turns to stone. Once again requesting funding for replacement tools.\" - From the expedition records of the Explorer\'s Guild Far Reaches Division, allocation: Shurima",
+      cost: 2, rarity: Rare, regions: {Noxus, Shurima}, attack: 3, health: 1, associatedCards: @[
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 1),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 2),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 3),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 4)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: ShadowIsles,
+      number: 21): CardInfo(name: "Lonely Chimeslime", `type`: Unit, description: "When another ally dies, or Last Breath: Plant 4 Chimes in your deck.", flavorText: "Don\'t worry about that ominous ringing--it\'s just old Chimeslime making his rounds. He\'s always happy to see new arrivals--but they sure aren\'t happy to see him.",
+                            cost: 2, rarity: Common, regions: {ShadowIsles},
+                            attack: 2, health: 3, keywords: {LastBreath}, associatedCards: @[
+      Card(`set`: Set6, faction: Runeterra, number: 1, subnumber: 3)],
+                            formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: ShadowIsles, number: 30): CardInfo(name: "Watery Grave",
+      `type`: Spell,
+      description: "Obliterate 6 cards from the bottom of the enemy deck.", flavorText: "For some of Runeterra\'s deepest sea monsters, a jaull-ship is a light snack.",
+      cost: 3, rarity: Epic, regions: {ShadowIsles}, spellSpeed: Slow,
+      keywords: {Slow}, formats: {CommonsOnly, Eternal, EvenCostCards, Standard}), Card(
+      `set`: Set8, faction: ShadowIsles, number: 18): CardInfo(
+      name: "Spectral Surveyor", `type`: Unit,
+      description: "Play: Pick an Explorer spell to create in hand.", flavorText: "\"The terrain is inscrutable. The visibility, close to none. I have encountered enemies at every turn--but strangely, unexpected allies too.\" - From the expedition records of the Explorer\'s Guild Far Reaches Division, allocation: Shadow Isles",
+      cost: 3, rarity: Rare, regions: {ShadowIsles, Targon}, attack: 2,
+      health: 2, keywords: {Lifesteal}, associatedCards: @[
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 1),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 2),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 3),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 4)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: BandleCity,
+      number: 5): CardInfo(name: "Bursting Backpack", `type`: Spell, description: "For each Bursting Backpack you\'ve played this game, plant 4 Chimes in your deck and 4 Poison Puffcaps in the enemy deck. Create a Bursting Backpack in your deck.", flavorText: "\"Rule 207: A Scout never carries more than she needs!\" - Ava Achiever",
+                           cost: 1, rarity: Rare, regions: {BandleCity},
+                           spellSpeed: Burst, keywords: {Burst}, associatedCards: @[
+      Card(`set`: Set6, faction: Runeterra, number: 1, subnumber: 3),
+      Card(`set`: Set1, faction: PiltoverZaun, number: 22)],
+                           formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: BandleCity, number: 2): CardInfo(
+      name: "Skip, \"King of the Reef\"", `type`: Unit, description: "Play: Pick 1 of 2 non-champion cards from the enemy hand. I Capture it.", flavorText: "\"Yeah, I\'m handsome, quick--unflappably cool. Don\'t you know, old man? I\'m the king of this reef, and you\'re trespassing in my kingdom!\"<br>\"W-wait! Come back here this instant! I need that specimen for my research!\" - Conchologist",
+      cost: 2, rarity: Epic, regions: {BandleCity}, attack: 1, health: 2,
+      keywords: {Elusive}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: BandleCity, number: 6): CardInfo(name: "Portal Pioneer",
+      `type`: Unit,
+      description: "Play: Pick an Explorer spell to create in hand.", flavorText: "\"I\'m worried about Bunches! Oh, he seems more and more nervous these days. Even a short portal hop worries him! I can\'t understand why.\" - From the expedition records of the Explorer\'s Guild Far Reaches Division, allocation: Bandle City",
+      cost: 2, rarity: Rare, regions: {BandleCity, Ionia}, attack: 1, health: 1,
+      keywords: {Attune}, associatedCards: @[
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 1),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 2),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 3),
+      Card(`set`: Set8, faction: Bilgewater, number: 28, subnumber: 4)],
+      formats: {Eternal, Standard}), Card(`set`: Set8, faction: Shurima,
+      number: 4): CardInfo(name: "General of the Dunes", `type`: Unit, description: "Daybreak or when you activate another Daybreak: Grant the weakest enemy Vulnerable.", flavorText: "The vast armies of Shurima stand ready to prove the might of the desert. When the order is given, they advance without hesitation.",
+                           cost: 4, rarity: Rare, regions: {Shurima}, attack: 4,
+                           health: 4, subtypes: {Elite},
+                           formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Shurima, number: 5): CardInfo(name: "Defenders of the Sun Disc",
+      `type`: Unit, description: "Daybreak: Draw a Defenders of the Sun Disc.", flavorText: "\"We are the keepers of the everlasting desert, the living history, the walkers of the path of radiance. We kneel before the Sun Disc and naught else, so that the world will kneel before Shurima\'s glory.\" - Azir",
+      cost: 2, rarity: Common, regions: {Shurima}, attack: 2, health: 2,
+      subtypes: {Elite}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Ionia, number: 10): CardInfo(name: "Capsize", `type`: Spell, description: "Recall an enemy to increase the cost of the next unit your opponent plays this round by 2.", flavorText: "\"Those who mean us harm shall find rest at the bottom of the sea.\" - Rivershaper",
+      cost: 4, rarity: Common, regions: {Ionia}, spellSpeed: Slow,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard}), Card(
+      `set`: Set8, faction: Targon, number: 27): CardInfo(
+      name: "Herald of Celestial Convergence", `type`: Unit, description: "Play: Activate other allies\' Daybreak and Nightfall effects.\r\nDaybreak: Grant me Overwhelm.\r\nNightfall: Grant me SpellShield.", flavorText: "\"A ring of fire burns above. In the heralded darkness, we are all the same.\" - Lunari wanespeaker",
+      cost: 8, rarity: Epic, regions: {Targon}, attack: 5, health: 8,
+      subtypes: {Bird}, formats: {Eternal, Standard}), Card(`set`: Set8,
+      faction: Targon, number: 25): CardInfo(name: "Seismic Shard",
+      `type`: Spell, description: "If you Behold a Titanic unit, I cost 3 less.\r\nDeal 7 to a unit.", flavorText: "\"Oops, uh oh, dontcha worry about dat dere, just a little wipple in the wock, just a accident, not papa NOPE! Movin\' on!\" - Chip",
+      cost: 7, rarity: Common, regions: {Targon}, spellSpeed: Slow,
+      subtypes: {Elemental}, keywords: {Slow}, formats: {Eternal, Standard})}.toTable
 template runeterraLibrary*(): Table[Card, CardInfo] =
   ## Card library getter.
   ## Library itself is hidden to keep docs readable.

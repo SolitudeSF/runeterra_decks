@@ -1,26 +1,26 @@
 import std/[macros, os, strutils, json, jsonutils, tables]
 
-const
-  runeterraRequestedLocale {.strdefine.} = "en_us"
-  runeterraGeneratePath {.strdefine.} = ""
-  runeterraDataPath = runeterraGeneratePath / runeterraRequestedLocale / "data"
-  sets = ["set1", "set2", "set3", "set4", "set5", "set6", "set6cde", "set7", "set7b"]
-  deprecated = {
-    "Buried": "Countdown",
-    "Forecast": "Predict",
-    "Aftermath": "Reputation",
-    "MechaYordle": "Mecha"
-  }.toOrderedTable
-
 type
   EnumKind = enum
-    Region, Set, Term, Keyword, Speed, Rarity, Type, Supertype, Subtype, Format
+    Region, Set, Term, Keyword, Speed, Rarity, CardType, CardSupertype, CardSubtype, Format
 
   Enums = object
     regions, sets, terms, keywords, speeds, rarities, types, supertypes, subtypes, formats: seq[string]
 
   EnumDef = object
     name, str: string
+
+const
+  runeterraRequestedLocale {.strdefine.} = "en_us"
+  runeterraGeneratePath {.strdefine.} = ""
+  runeterraDataPath = runeterraGeneratePath / runeterraRequestedLocale / "data"
+  sets = ["set1", "set2", "set3", "set4", "set5", "set6", "set6cde", "set7", "set7b", "set8"]
+  deprecated = {
+    "Buried": (Term, "Countdown"),
+    "Forecast": (Term ,"Predict"),
+    "Aftermath": (Term, "Reputation"),
+    "MechaYordle": (CardSubtype, "Mecha")
+  }.toOrderedTable
 
 func quotedIdent(str: string): NimNode =
   result = nnkAccQuoted.newTree ident str
@@ -205,7 +205,10 @@ func findName(defs: openArray[EnumDef], name: string): int =
   return -1
 
 func undeprecated(s: string): string =
-  deprecated.getOrDefault(s, s)
+  if s in deprecated:
+    deprecated[s][1]
+  else:
+    s
 
 template stabilizeEnumsImpl(withDescs = false): untyped =
   for i, name in knownEnums:
@@ -479,16 +482,16 @@ proc generateCardsInfo(enums: var Enums): tuple[types, library: NimNode] =
     func getInfo*(`cardsIdent`: Cards): CardInfo =
       result = runeterraLibraryInternal[`cardsIdent`.card]
 
-func generateDeprecations(entries: OrderedTable[string, string]): NimNode =
+func generateDeprecations(entries: OrderedTable[string, (EnumKind, string)]): NimNode =
   result = nnkConstSection.newNimNode
-  for old, new in entries:
+  for old, (kind, new) in entries:
     result.add nnkConstDef.newTree(
       nnkPragmaExpr.newTree(
         nnkPostfix.newTree(ident"*", ident old),
         nnkPragma.newTree(colonPair("deprecated", newLit "Use " & new & " instead"))
       ),
       newEmptyNode(),
-      ident new
+      newDotExpr(ident $kind, ident new)
     )
 
 func parseVersion(s: string): tuple[major, minor, patch: int] =

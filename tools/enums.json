@@ -32,7 +32,8 @@
     "Set6",
     "Set6cde",
     "Set7",
-    "Set7b"
+    "Set7b",
+    "Set8"
   ],
   "terms": [
     "Allegiance",
@@ -75,7 +76,10 @@
     "Empowered",
     "Ambush",
     "Obliterate",
-    "Disguise"
+    "Disguise",
+    "Updraft",
+    "ElementalSkill",
+    "Titanic"
   ],
   "keywords": [
     "Obliterate",
@@ -150,7 +154,8 @@
     "Plunder",
     "Evolve",
     "Flow",
-    "Equipment"
+    "Equipment",
+    "ElementalSkill"
   ],
   "speeds": [
     "Slow",
@@ -201,7 +206,8 @@
     "Cat",
     "Bird",
     "Reptile",
-    "Shapeshifter"
+    "Shapeshifter",
+    "Elemental"
   ],
   "formats": [
     "Standard",

@@ -12,7 +12,8 @@ type
     Set1 = "Foundations", Set2 = "Rising Tides", Set3 = "Call of the Mountain",
     Set4 = "Empires of the Ascended", Set5 = "Beyond the Bandlewood",
     SetEvent = "Events", Set6 = "Worldwalker", Set6cde = "The Darkin Saga",
-    Set7 = "Glory in Navori", Set7b = "Heart of the Huntress"
+    Set7 = "Glory in Navori", Set7b = "Heart of the Huntress",
+    Set8 = "Fate\'s Voyage"
   CardRarity* = enum
     None, Common, Rare, Epic, Champion
   SpellSpeed* = enum
@@ -25,7 +26,8 @@ type
     SunDiscRestore = "Restore the Sun Disc", BladeDance = "Blade Dance",
     Manifest, AttackStrike = "Attack Strike", Power, Cost, Spawn, Health,
     Origin, Foe, Forge, Flow, Equip, Improvise, AutoEquip = "Auto-Equip",
-    Assimilate, Empowered, Ambush, Obliterate, Disguise
+    Assimilate, Empowered, Ambush, Obliterate, Disguise, Updraft,
+    ElementalSkill = "Elemental Skill", Titanic
   Keyword* = enum
     Brash, MtTargon = "Targon", Skill, DoubleStrike = "Double Attack", Daybreak,
     Weakest, Vulnerable, AttackSkillMark = "Attack", Elusive, Drain, Stun,
@@ -40,7 +42,7 @@ type
     CantBlock = "Can\'t Block", Deep, Shurima, Focus, Aura, Countdown, Impact,
     Lurker = "Lurk", BandleCity = "Bandle City", Formidable, Fated, Attach,
     Runeterra, Boon, BlocksElusive = "Blocks Elusive", Support, Hallowed,
-    Plunder, Evolve, Flow, Equipment
+    Plunder, Evolve, Flow, Equipment, ElementalSkill = "Elemental Skill"
   Format* = enum
     Standard, Singleton, Eternal, CommonsOnly = "Commons Only",
     EvenCostCards = "Even Cost Cards"
@@ -57,7 +59,7 @@ type
 
   Deck* = seq[Cards]
 const
-  runeterraVersion* = "4_8_0"
+  runeterraVersion* = "4_9_0"
   runeterraLocale* = "en_us"
   termDescriptions*: array[Term, string] = ["When you summon this unit, it gets its allegiance bonus if the top card of your deck matches its region.", "Create a random Blade Fragment still needed to restore the blade. Once you’ve played all 3, create the Blade of the Exile.",
     "Highest Power, with ties broken by highest Health then highest Cost.",
@@ -75,7 +77,9 @@ const
     "Effect when unit strikes with an attack",
     "This is how much damage the unit deals when it strikes.",
     "This is how much Mana you need to spend to play this card.", "For each Spawn:\nSummon a 1|1 Tentacle, or if you already have one, grant your strongest Tentacle +1|+1.", "This is how much damage the unit can withstand. If it reaches zero, the unit dies.", "This champion counts as one of your deck\'s regions. During deckbuilding, you may add the specified cards to your deck regardless of region. Origins may also have an effect that begins at Start of Game.",
-    "The opponent in The Path of Champions.", "Grant an ally +1|+1. If the ally is equipped, grant it to their item instead.", "A card activates its Flow on Round Start if you played 2+ spells or skills last round.", "Equipping an Item to a unit grants it the listed bonuses. If the unit leaves play, the Item will return to your hand. You may play each item at most once per round.", "Choose one of two random options from a depleting pool of equipment and equip it to this ally. If the ally wasn\'t played from hand, it equips a random equipment instead.", "Automatically equips this item from hand or play when summoned, creating it first if needed.", "Transform allies Equipped with Darkin Equipment into their Darkin unit forms. If they are Champions, they Level Up.", "A unit has its Empowered bonus while its Power is at least the listed number.", "Can be played hidden if you have no other hidden Ambush allies. Hidden allies are 2 cost 2|2s. You may pay a hidden ally\'s Ambush cost to transform it into its base card.", "Completely removed from the game. Doesn\'t cause Last Breath and can\'t be revived.", "Secretly transforms into another unit before entering play. They won\'t reveal their true identity to your opponent until they leave play or level up."]
+    "The opponent in The Path of Champions.", "Grant an ally +1|+1. If the ally is equipped, grant it to their item instead.", "A card activates its Flow on Round Start if you played 2+ spells or skills last round.", "Equipping an Item to a unit grants it the listed bonuses. If the unit leaves play, the Item will return to your hand. You may play each item at most once per round.", "Choose one of two random options from a depleting pool of equipment and equip it to this ally. If the ally wasn\'t played from hand, it equips a random equipment instead.", "Automatically equips this item from hand or play when summoned, creating it first if needed.", "Transform allies Equipped with Darkin Equipment into their Darkin unit forms. If they are Champions, they Level Up.", "A unit has its Empowered bonus while its Power is at least the listed number.", "Can be played hidden if you have no other hidden Ambush allies. Hidden allies are 2 cost 2|2s. You may pay a hidden ally\'s Ambush cost to transform it into its base card.", "Completely removed from the game. Doesn\'t cause Last Breath and can\'t be revived.", "Secretly transforms into another unit before entering play. They won\'t reveal their true identity to your opponent until they leave play or level up.",
+    "Shuffle a card into your deck and reduce its cost by 1", "A unit\'s spell-like effect that allows enemy reactions. It\'s elemental!",
+    "Units with 8+ attack or health"]
   keywordDescriptions*: array[Keyword, string] = [
     "Can only be blocked by enemies with 3 or more Health.", " ",
     "A unit\'s spell-like effect that allows enemy reactions.", "While attacking, it strikes both before AND at the same time as its blocker.",
@@ -117,7 +121,8 @@ const
     "Each round, the first time an allied card targets me, grant me +1|+1.", "Attach me to an ally to give it my stats and keywords while I\'m attached. When that ally leaves play, Recall me.",
     "", "Attaches to another card in a deck. When that card is drawn, activate the effect.",
     "Can block Elusive units",
-    "Attacking with a support unit will buff the unit to its right.", "After I die, for the rest of the game when allies attack, hallow your first attacker giving it +1|+0 that round", "A card activates its plunder ability when played if you damaged the enemy Nexus this round.", "I have +2|+2 once you\'ve had Units with 6+ other unique positive keywords in play this game.", "A card activates its Flow on Round Start if you played 2+ spells or skills last round.", "Equip to a unit to grant the listed bonuses. If the unit leaves play, the equipment will return to your hand. You may play each equipment at most once per round."]
+    "Attacking with a support unit will buff the unit to its right.", "After I die, for the rest of the game when allies attack, hallow your first attacker giving it +1|+0 that round", "A card activates its plunder ability when played if you damaged the enemy Nexus this round.", "I have +2|+2 once you\'ve had Units with 6+ other unique positive keywords in play this game.", "A card activates its Flow on Round Start if you played 2+ spells or skills last round.", "Equip to a unit to grant the listed bonuses. If the unit leaves play, the equipment will return to your hand. You may play each equipment at most once per round.",
+    "A unit\'s spell-like effect that allows enemy reactions. It\'s elemental!"]
   factionIdentifier*: array[Faction, string] = ["DE", "FR", "IO", "NX", "PZ",
     "SI", "BW", "SH", "MT", "BC", "RU", "Jhin", "Bard", "Evelynn", "Jax",
     "Kayn", "Varus", "Aatrox", "RYZE", "POROKING", "Neeko"]
@@ -146,7 +151,7 @@ type
     Poro, Dragon, Spider, Elite, Tech, Yeti, Elnuk, SeaMonster = "Sea Monster",
     Treasure, Celestial, MoonWeapon = "Moon Weapon", Ascended, Fae, Lurker,
     Yordle, Mecha, Cultist, Darkin, Weaponmaster, WorldRune = "World Rune", Dog,
-    Cat, Bird, Reptile, Shapeshifter
+    Cat, Bird, Reptile, Shapeshifter, Elemental
 type
   CardInfo* = object
     cost*: int
@@ -171,7 +176,7 @@ type
     formats*: set[Format]
 
 const
-  Buried* {.deprecated: "Use Countdown instead".} = Countdown
-  Forecast* {.deprecated: "Use Predict instead".} = Predict
-  Aftermath* {.deprecated: "Use Reputation instead".} = Reputation
-  MechaYordle* {.deprecated: "Use Mecha instead".} = Mecha
+  Buried* {.deprecated: "Use Countdown instead".} = Term.Countdown
+  Forecast* {.deprecated: "Use Predict instead".} = Term.Predict
+  Aftermath* {.deprecated: "Use Reputation instead".} = Term.Reputation
+  MechaYordle* {.deprecated: "Use Mecha instead".} = CardSubtype.Mecha
